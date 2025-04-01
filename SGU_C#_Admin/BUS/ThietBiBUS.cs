@@ -17,16 +17,45 @@ namespace SGU_C__User.BUS
             return thietbiDAO.GetAllThietBi();
         }
 
-        public bool AddNewThietBi(string ten, string loai, string trangThai, int giaMuon)
+        public ThietBiDTO GetThietBiById(int maThietBi)
         {
-            ThietBiDTO thietbi = new ThietBiDTO(0, ten, loai, trangThai, giaMuon);
-            return thietbiDAO.AddThietBi(thietbi);
+            return thietbiDAO.GetById(maThietBi);
         }
 
-        public bool UpdateThietBi(int maThietBi, string ten, string loai, string trangThai, int giaMuon)
+        public bool AddNewThietBi(ThietBiDTO thietBi)
         {
-            ThietBiDTO thietbi = new ThietBiDTO(maThietBi, ten, loai, trangThai, giaMuon);
-            return thietbiDAO.UpdateThietBi(thietbi);
+            if (string.IsNullOrEmpty(thietBi.TenThietBi) || string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            {
+                throw new Exception("Tên thiết bị và loại thiết bị không được để trống!");
+            }
+            if (thietBi.GiaMuon < 0)
+            {
+                throw new Exception("Giá mượn không được âm!");
+            }
+            if (!new[] { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
+            {
+                throw new Exception("Trạng thái không hợp lệ!");
+            }
+            
+            return thietbiDAO.AddThietBi(thietBi);
+        }
+
+        public bool UpdateThietBi(ThietBiDTO thietBi)
+        {
+            if (string.IsNullOrEmpty(thietBi.TenThietBi) || string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            {
+                throw new Exception("Tên thiết bị và loại thiết bị không được để trống!");
+            }
+            if (thietBi.GiaMuon < 0)
+            {
+                throw new Exception("Giá mượn không được âm!");
+            }
+            if (!new[] { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
+            {
+                throw new Exception("Trạng thái không hợp lệ!");
+            }
+
+            return thietbiDAO.UpdateThietBi(thietBi);
         }
 
         public bool DeleteThietBi(int maThietBi)

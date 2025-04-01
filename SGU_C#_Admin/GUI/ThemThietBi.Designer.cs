@@ -1,6 +1,6 @@
-﻿namespace SGU_C__User
+﻿namespace SGU_C__User.GUI
 {
-    partial class QLThietBi
+    partial class ThemThietBi
     {
         /// <summary>
         /// Required designer variable.
@@ -33,14 +33,13 @@
             button1 = new Button();
             label1 = new Label();
             label2 = new Label();
+            button6 = new Button();
             textBox1 = new TextBox();
             button3 = new Button();
-            panel2 = new Panel();
-            button6 = new Button();
-            dataGridView1 = new DataGridView();
+            button4 = new Button();
+            textBox2 = new TextBox();
+            label3 = new Label();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -49,10 +48,10 @@
             panel1.Controls.Add(button2);
             panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(4, 2);
+            panel1.Location = new Point(2, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1022, 62);
-            panel1.TabIndex = 1;
+            panel1.TabIndex = 2;
             // 
             // button2
             // 
@@ -91,83 +90,84 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(30, 24);
+            label2.Location = new Point(131, 132);
             label2.Name = "label2";
-            label2.Size = new Size(180, 31);
-            label2.TabIndex = 0;
-            label2.Text = "Quản lý thiết bị";
-            // 
-            // textBox1
-            // 
-            textBox1.ForeColor = Color.Gray;
-            textBox1.Location = new Point(30, 58);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(167, 27);
-            textBox1.TabIndex = 1;
-            // 
-            // button3
-            // 
-            button3.BackColor = Color.Black;
-            button3.Cursor = Cursors.Hand;
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(730, 50);
-            button3.Name = "button3";
-            button3.Size = new Size(131, 35);
-            button3.TabIndex = 2;
-            button3.Text = "Thêm thiết bị";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(dataGridView1);
-            panel2.Controls.Add(button3);
-            panel2.Controls.Add(textBox1);
-            panel2.Controls.Add(label2);
-            panel2.Location = new Point(62, 117);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(913, 234);
-            panel2.TabIndex = 2;
-            panel2.Paint += panel2_Paint;
+            label2.Size = new Size(83, 20);
+            label2.TabIndex = 3;
+            label2.Text = "Tên thiết bị";
             // 
             // button6
             // 
-            button6.Location = new Point(62, 70);
+            button6.Location = new Point(0, 0);
             button6.Name = "button6";
-            button6.Size = new Size(86, 34);
-            button6.TabIndex = 3;
-            button6.Text = "Quay lại";
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            button6.Size = new Size(75, 23);
+            button6.TabIndex = 8;
             // 
-            // dataGridView1
+            // textBox1
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(38, 126);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(824, 53);
-            dataGridView1.TabIndex = 3;
+            textBox1.Location = new Point(131, 165);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(245, 27);
+            textBox1.TabIndex = 5;
             // 
-            // QLThietBi
+            // button3
+            // 
+            button3.Location = new Point(131, 295);
+            button3.Name = "button3";
+            button3.Size = new Size(100, 29);
+            button3.TabIndex = 6;
+            button3.Text = "Xác nhận";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(276, 295);
+            button4.Name = "button4";
+            button4.Size = new Size(100, 29);
+            button4.TabIndex = 7;
+            button4.Text = "Hủy";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(131, 247);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(245, 27);
+            textBox2.TabIndex = 10;
+            textBox2.TextChanged += textBox2_TextChanged;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(131, 214);
+            label3.Name = "label3";
+            label3.Size = new Size(88, 20);
+            label3.TabIndex = 9;
+            label3.Text = "Loại thiết bị";
+          
+            // 
+            // ThemThietBi
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1024, 499);
+            ClientSize = new Size(1025, 450);
+            Controls.Add(textBox2);
+            Controls.Add(label3);
+            Controls.Add(button4);
+            Controls.Add(button3);
+            Controls.Add(textBox1);
             Controls.Add(button6);
-            Controls.Add(panel2);
+            Controls.Add(label2);
             Controls.Add(panel1);
-            Name = "QLThietBi";
+            Name = "ThemThietBi";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Quản lý thiết bị";
-            Load += Device_Management_Load;
+            Text = "ThemThietBi";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -177,11 +177,11 @@
         private Button button1;
         private Label label1;
         private Label label2;
+        private Button button6;
         private TextBox textBox1;
         private Button button3;
-        private Panel panel2;
-        private DataGridViewButtonColumn AdjustButton;
-        private Button button6;
-        private DataGridView dataGridView1;
+        private Button button4;
+        private TextBox textBox2;
+        private Label label3;
     }
 }

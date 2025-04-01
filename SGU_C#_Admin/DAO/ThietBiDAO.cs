@@ -14,32 +14,72 @@ namespace SGU_C__User.DAO
 {
     internal class ThietBiDAO
     {
-        private string connectionString = "Server=localhost;Database=quanlythuquan;User Id=your_username;Password=your_password;";
+        private string connectionString = "Server=localhost;Database=quanlythuquan;Trusted_Connection=True;";
 
         // Lấy danh sách thiết bị
         public List<ThietBiDTO> GetAllThietBi()
         {
             List<ThietBiDTO> thietbi = new List<ThietBiDTO>();
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                string query = "SELECT * FROM thietbi";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                conn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                while (reader.Read())
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    thietbi.Add(new ThietBiDTO(
-                        Convert.ToInt32(reader["MaThietBi"]),
-                        reader["TenThietBi"].ToString(),
-                        reader["LoaiThietBi"].ToString(),
-                        reader["TrangThai"].ToString(),
-                        Convert.ToInt32(reader["GiaMuon"])
-                    ));
+                    string query = "SELECT * FROM thietbi";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        thietbi.Add(new ThietBiDTO(
+                            Convert.ToInt32(reader["MaThietBi"]),
+                            reader["TenThietBi"].ToString(),
+                            reader["LoaiThietBi"].ToString(),
+                            reader["TrangThai"].ToString(),
+                            Convert.ToInt32(reader["GiaMuon"])
+                        ));
+                    }
+                    conn.Close();
                 }
-                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy dữ liệu: " + ex.Message);
             }
             return thietbi;
+        }
+
+        //Lấy danh sách thiết bị theo ID
+        public ThietBiDTO GetById(int maThietBi)
+        {
+            ThietBiDTO thietBi = null;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM thietbi WHERE MaThietBi = @MaThietBi";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        thietBi = new ThietBiDTO
+                        {
+                            MaThietBi = reader.GetInt32(0),
+                            TenThietBi = reader.GetString(1),
+                            LoaiThietBi = reader.GetString(2),
+                            TrangThai = reader.GetString(3),
+                            GiaMuon = reader.GetInt32(4)
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy thiết bị theo ID: " + ex.Message);
+            }
+            return thietBi;
         }
 
         // Thêm thiết bị mới
