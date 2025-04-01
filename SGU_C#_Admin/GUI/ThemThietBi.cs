@@ -8,16 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SGU_C__User.BUS;
+using SGU_C__User.DTO;
 using SGU_C__User.GUI;
 
 namespace SGU_C__User.GUI
 {
     public partial class ThemThietBi : Form
     {
-        private ThietBiBUS thietBiBUS = new ThietBiBUS();
+        private ThietBiBUS thietBiBUS;
         public ThemThietBi()
         {
             InitializeComponent();
+            thietBiBUS = new ThietBiBUS();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -36,63 +38,73 @@ namespace SGU_C__User.GUI
         {
             try
             {
-                // Lấy dữ liệu từ textbox
-                string thongTinThietBi = textBox1.Text.Trim();
+                string tenThietBi = textBox1.Text.Trim();
                 string loaiThietBi = textBox2.Text.Trim();
+                string giaMuon = textBox3.Text.Trim();
+                string trangThai = comboBox1.SelectedItem?.ToString();
 
-                // Kiểm tra dữ liệu đầu vào
-                if (string.IsNullOrEmpty(thongTinThietBi) || string.IsNullOrEmpty(loaiThietBi))
+                //Kiểm tra dữ liệu đầu vào
+                if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) ||  string.IsNullOrEmpty(giaMuon) || string.IsNullOrEmpty(trangThai))
                 {
-                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin thiết bị và loại thiết bị!",
-                                  "Lỗi",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
+                if (!int.TryParse(giaMuon, out int GiaMuon) || GiaMuon < 0)
+                {
+                    MessageBox.Show("Giá mượn phải lớn hơn 0!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                // Tạo object mới để lưu vào database
-                ThietBi thietBiMoi = new ThietBi
+                // Tạo đối tượng ThietBiDTO
+                ThietBiDTO thietBi = new ThietBiDTO
                 {
-                    ThongTin = thongTinThietBi,
+                    TenThietBi = tenThietBi,
                     LoaiThietBi = loaiThietBi,
-                    NgayTao = DateTime.Now // Thêm ngày tạo nếu cần
+                    TrangThai = trangThai,
+                    GiaMuon = GiaMuon
                 };
 
-                // Thêm vào database
-                dbContext.ThietBis.Add(thietBiMoi);
-                int result = dbContext.SaveChanges();
-
-                if (result > 0)
+                // Gọi BUS để thêm thiết bị
+                if (thietBiBUS.AddNewThietBi(thietBi))
                 {
-                    MessageBox.Show("Thêm thiết bị thành công!",
-                                  "Thành công",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Information);
-
-                    // Xóa nội dung textbox sau khi lưu thành công
-                    textBox1.Clear();
-                    textBox2.Clear();
+                    MessageBox.Show("Thêm thiết bị thành công!", "Thành công",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearInputs();
                 }
                 else
                 {
-                    MessageBox.Show("Không thể thêm thiết bị!",
-                                  "Lỗi",
-                                  MessageBoxButtons.OK,
-                                  MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm thiết bị thất bại!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}",
-                              "Lỗi hệ thống",
-                              MessageBoxButtons.OK,
-                              MessageBoxIcon.Error);
+                MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void ClearInputs()
+        {
+            textBox1.Clear();
+            textBox2.Clear();
+            comboBox1.SelectedIndex = -1;
+            textBox3.Clear();
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox1.Items.Add("Có sẵn");
+            comboBox1.Items.Add("Đang sử dụng");
+            comboBox1.Items.Add("Bảo trì");
         }
     }
 }
