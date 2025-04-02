@@ -20,7 +20,7 @@ namespace SGU_C__User
 
         private void button8_Click(object sender, EventArgs e)
         {
-            TrangChu mainForm = new TrangChu();
+            TrangChu_Admin mainForm = new TrangChu_Admin();
             mainForm.Show();
             this.Close(); // Đóng form hiện tại
         }

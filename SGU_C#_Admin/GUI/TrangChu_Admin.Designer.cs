@@ -1,7 +1,7 @@
 ﻿
 namespace SGU_C__User
 {
-    partial class TrangChu
+    partial class TrangChu_Admin
     {
         /// <summary>
         ///  Required designer variable.

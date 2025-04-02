@@ -1,8 +1,8 @@
 ﻿namespace SGU_C__User
 {
-    public partial class TrangChu : Form
+    public partial class TrangChu_Admin : Form
     {
-        public TrangChu()
+        public TrangChu_Admin()
         {
             InitializeComponent();
         }
