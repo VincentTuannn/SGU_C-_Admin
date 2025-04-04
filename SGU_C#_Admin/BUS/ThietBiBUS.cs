@@ -12,55 +12,60 @@ namespace SGU_C__User.BUS
     {
         private ThietBiDAO thietbiDAO = new ThietBiDAO();
 
+        private ThietBiDAO thietBiDAO = new ThietBiDAO();
+
         public List<ThietBiDTO> GetAllThietBi()
         {
-            return thietbiDAO.GetAllThietBi();
+            return thietBiDAO.GetAllThietBi();
         }
 
-        public ThietBiDTO GetThietBiById(int maThietBi)
+        public void AddThietBi(ThietBiDTO thietBi)
         {
-            return thietbiDAO.GetById(maThietBi);
-        }
-
-        public bool AddNewThietBi(ThietBiDTO thietBi)
-        {
-            if (string.IsNullOrEmpty(thietBi.TenThietBi) || string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            // Kiểm tra logic nghiệp vụ trước khi thêm
+            if (string.IsNullOrEmpty(thietBi.TenThietBi))
             {
-                throw new Exception("Tên thiết bị và loại thiết bị không được để trống!");
+                throw new Exception("Tên thiết bị không được để trống!");
+            }
+            if (string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            {
+                throw new Exception("Loại thiết bị không được để trống!");
+            }
+            if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
+            {
+                throw new Exception("Trạng thái không hợp lệ!");
             }
             if (thietBi.GiaMuon < 0)
             {
                 throw new Exception("Giá mượn không được âm!");
             }
-            if (!new[] { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
-            {
-                throw new Exception("Trạng thái không hợp lệ!");
-            }
-            
-            return thietbiDAO.AddThietBi(thietBi);
+            thietBiDAO.AddThietBi(thietBi);
         }
 
-        public bool UpdateThietBi(ThietBiDTO thietBi)
+        public void UpdateThietBi(ThietBiDTO thietBi)
         {
-            if (string.IsNullOrEmpty(thietBi.TenThietBi) || string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            // Kiểm tra logic nghiệp vụ trước khi cập nhật
+            if (string.IsNullOrEmpty(thietBi.TenThietBi))
             {
-                throw new Exception("Tên thiết bị và loại thiết bị không được để trống!");
+                throw new Exception("Tên thiết bị không được để trống!");
+            }
+            if (string.IsNullOrEmpty(thietBi.LoaiThietBi))
+            {
+                throw new Exception("Loại thiết bị không được để trống!");
+            }
+            if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
+            {
+                throw new Exception("Trạng thái không hợp lệ!");
             }
             if (thietBi.GiaMuon < 0)
             {
                 throw new Exception("Giá mượn không được âm!");
             }
-            if (!new[] { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(thietBi.TrangThai))
-            {
-                throw new Exception("Trạng thái không hợp lệ!");
-            }
-
-            return thietbiDAO.UpdateThietBi(thietBi);
+            thietBiDAO.UpdateThietBi(thietBi);
         }
 
-        public bool DeleteThietBi(int maThietBi)
+        public void DeleteThietBi(int maThietBi)
         {
-            return thietbiDAO.DeleteThietBi(maThietBi);
+            thietBiDAO.DeleteThietBi(maThietBi);
         }
     }
 }

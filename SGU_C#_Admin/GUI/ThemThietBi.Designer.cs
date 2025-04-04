@@ -30,10 +30,8 @@
         {
             panel1 = new Panel();
             button2 = new Button();
-            button1 = new Button();
             label1 = new Label();
             label2 = new Label();
-            button6 = new Button();
             textBox1 = new TextBox();
             button3 = new Button();
             button4 = new Button();
@@ -50,7 +48,6 @@
             // 
             panel1.BackColor = Color.Blue;
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(2, 0);
             panel1.Name = "panel1";
@@ -67,18 +64,6 @@
             button2.TabIndex = 2;
             button2.Text = "Logout";
             button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Blue;
-            button1.Cursor = Cursors.Hand;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(686, 17);
-            button1.Name = "button1";
-            button1.Size = new Size(149, 34);
-            button1.TabIndex = 1;
-            button1.Text = "Trang chủ";
-            button1.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -99,13 +84,6 @@
             label2.Size = new Size(83, 20);
             label2.TabIndex = 3;
             label2.Text = "Tên thiết bị";
-            // 
-            // button6
-            // 
-            button6.Location = new Point(0, 0);
-            button6.Name = "button6";
-            button6.Size = new Size(75, 23);
-            button6.TabIndex = 8;
             // 
             // textBox1
             // 
@@ -183,7 +161,6 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(192, 28);
             comboBox1.TabIndex = 14;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // ThemThietBi
             // 
@@ -199,12 +176,12 @@
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(textBox1);
-            Controls.Add(button6);
             Controls.Add(label2);
             Controls.Add(panel1);
             Name = "ThemThietBi";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ThemThietBi";
+            Load += ThemThietBi_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -215,10 +192,8 @@
 
         private Panel panel1;
         private Button button2;
-        private Button button1;
         private Label label1;
         private Label label2;
-        private Button button6;
         private TextBox textBox1;
         private Button button3;
         private Button button4;

@@ -44,13 +44,13 @@ namespace SGU_C__User.GUI
                 string trangThai = comboBox1.SelectedItem?.ToString();
 
                 //Kiểm tra dữ liệu đầu vào
-                if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) ||  string.IsNullOrEmpty(giaMuon) || string.IsNullOrEmpty(trangThai))
+                if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) || string.IsNullOrEmpty(giaMuon) || string.IsNullOrEmpty(trangThai))
                 {
                     MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                
+
                 if (!int.TryParse(giaMuon, out int GiaMuon) || GiaMuon < 0)
                 {
                     MessageBox.Show("Giá mượn phải lớn hơn 0!", "Lỗi",
@@ -68,16 +68,14 @@ namespace SGU_C__User.GUI
                 };
 
                 // Gọi BUS để thêm thiết bị
-                if (thietBiBUS.AddNewThietBi(thietBi))
+                try
                 {
-                    MessageBox.Show("Thêm thiết bị thành công!", "Thành công",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    ClearInputs();
+                    thietBiBUS.AddThietBi(thietBi);
+                    MessageBox.Show("Thêm thiết bị thành công!");
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Thêm thiết bị thất bại!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Thêm thiết bị thất bại: " + ex.Message);
                 }
             }
             catch (Exception ex)
@@ -100,7 +98,7 @@ namespace SGU_C__User.GUI
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ThemThietBi_Load(object sender, EventArgs e)
         {
             comboBox1.Items.Add("Có sẵn");
             comboBox1.Items.Add("Đang sử dụng");

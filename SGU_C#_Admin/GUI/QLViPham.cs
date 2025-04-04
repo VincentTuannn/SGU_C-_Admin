@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SGU_C__User.BUS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,9 +14,11 @@ namespace SGU_C__User
 {
     public partial class QLViPham : Form
     {
+        private ViPhamBUS viPhamBUS = new ViPhamBUS();
         public QLViPham()
         {
             InitializeComponent();
+            LoadDataToGridView();
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -28,6 +31,29 @@ namespace SGU_C__User
         private void QLViPham_Load(object sender, EventArgs e)
         {
 
+        }
+        private void LoadDataToGridView()
+        {
+            try
+            {
+                // Lấy dữ liệu từ BUS
+                var danhSach = viPhamBUS.GetAllViPham();
+
+                // Gán dữ liệu vào DataGridView
+                dataGridView1.DataSource = danhSach;
+
+                // Tùy chỉnh tiêu đề cột
+                dataGridView1.Columns["MaViPham"].HeaderText = "Mã vi phạm";
+                dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
+                dataGridView1.Columns["MaThietBi"].HeaderText = "Mã thiết bị";
+                dataGridView1.Columns["MaPhong"].HeaderText = "Mã phòng";
+                dataGridView1.Columns["LoaiViPham"].HeaderText = "Loại vi phạm";
+                dataGridView1.Columns["NoiDungViPham"].HeaderText = "Nội dung vi phạm";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message);
+            }
         }
     }
 }

@@ -31,7 +31,6 @@ namespace SGU_C__User
         {
             panel1 = new Panel();
             button2 = new Button();
-            button1 = new Button();
             label1 = new Label();
             panel2 = new Panel();
             button7 = new Button();
@@ -68,7 +67,6 @@ namespace SGU_C__User
             // 
             panel1.BackColor = Color.Blue;
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(0, 1);
             panel1.Name = "panel1";
@@ -86,18 +84,6 @@ namespace SGU_C__User
             button2.TabIndex = 2;
             button2.Text = "Logout";
             button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Blue;
-            button1.Cursor = Cursors.Hand;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(686, 17);
-            button1.Name = "button1";
-            button1.Size = new Size(149, 34);
-            button1.TabIndex = 1;
-            button1.Text = "Trang chủ";
-            button1.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -354,7 +340,7 @@ namespace SGU_C__User
             label3.TabIndex = 5;
             label3.Text = "Dashboard";
             // 
-            // TrangChu
+            // TrangChu_Admin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -362,7 +348,7 @@ namespace SGU_C__User
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "TrangChu";
+            Name = "TrangChu_Admin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
             Load += Form1_Load;
@@ -412,7 +398,6 @@ namespace SGU_C__User
 
         private Panel panel1;
         private Label label1;
-        private Button button1;
         private Button button2;
         private Panel panel2;
         private Label label2;
