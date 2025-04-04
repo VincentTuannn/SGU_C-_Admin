@@ -43,3 +43,5 @@ Dự án này là một ứng dụng quản lý thư quán, tập trung vào ch�
    Tải SQL Server Management Studio (SSMS)
    https://learn.microsoft.com/en-us/ssms/download-sql-server-management-studio-ssms
    
+## Kết nối cơ sở dữ liệu
+Kiểm tra các file DAO dòng connectionString đổi lại Server name theo tên mình đặt trên SSMS
