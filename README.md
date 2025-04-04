@@ -44,4 +44,10 @@ Dự án này là một ứng dụng quản lý thư quán, tập trung vào ch�
    https://learn.microsoft.com/en-us/ssms/download-sql-server-management-studio-ssms
    
 ## Kết nối cơ sở dữ liệu
-Kiểm tra các file DAO dòng connectionString đổi lại Server name theo tên mình đặt trên SSMS
+* Kiểm tra các file DAO dòng connectionString đổi lại Server name theo tên mình đặt trên SSMS 
+* Vào mục Tools trên thanh menu
+* Chọn Connect to Database
+* Ở phần Data source chọn Microsoft SQL Server
+* Ở thanh Server name chọn tên Server của bạn 
+* Dưới thanh Select or enter a database name chọn quanlythuquan
+* Nhấn nút Test Connection ở góc trái bên dưới để kiểm tra kết nối rồi sau đó nhấn nút OK để kết nối đến cơ sở dữ liệu
