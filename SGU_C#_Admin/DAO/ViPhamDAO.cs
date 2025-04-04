@@ -8,7 +8,7 @@ namespace SGU_C__User.DAO
 {
     public class ViPhamDAO
     {
-        private string connectionString = "Server=localhost;Database=quanlythuquan;Integrated Security=True;";
+        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Integrated Security=True;";
 
         // Lấy danh sách tất cả vi phạm
         public List<ViPhamDTO> GetAllViPham()

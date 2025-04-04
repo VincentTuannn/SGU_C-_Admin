@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class NguoiDungDAO
     {
-        private string connectionString = "Server=localhost;Database=quanlythuquan;Trusted_Connection=True;"; 
+        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;"; 
 
         public List<NguoiDungDTO> GetAllNguoiDung()
         {
