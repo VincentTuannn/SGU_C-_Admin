@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class ThongBaoDAO
     {
-        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
+        private string connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
 
         public List<ThongBaoDTO> GetAllThongBao()
         {
