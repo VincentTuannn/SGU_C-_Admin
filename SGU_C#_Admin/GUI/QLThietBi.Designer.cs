@@ -36,8 +36,8 @@
             textBox1 = new TextBox();
             button3 = new Button();
             panel2 = new Panel();
-            button6 = new Button();
             dataGridView1 = new DataGridView();
+            button6 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -127,9 +127,18 @@
             panel2.Controls.Add(label2);
             panel2.Location = new Point(62, 117);
             panel2.Name = "panel2";
-            panel2.Size = new Size(913, 234);
+            panel2.Size = new Size(913, 349);
             panel2.TabIndex = 2;
             panel2.Paint += panel2_Paint;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(98, 112);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(699, 198);
+            dataGridView1.TabIndex = 3;
             // 
             // button6
             // 
@@ -140,15 +149,6 @@
             button6.Text = "Quay lại";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(38, 126);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(824, 53);
-            dataGridView1.TabIndex = 3;
             // 
             // QLThietBi
             // 

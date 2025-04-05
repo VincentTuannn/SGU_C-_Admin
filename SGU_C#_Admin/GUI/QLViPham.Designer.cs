@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
+            dataGridView1 = new DataGridView();
             textBox1 = new TextBox();
             label2 = new Label();
             button2 = new Button();
@@ -36,10 +37,9 @@
             label1 = new Label();
             panel1 = new Panel();
             button8 = new Button();
-            dataGridView1 = new DataGridView();
             panel2.SuspendLayout();
-            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
@@ -49,8 +49,17 @@
             panel2.Controls.Add(label2);
             panel2.Location = new Point(60, 118);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1094, 281);
+            panel2.Size = new Size(1094, 359);
             panel2.TabIndex = 4;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(134, 114);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(825, 193);
+            dataGridView1.TabIndex = 2;
             // 
             // textBox1
             // 
@@ -126,15 +135,6 @@
             button8.UseVisualStyleBackColor = true;
             button8.Click += button8_Click;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(37, 111);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1037, 134);
-            dataGridView1.TabIndex = 2;
-            // 
             // QLViPham
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -149,9 +149,9 @@
             Load += QLViPham_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 

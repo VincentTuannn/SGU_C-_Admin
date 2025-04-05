@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class PhongDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;";  
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";  
 
         public List<PhongDTO> GetAllPhong()
         {
@@ -43,10 +43,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO phong (MaPhong, TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon) " +
-                              "VALUES (@MaPhong, @TenPhong, @LoaiPhong, @SucChua, @TrangThai, @GiaMuon)";
+                string query = "INSERT INTO phong (TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon) " +
+                              "VALUES (@TenPhong, @LoaiPhong, @SucChua, @TrangThai, @GiaMuon)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhong", phong.MaPhong);
                 cmd.Parameters.AddWithValue("@TenPhong", phong.TenPhong);
                 cmd.Parameters.AddWithValue("@LoaiPhong", phong.LoaiPhong);
                 cmd.Parameters.AddWithValue("@SucChua", phong.SucChua);
@@ -65,7 +64,6 @@ namespace SGU_C__User.DAO
                 string query = "UPDATE phong SET TenPhong = @TenPhong, LoaiPhong = @LoaiPhong, " +
                               "SucChua = @SucChua, TrangThai = @TrangThai, GiaMuon = @GiaMuon WHERE MaPhong = @MaPhong";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhong", phong.MaPhong);
                 cmd.Parameters.AddWithValue("@TenPhong", phong.TenPhong);
                 cmd.Parameters.AddWithValue("@LoaiPhong", phong.LoaiPhong);
                 cmd.Parameters.AddWithValue("@SucChua", phong.SucChua);

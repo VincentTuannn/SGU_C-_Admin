@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class ThongBaoDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;";
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
 
         public List<ThongBaoDTO> GetAllThongBao()
         {
@@ -43,10 +43,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO thongbao (MaThongBao, MaNguoiDung, TieuDe, NoiDung, LoaiThongBao, ThoiGianGui) " +
-                              "VALUES (@MaThongBao, @MaNguoiDung, @TieuDe, @NoiDung, @LoaiThongBao, @ThoiGianGui)";
+                string query = "INSERT INTO thongbao (MaNguoiDung, TieuDe, NoiDung, LoaiThongBao, ThoiGianGui) " +
+                              "VALUES (@MaNguoiDung, @TieuDe, @NoiDung, @LoaiThongBao, @ThoiGianGui)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThongBao", thongBao.MaThongBao);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", thongBao.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@TieuDe", thongBao.TieuDe);
                 cmd.Parameters.AddWithValue("@NoiDung", thongBao.NoiDung);

@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class PhieuMuonPhongDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;"; 
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True"; 
 
         public List<PhieuMuonPhongDTO> GetAllPhieuMuonPhong()
         {
@@ -44,10 +44,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO phieumuonphong (MaPhieuMuonPhong, MaPhong, MaNguoiDung, ThoiGianMuon, ThoiGianTra, TrangThai, TongTien) " +
+                string query = "INSERT INTO phieumuonphong (MaPhong, MaNguoiDung, ThoiGianMuon, ThoiGianTra, TrangThai, TongTien) " +
                               "VALUES (@MaPhieuMuonPhong, @MaPhong, @MaNguoiDung, @ThoiGianMuon, @ThoiGianTra, @TrangThai, @TongTien)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuMuonPhong", phieuMuonPhong.MaPhieuMuonPhong);
                 cmd.Parameters.AddWithValue("@MaPhong", phieuMuonPhong.MaPhong);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuMuonPhong.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianMuon", phieuMuonPhong.ThoiGianMuon);
@@ -68,7 +67,6 @@ namespace SGU_C__User.DAO
                               "ThoiGianMuon = @ThoiGianMuon, ThoiGianTra = @ThoiGianTra, TrangThai = @TrangThai, TongTien = @TongTien " +
                               "WHERE MaPhieuMuonPhong = @MaPhieuMuonPhong";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuMuonPhong", phieuMuonPhong.MaPhieuMuonPhong);
                 cmd.Parameters.AddWithValue("@MaPhong", phieuMuonPhong.MaPhong);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuMuonPhong.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianMuon", phieuMuonPhong.ThoiGianMuon);

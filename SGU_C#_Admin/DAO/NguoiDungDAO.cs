@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class NguoiDungDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;"; 
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True"; 
 
         public List<NguoiDungDTO> GetAllNguoiDung()
         {
@@ -46,10 +46,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO nguoidung (MaNguoiDung, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai) " +
-                              "VALUES (@MaNguoiDung, @Email, @MatKhau, @HoVaTen, @NgaySinh, @DiaChi, @GioiTinh, @SoDienThoai, @TrangThai)";
+                string query = "INSERT INTO nguoidung (Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai) " +
+                              "VALUES (@Email, @MatKhau, @HoVaTen, @NgaySinh, @DiaChi, @GioiTinh, @SoDienThoai, @TrangThai)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaNguoiDung", nguoiDung.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@Email", nguoiDung.Email);
                 cmd.Parameters.AddWithValue("@MatKhau", nguoiDung.MatKhau);
                 cmd.Parameters.AddWithValue("@HoVaTen", nguoiDung.HoVaTen);
@@ -72,7 +71,6 @@ namespace SGU_C__User.DAO
                               "NgaySinh = @NgaySinh, DiaChi = @DiaChi, GioiTinh = @GioiTinh, SoDienThoai = @SoDienThoai, TrangThai = @TrangThai " +
                               "WHERE MaNguoiDung = @MaNguoiDung";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaNguoiDung", nguoiDung.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@Email", nguoiDung.Email);
                 cmd.Parameters.AddWithValue("@MatKhau", nguoiDung.MatKhau);
                 cmd.Parameters.AddWithValue("@HoVaTen", nguoiDung.HoVaTen);

@@ -12,7 +12,7 @@ namespace SGU_C__User.DAO
 {
     internal class ThietBiDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;";
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
 
         public List<ThietBiDTO> GetAllThietBi()
         {
@@ -45,10 +45,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO thietbi (MaThietBi, TenThietBi, LoaiThietBi, TrangThai, GiaMuon) " +
-                              "VALUES (@MaThietBi, @TenThietBi, @LoaiThietBi, @TrangThai, @GiaMuon)";
+                string query = "INSERT INTO thietbi (TenThietBi, LoaiThietBi, TrangThai, GiaMuon) " +
+                              "VALUES (@TenThietBi, @LoaiThietBi, @TrangThai, @GiaMuon)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThietBi", thietBi.MaThietBi);
                 cmd.Parameters.AddWithValue("@TenThietBi", thietBi.TenThietBi);
                 cmd.Parameters.AddWithValue("@LoaiThietBi", thietBi.LoaiThietBi);
                 cmd.Parameters.AddWithValue("@TrangThai", thietBi.TrangThai);
@@ -66,7 +65,6 @@ namespace SGU_C__User.DAO
                 string query = "UPDATE thietbi SET TenThietBi = @TenThietBi, LoaiThietBi = @LoaiThietBi, " +
                               "TrangThai = @TrangThai, GiaMuon = @GiaMuon WHERE MaThietBi = @MaThietBi";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThietBi", thietBi.MaThietBi);
                 cmd.Parameters.AddWithValue("@TenThietBi", thietBi.TenThietBi);
                 cmd.Parameters.AddWithValue("@LoaiThietBi", thietBi.LoaiThietBi);
                 cmd.Parameters.AddWithValue("@TrangThai", thietBi.TrangThai);

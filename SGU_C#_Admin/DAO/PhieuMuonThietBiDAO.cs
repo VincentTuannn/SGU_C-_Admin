@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class PhieuMuonThietBiDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;";
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
 
         public List<PhieuMuonThietBiDTO> GetAllPhieuMuonThietBi()
         {
@@ -44,10 +44,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO phieumuonthietbi (MaPhieuMuonThietBi, MaNguoiDung, MaThietBi, TrangThai, ThoiGianMuon, ThoiGianTra, TongTien) " +
-                              "VALUES (@MaPhieuMuonThietBi, @MaNguoiDung, @MaThietBi, @TrangThai, @ThoiGianMuon, @ThoiGianTra, @TongTien)";
+                string query = "INSERT INTO phieumuonthietbi (MaNguoiDung, MaThietBi, TrangThai, ThoiGianMuon, ThoiGianTra, TongTien) " +
+                              "VALUES (@MaNguoiDung, @MaThietBi, @TrangThai, @ThoiGianMuon, @ThoiGianTra, @TongTien)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuMuonThietBi", phieuMuonThietBi.MaPhieuMuonThietBi);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuMuonThietBi.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@MaThietBi", phieuMuonThietBi.MaThietBi);
                 cmd.Parameters.AddWithValue("@TrangThai", phieuMuonThietBi.TrangThai);
@@ -68,7 +67,6 @@ namespace SGU_C__User.DAO
                               "TrangThai = @TrangThai, ThoiGianMuon = @ThoiGianMuon, ThoiGianTra = @ThoiGianTra, TongTien = @TongTien " +
                               "WHERE MaPhieuMuonThietBi = @MaPhieuMuonThietBi";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuMuonThietBi", phieuMuonThietBi.MaPhieuMuonThietBi);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuMuonThietBi.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@MaThietBi", phieuMuonThietBi.MaThietBi);
                 cmd.Parameters.AddWithValue("@TrangThai", phieuMuonThietBi.TrangThai);

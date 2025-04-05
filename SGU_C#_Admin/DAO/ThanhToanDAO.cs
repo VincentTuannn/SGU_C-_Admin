@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class ThanhToanDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;"; 
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True"; 
         public List<ThanhToanDTO> GetAllThanhToan()
         {
             List<ThanhToanDTO> thanhToanList = new List<ThanhToanDTO>();
@@ -41,10 +41,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO thanhtoan (MaThanhToan, MaPhieuTra, TongTienPhaiTra, NgayThanhToan, HinhThucThanhToan) " +
+                string query = "INSERT INTO thanhtoan (MaPhieuTra, TongTienPhaiTra, NgayThanhToan, HinhThucThanhToan) " +
                               "VALUES (@MaThanhToan, @MaPhieuTra, @TongTienPhaiTra, @NgayThanhToan, @HinhThucThanhToan)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThanhToan", thanhToan.MaThanhToan);
                 cmd.Parameters.AddWithValue("@MaPhieuTra", thanhToan.MaPhieuTra);
                 cmd.Parameters.AddWithValue("@TongTienPhaiTra", thanhToan.TongTienPhaiTra);
                 cmd.Parameters.AddWithValue("@NgayThanhToan", thanhToan.NgayThanhToan);
@@ -62,7 +61,6 @@ namespace SGU_C__User.DAO
                 string query = "UPDATE thanhtoan SET MaPhieuTra = @MaPhieuTra, TongTienPhaiTra = @TongTienPhaiTra, " +
                               "NgayThanhToan = @NgayThanhToan, HinhThucThanhToan = @HinhThucThanhToan WHERE MaThanhToan = @MaThanhToan";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThanhToan", thanhToan.MaThanhToan);
                 cmd.Parameters.AddWithValue("@MaPhieuTra", thanhToan.MaPhieuTra);
                 cmd.Parameters.AddWithValue("@TongTienPhaiTra", thanhToan.TongTienPhaiTra);
                 cmd.Parameters.AddWithValue("@NgayThanhToan", thanhToan.NgayThanhToan);

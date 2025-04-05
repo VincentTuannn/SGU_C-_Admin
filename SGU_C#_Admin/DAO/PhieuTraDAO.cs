@@ -10,7 +10,7 @@ namespace SGU_C__User.DAO
 {
     internal class PhieuTraDAO
     {
-        private string connectionString = "Server=DESKTOP-LGO8DG6\\SQLEXPRESS;Database=quanlythuquan;Trusted_Connection=True;";
+        private string connectionString = "Data Source=DESKTOP-LGO8DG6\\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True";
 
         public List<PhieuTraDTO> GetAllPhieuTra()
         {
@@ -42,10 +42,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO phieutra (MaPhieuTra, MaNguoiDung, ThoiGianTra, TongTienPhaiTra, TienPhat) " +
-                              "VALUES (@MaPhieuTra, @MaNguoiDung, @ThoiGianTra, @TongTienPhaiTra, @TienPhat)";
+                string query = "INSERT INTO phieutra (MaNguoiDung, ThoiGianTra, TongTienPhaiTra, TienPhat) " +
+                              "VALUES (@MaNguoiDung, @ThoiGianTra, @TongTienPhaiTra, @TienPhat)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuTra", phieuTra.MaPhieuTra);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuTra.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianTra", phieuTra.ThoiGianTra);
                 cmd.Parameters.AddWithValue("@TongTienPhaiTra", phieuTra.TongTienPhaiTra);
@@ -63,7 +62,6 @@ namespace SGU_C__User.DAO
                 string query = "UPDATE phieutra SET MaNguoiDung = @MaNguoiDung, ThoiGianTra = @ThoiGianTra, " +
                               "TongTienPhaiTra = @TongTienPhaiTra, TienPhat = @TienPhat WHERE MaPhieuTra = @MaPhieuTra";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaPhieuTra", phieuTra.MaPhieuTra);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuTra.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianTra", phieuTra.ThoiGianTra);
                 cmd.Parameters.AddWithValue("@TongTienPhaiTra", phieuTra.TongTienPhaiTra);

@@ -83,6 +83,9 @@ namespace SGU_C__User.GUI
                 MessageBox.Show($"Đã xảy ra lỗi: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            QLThietBi mainForm = new QLThietBi();
+            mainForm.Show();
+            this.Close();
         }
 
         private void ClearInputs()
