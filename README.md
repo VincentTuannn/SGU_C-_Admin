@@ -34,20 +34,27 @@ Dự án này là một ứng dụng quản lý thư quán, tập trung vào ch�
 
 1. **Clone dự án:**
 
-   Mở terminal hoặc Git Bash và chạy lệnh sau để clone dự án từ GitHub:
+   Mở terminal hoặc Git Bash và chạy lệnh sau để clone dự án từ GitHub
+   
    git clone https://github.com/VincentTuannn/SGU_C-_Admin.git
 
-   Tải SQL Server 2022 Express 
+   Tải SQL Server 2022 Express
+   
    https://www.microsoft.com/en-us/sql-server/sql-server-downloads?msockid=0f2f2017e2a5675637463505e3b766c3
 
    Tải SQL Server Management Studio (SSMS)
+   
    https://learn.microsoft.com/en-us/ssms/download-sql-server-management-studio-ssms
    
 ## Kết nối cơ sở dữ liệu
-* Kiểm tra các file DAO dòng connectionString đổi lại Server name theo tên mình đặt trên SSMS 
 * Vào mục Tools trên thanh menu
 * Chọn Connect to Database
 * Ở phần Data source chọn Microsoft SQL Server
 * Ở thanh Server name chọn tên Server của bạn 
-* Dưới thanh Select or enter a database name chọn quanlythuquan
-* Nhấn nút Test Connection ở góc trái bên dưới để kiểm tra kết nối rồi sau đó nhấn nút OK để kết nối đến cơ sở dữ liệu
+* Dưới thanh Select or enter a database name chọn quanlythuquan (Đã tạo trong SSMS)
+* Nhấn nút Test Connection ở góc trái bên dưới để kiểm tra kết nối
+* Nhấn nút Advanced để mở trang Advanced Properties
+* Tại đây ở cuối trang sẽ có địa chỉ connectionString // VD: "Data Source=DESKTOP-LGO8DG6\SQLEXPRESS;Initial Catalog=quanlythuquan;Integrated Security=True;Trust Server Certificate=True"
+* Chuyển về trang Add Connection rồi nhấn OK để kết nối cơ sở dữ liệu
+* Kiểm tra các file DAO dòng connectionString đổi lại theo địa chỉ đã lấy trong Advanced Properties
+* Chạy project để kiểm tra kết nối cơ sở dữ liệu
