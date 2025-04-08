@@ -35,5 +35,10 @@
             violationManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

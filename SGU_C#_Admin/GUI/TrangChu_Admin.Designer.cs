@@ -33,6 +33,7 @@ namespace SGU_C__User
             button2 = new Button();
             label1 = new Label();
             panel2 = new Panel();
+            button1 = new Button();
             button7 = new Button();
             button6 = new Button();
             button5 = new Button();
@@ -100,6 +101,7 @@ namespace SGU_C__User
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(button1);
             panel2.Controls.Add(button7);
             panel2.Controls.Add(button6);
             panel2.Controls.Add(button5);
@@ -108,14 +110,25 @@ namespace SGU_C__User
             panel2.Controls.Add(label2);
             panel2.Location = new Point(33, 123);
             panel2.Name = "panel2";
-            panel2.Size = new Size(234, 354);
+            panel2.Size = new Size(234, 552);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // button1
+            // 
+            button1.Cursor = Cursors.Hand;
+            button1.Location = new Point(3, 480);
+            button1.Name = "button1";
+            button1.Size = new Size(228, 51);
+            button1.TabIndex = 5;
+            button1.Text = "Quản lý check in";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
             button7.Cursor = Cursors.Hand;
-            button7.Location = new Point(3, 279);
+            button7.Location = new Point(0, 408);
             button7.Name = "button7";
             button7.Size = new Size(228, 51);
             button7.TabIndex = 4;
@@ -127,29 +140,30 @@ namespace SGU_C__User
             // button6
             // 
             button6.Cursor = Cursors.Hand;
-            button6.Location = new Point(3, 222);
+            button6.Location = new Point(0, 335);
             button6.Name = "button6";
             button6.Size = new Size(228, 51);
             button6.TabIndex = 4;
             button6.Text = "Quản lý phòng ban";
             button6.TextAlign = ContentAlignment.MiddleLeft;
             button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
             // 
             // button5
             // 
             button5.Cursor = Cursors.Hand;
-            button5.Location = new Point(3, 165);
+            button5.Location = new Point(0, 260);
             button5.Name = "button5";
             button5.Size = new Size(228, 51);
             button5.TabIndex = 3;
-            button5.Text = "Quản lý lịch sử";
+            button5.Text = "Quản lý thanh toán";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
             button4.Cursor = Cursors.Hand;
-            button4.Location = new Point(3, 108);
+            button4.Location = new Point(3, 186);
             button4.Name = "button4";
             button4.Size = new Size(228, 51);
             button4.TabIndex = 2;
@@ -161,7 +175,7 @@ namespace SGU_C__User
             // button3
             // 
             button3.Cursor = Cursors.Hand;
-            button3.Location = new Point(3, 53);
+            button3.Location = new Point(3, 112);
             button3.Name = "button3";
             button3.Size = new Size(228, 51);
             button3.TabIndex = 1;
@@ -172,10 +186,10 @@ namespace SGU_C__User
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(12, 17);
             label2.Name = "label2";
-            label2.Size = new Size(55, 23);
+            label2.Size = new Size(113, 46);
             label2.TabIndex = 0;
             label2.Text = "Menu";
             // 
@@ -188,7 +202,7 @@ namespace SGU_C__User
             panel3.Controls.Add(label3);
             panel3.Location = new Point(307, 123);
             panel3.Name = "panel3";
-            panel3.Size = new Size(704, 354);
+            panel3.Size = new Size(704, 552);
             panel3.TabIndex = 2;
             // 
             // panel7
@@ -197,7 +211,7 @@ namespace SGU_C__User
             panel7.Controls.Add(button9);
             panel7.Controls.Add(label10);
             panel7.Controls.Add(label11);
-            panel7.Location = new Point(382, 222);
+            panel7.Location = new Point(382, 324);
             panel7.Name = "panel7";
             panel7.Size = new Size(297, 108);
             panel7.TabIndex = 8;
@@ -241,7 +255,7 @@ namespace SGU_C__User
             panel6.BackColor = Color.FromArgb(192, 255, 192);
             panel6.Controls.Add(label6);
             panel6.Controls.Add(label7);
-            panel6.Location = new Point(379, 64);
+            panel6.Location = new Point(379, 108);
             panel6.Name = "panel6";
             panel6.Size = new Size(300, 103);
             panel6.TabIndex = 7;
@@ -273,7 +287,7 @@ namespace SGU_C__User
             panel5.BackColor = Color.FromArgb(255, 255, 192);
             panel5.Controls.Add(button8);
             panel5.Controls.Add(label9);
-            panel5.Location = new Point(39, 222);
+            panel5.Location = new Point(39, 324);
             panel5.Name = "panel5";
             panel5.Size = new Size(310, 108);
             panel5.TabIndex = 7;
@@ -305,7 +319,7 @@ namespace SGU_C__User
             panel4.BackColor = Color.FromArgb(192, 255, 255);
             panel4.Controls.Add(label5);
             panel4.Controls.Add(label4);
-            panel4.Location = new Point(39, 64);
+            panel4.Location = new Point(39, 108);
             panel4.Name = "panel4";
             panel4.Size = new Size(310, 103);
             panel4.TabIndex = 6;
@@ -333,10 +347,10 @@ namespace SGU_C__User
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label3.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label3.Location = new Point(39, 17);
             label3.Name = "label3";
-            label3.Size = new Size(114, 28);
+            label3.Size = new Size(193, 46);
             label3.TabIndex = 5;
             label3.Text = "Dashboard";
             // 
@@ -344,7 +358,7 @@ namespace SGU_C__User
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1023, 519);
+            ClientSize = new Size(1023, 755);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -421,5 +435,6 @@ namespace SGU_C__User
         private Label label9;
         private Button button8;
         private Button button9;
+        private Button button1;
     }
 }

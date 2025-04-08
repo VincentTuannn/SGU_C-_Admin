@@ -65,6 +65,7 @@ namespace SGU_C__User.DAO
                 string query = "UPDATE thietbi SET TenThietBi = @TenThietBi, LoaiThietBi = @LoaiThietBi, " +
                               "TrangThai = @TrangThai, GiaMuon = @GiaMuon WHERE MaThietBi = @MaThietBi";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaThietBi", thietBi.MaThietBi);
                 cmd.Parameters.AddWithValue("@TenThietBi", thietBi.TenThietBi);
                 cmd.Parameters.AddWithValue("@LoaiThietBi", thietBi.LoaiThietBi);
                 cmd.Parameters.AddWithValue("@TrangThai", thietBi.TrangThai);

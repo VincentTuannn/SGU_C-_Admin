@@ -42,9 +42,10 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO checkin (ThoiGianVao, ThoiGianRa, TrangThai) " +
-                              "VALUES (@ThoiGianVao, @ThoiGianRa, @TrangThai)";
+                string query = "INSERT INTO checkin (MaNguoiDung, ThoiGianVao, ThoiGianRa, TrangThai) " +
+                              "VALUES (@MaNguoiDung, @ThoiGianVao, @ThoiGianRa, @TrangThai)";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", checkIn.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianVao", checkIn.ThoiGianVao);
                 cmd.Parameters.AddWithValue("@ThoiGianRa", checkIn.ThoiGianRa);
                 cmd.Parameters.AddWithValue("@TrangThai", checkIn.TrangThai);
@@ -58,8 +59,9 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "UPDATE checkin SET ThoiGianVao = @ThoiGianVao, " +
-                              "ThoiGianRa = @ThoiGianRa, TrangThai = @TrangThai WHERE MaCheck = @MaCheck";
+                string query = "UPDATE checkin SET MaNguoiDung = @MaNguoiDung, " +
+                              "ThoiGianVao = @ThoiGianVao, ThoiGianRa = @ThoiGianRa, " +
+                              "TrangThai = @TrangThai WHERE MaCheck = @MaCheck";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MaCheck", checkIn.MaCheck);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", checkIn.MaNguoiDung);

@@ -67,6 +67,7 @@ namespace SGU_C__User.DAO
                               "ThoiGianMuon = @ThoiGianMuon, ThoiGianTra = @ThoiGianTra, TrangThai = @TrangThai, TongTien = @TongTien " +
                               "WHERE MaPhieuMuonPhong = @MaPhieuMuonPhong";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaPhieuMuonPhong", phieuMuonPhong.MaPhieuMuonPhong);
                 cmd.Parameters.AddWithValue("@MaPhong", phieuMuonPhong.MaPhong);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", phieuMuonPhong.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianMuon", phieuMuonPhong.ThoiGianMuon);
