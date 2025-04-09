@@ -6,12 +6,15 @@ namespace SGU_C__User
     public partial class TrangChu_Admin : Form
     {
         private Label numberLabelThietBi;
+        private Label numberLabelViPham;
+        private Label numberLabelDatPhong;
         private ThietBiBUS thietBiBUS = new ThietBiBUS();
+        private ViPhamBUS viPhamBUS = new ViPhamBUS();
         public TrangChu_Admin()
         {
             InitializeComponent();
 
-            //Tạo tiêu đề cho header
+            //Tạo tiêu đề cho header thiết bị đang sử dụng
             Label headerLabelThietBi = new Label
             {
                 Text = "Tổng số thiết bị được mượn",
@@ -21,19 +24,73 @@ namespace SGU_C__User
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
-            //Tạo tiêu đề cho số lượng
+            //Tạo tiêu đề cho số lượng thiết bị đang sử dụng
             numberLabelThietBi = new Label
             {
                 Font = new Font("Arial", 36, FontStyle.Bold),
                 Size = new Size(panel4.Width, 50),
                 Location = new Point(0, 50),
                 TextAlign = ContentAlignment.MiddleCenter
-            }; 
+            };
+
+            //Tạo tiêu đề cho header tổng số vi phạm
+            Label headerLabelViPham = new Label
+            {
+                Text = "Tổng số vi phạm",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                Size = new Size(panel4.Width, 30),
+                Location = new Point(0, 10),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            //Tạo tiêu đề cho tổng số vi phạm
+            numberLabelViPham = new Label
+            {
+                Font = new Font("Arial", 36, FontStyle.Bold),
+                Size = new Size(panel4.Width, 50),
+                Location = new Point(0, 50),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            //Tạo tiêu đề cho header thông tin check-in/checkout
+            Label headerCheckIn = new Label
+            {
+                Text = "Quản lý check-in/checkout",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                Size = new Size(panel4.Width, 30),
+                Location = new Point(0, 10),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            //Tạo tiêu đề cho header số lượt đặt chỗ hôm nay
+            Label headerDatPhong = new Label
+            {
+                Text = "Số lượt đặt chỗ hôm nay",
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                Size = new Size(panel4.Width, 30),
+                Location = new Point(0, 10),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            //Tạo tiêu đề cho số lượng đặt phòng
+            numberLabelDatPhong = new Label
+            {
+                Font = new Font("Arial", 36, FontStyle.Bold),
+                Size = new Size(panel4.Width, 50),
+                Location = new Point(0, 50),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
 
             panel4.Controls.Add(headerLabelThietBi);
             panel4.Controls.Add(numberLabelThietBi);
+            panel7.Controls.Add(headerLabelViPham);
+            panel7.Controls.Add(numberLabelViPham);
+            panel5.Controls.Add(headerCheckIn);
+            panel6.Controls.Add(headerDatPhong);
+            panel6.Controls.Add(numberLabelDatPhong);
 
             CountSoLuong();
+            CountViPham();
 
         }
 
@@ -92,6 +149,20 @@ namespace SGU_C__User
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 numberLabelThietBi.Text = "0";
+            }
+        }
+
+        private void CountViPham()
+        {
+            try
+            {
+                int violationCount = viPhamBUS.CountViPham();
+                numberLabelViPham.Text = violationCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numberLabelViPham.Text = "0";
             }
         }
 

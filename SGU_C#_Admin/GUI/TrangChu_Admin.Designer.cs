@@ -41,21 +41,14 @@ namespace SGU_C__User
             label2 = new Label();
             panel3 = new Panel();
             panel7 = new Panel();
-            label10 = new Label();
-            label11 = new Label();
             panel6 = new Panel();
-            label6 = new Label();
-            label7 = new Label();
             panel5 = new Panel();
             button8 = new Button();
-            label9 = new Label();
             panel4 = new Panel();
             label3 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
-            panel7.SuspendLayout();
-            panel6.SuspendLayout();
             panel5.SuspendLayout();
             SuspendLayout();
             // 
@@ -192,72 +185,25 @@ namespace SGU_C__User
             // panel7
             // 
             panel7.BackColor = Color.FromArgb(255, 192, 255);
-            panel7.Controls.Add(label10);
-            panel7.Controls.Add(label11);
             panel7.Location = new Point(430, 324);
             panel7.Name = "panel7";
             panel7.Size = new Size(297, 146);
             panel7.TabIndex = 8;
             panel7.Paint += panel7_Paint;
             // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(0, 31);
-            label10.Name = "label10";
-            label10.Size = new Size(27, 31);
-            label10.TabIndex = 10;
-            label10.Text = "0";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(0, 0);
-            label11.Name = "label11";
-            label11.Size = new Size(206, 20);
-            label11.TabIndex = 9;
-            label11.Text = "Xem vi phạm của tất cả user";
-            label11.Click += label11_Click;
-            // 
             // panel6
             // 
             panel6.BackColor = Color.FromArgb(192, 255, 192);
-            panel6.Controls.Add(label6);
-            panel6.Controls.Add(label7);
             panel6.Location = new Point(430, 108);
             panel6.Name = "panel6";
             panel6.Size = new Size(300, 142);
             panel6.TabIndex = 7;
             panel6.Paint += panel6_Paint;
             // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(3, 35);
-            label6.Name = "label6";
-            label6.Size = new Size(27, 31);
-            label6.TabIndex = 3;
-            label6.Text = "1";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(3, 4);
-            label7.Name = "label7";
-            label7.Size = new Size(180, 20);
-            label7.TabIndex = 2;
-            label7.Text = "Số lượt đặt chỗ hôm nay";
-            label7.Click += label7_Click;
-            // 
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(255, 255, 192);
             panel5.Controls.Add(button8);
-            panel5.Controls.Add(label9);
             panel5.Location = new Point(39, 324);
             panel5.Name = "panel5";
             panel5.Size = new Size(310, 146);
@@ -269,22 +215,12 @@ namespace SGU_C__User
             button8.BackColor = Color.Blue;
             button8.Cursor = Cursors.Hand;
             button8.ForeColor = Color.White;
-            button8.Location = new Point(14, 46);
+            button8.Location = new Point(70, 59);
             button8.Name = "button8";
             button8.Size = new Size(149, 46);
             button8.TabIndex = 3;
             button8.Text = "Xem chi tiết";
             button8.UseVisualStyleBackColor = false;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(3, 0);
-            label9.Name = "label9";
-            label9.Size = new Size(255, 20);
-            label9.TabIndex = 9;
-            label9.Text = "Quản lý check-in/checkout của user";
             // 
             // panel4
             // 
@@ -323,12 +259,7 @@ namespace SGU_C__User
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            panel7.ResumeLayout(false);
-            panel7.PerformLayout();
-            panel6.ResumeLayout(false);
-            panel6.PerformLayout();
             panel5.ResumeLayout(false);
-            panel5.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -377,14 +308,9 @@ namespace SGU_C__User
         private Panel panel3;
         private Panel panel7;
         private Panel panel6;
-        private Label label6;
-        private Label label7;
         private Panel panel5;
         private Panel panel4;
         private Label label3;
-        private Label label10;
-        private Label label11;
-        private Label label9;
         private Button button8;
         private Button button9;
     }

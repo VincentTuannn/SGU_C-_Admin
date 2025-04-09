@@ -44,6 +44,62 @@ namespace SGU_C__User.DAO
             return viPham;
         }
 
+        public List<ViPhamDTO> GetAllViPhamByID(int maViPham)
+        {
+            List<ViPhamDTO> danhSach = new List<ViPhamDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaViPham, MaNguoiDung, MaThietBi, MaPhong, LoaiViPham, NoiDungViPham FROM vipham WHERE MaViPham = @MaViPham";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaViPham", maViPham);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ViPhamDTO viPham = new ViPhamDTO
+                    {
+                        MaViPham = Convert.ToInt32(reader["MaViPham"]),
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        LoaiViPham = reader["LoaiViPham"].ToString(),
+                        NoiDungViPham = reader["NoiDungViPham"].ToString()
+                    };
+                    danhSach.Add(viPham);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<ViPhamDTO> GetAllViPhamByNoiDung(string noiDungViPham)
+        {
+            List<ViPhamDTO> danhSach = new List<ViPhamDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaViPham, MaNguoiDung, MaThietBi, MaPhong, LoaiViPham, NoiDungViPham FROM vipham WHERE NoiDungViPham LIKE @NoiDungViPham";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@NoiDungViPham", "%" + noiDungViPham + "%");
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ViPhamDTO viPham = new ViPhamDTO
+                    {
+                        MaViPham = Convert.ToInt32(reader["MaViPham"]),
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        LoaiViPham = reader["LoaiViPham"].ToString(),
+                        NoiDungViPham = reader["NoiDungViPham"].ToString()
+                    };
+                    danhSach.Add(viPham);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         // Thêm vi phạm mới
         public bool AddViPham(ViPhamDTO viPham)
         {
@@ -122,6 +178,26 @@ namespace SGU_C__User.DAO
             {
                 Console.WriteLine("Error: " + ex.Message);
                 throw;
+            }
+        }
+
+        public int CountViPham()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT COUNT(*) FROM vipham";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    conn.Close();
+                    return count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy tổng số vi phạm từ cơ sở dữ liệu: " + ex.Message);
             }
         }
     }

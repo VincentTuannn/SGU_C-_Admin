@@ -17,7 +17,38 @@ namespace SGU_C__User.BUS
         // Lấy danh sách vi phạm
         public List<ViPhamDTO> GetAllViPham()
         {
-            return viPhamDAO.GetAllViPham();
+            try
+            {
+                return viPhamDAO.GetAllViPham();
+            }
+            catch (Exception ex)
+            { 
+                throw new Exception("Lỗi khi tìm kiếm vi phạm: " + ex.Message);
+            }
+        }
+
+        public List<ViPhamDTO> GetAllViPhamByID(int maViPham)
+        {
+            try
+            {
+                return viPhamDAO.GetAllViPhamByID(maViPham);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm vi phạm theo ID: " + ex.Message);
+            }
+        }
+
+        public List<ViPhamDTO> GetAllViPhamByNoiDung(string noiDungViPham)
+        {
+            try
+            {
+                return viPhamDAO.GetAllViPhamByNoiDung(noiDungViPham);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm vi phạm theo nội dung: " + ex.Message);
+            }
         }
 
         // Thêm vi phạm mới
@@ -62,6 +93,19 @@ namespace SGU_C__User.BUS
                 throw new ArgumentException("Mã vi phạm phải lớn hơn 0.");
             }
             return viPhamDAO.DeleteViPham(maViPham);
+        }
+
+        public int CountViPham()
+        {
+            try
+            {
+                int count = viPhamDAO.CountViPham();
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy tổng số vi phạm: " + ex.Message);
+            }
         }
 
         // Kiểm tra LoaiViPham hợp lệ

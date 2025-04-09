@@ -16,7 +16,39 @@ namespace SGU_C__User.BUS
 
         public List<ThietBiDTO> GetAllThietBi()
         {
-            return thietBiDAO.GetAllThietBi();
+            try
+            {
+                return thietBiDAO.GetAllThietBi();
+            }
+            catch (Exception ex) 
+            {
+                throw new Exception("Lỗi khi tìm kiếm tất cả thiết bị: " + ex.Message);
+            } 
+            
+        }
+
+        public List<ThietBiDTO> GetAllThietBiByName(string tenThietBi)
+        {
+            try
+            {
+                return thietBiDAO.GetAllThietBiByName(tenThietBi);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm thiết bị theo tên: " + ex.Message);
+            }
+        }
+
+        public List<ThietBiDTO> GetAllThietBiByID(int maThietBi)
+        {
+            try
+            {
+                return thietBiDAO.GetAllThietBiByID(maThietBi);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm thiết bị theo ID: " + ex.Message);
+            }
         }
 
         public void AddThietBi(ThietBiDTO thietBi)

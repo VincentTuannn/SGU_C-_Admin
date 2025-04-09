@@ -18,10 +18,9 @@ namespace SGU_C__User
         public QLThietBi()
         {
             InitializeComponent();
-            textBox1.Text = "Tìm kiếm theo tên thiết bị";
-            textBox1.ForeColor = Color.Gray;
-            textBox1.Enter += TextBox1_Enter;
-            textBox1.Leave += TextBox1_Leave;
+            Input_Search.ForeColor = Color.Black;
+            Input_Search.Enter += TextBox1_Enter;
+            Input_Search.Leave += TextBox1_Leave;
             LoadDataToGridView(); //Tải lên bảng thiết bị
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; //Chọn 1 thiết bị
             dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
@@ -66,20 +65,20 @@ namespace SGU_C__User
         private void TextBox1_Enter(object sender, EventArgs e)
         {
             // Khi người dùng click vào textbox
-            if (textBox1.Text == "Nhập tên của bạn...")
+            if (Input_Search.Text == "Nhập tên của bạn...")
             {
-                textBox1.Text = "";
-                textBox1.ForeColor = Color.Black; // Chuyển về màu chữ bình thường
+                Input_Search.Text = "";
+                Input_Search.ForeColor = Color.Black; // Chuyển về màu chữ bình thường
             }
         }
 
         private void TextBox1_Leave(object sender, EventArgs e)
         {
             // Khi người dùng rời textbox
-            if (string.IsNullOrWhiteSpace(textBox1.Text))
+            if (string.IsNullOrWhiteSpace(Input_Search.Text))
             {
-                textBox1.Text = "Nhập tên của bạn...";
-                textBox1.ForeColor = Color.Gray;
+                Input_Search.Text = "Nhập tên của bạn...";
+                Input_Search.ForeColor = Color.Gray;
             }
         }
 
@@ -160,6 +159,35 @@ namespace SGU_C__User
             else
             {
                 MessageBox.Show("Vui lòng chọn một thiết bị để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void Input_Search_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = Input_Search.Text.Trim();
+            try
+            {
+                if (string.IsNullOrEmpty(searchText) || searchText == "Tìm kiếm theo tên thiết bị")
+                {
+                    LoadDataToGridView();
+                }
+                else
+                {
+                    var danhSach = thietBiBUS.GetAllThietBiByName(searchText);
+                    dataGridView1.DataSource = danhSach;
+
+                    dataGridView1.DefaultCellStyle.Font = new Font("Arial", 10);
+                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
+                    dataGridView1.Columns["MaThietBi"].HeaderText = "Mã thiết bị";
+                    dataGridView1.Columns["TenThietBi"].HeaderText = "Tên thiết bị";
+                    dataGridView1.Columns["LoaiThietBi"].HeaderText = "Loại thiết bị";
+                    dataGridView1.Columns["TrangThai"].HeaderText = "Trạng thái";
+                    dataGridView1.Columns["GiaMuon"].HeaderText = "Giá mượn";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
             }
         }
     }

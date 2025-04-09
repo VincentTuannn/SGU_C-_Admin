@@ -30,7 +30,7 @@
         {
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
-            textBox1 = new TextBox();
+            Input_Search = new TextBox();
             label2 = new Label();
             button2 = new Button();
             label1 = new Label();
@@ -44,7 +44,7 @@
             // panel2
             // 
             panel2.Controls.Add(dataGridView1);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
             panel2.Location = new Point(60, 118);
             panel2.Name = "panel2";
@@ -60,14 +60,14 @@
             dataGridView1.Size = new Size(825, 193);
             dataGridView1.TabIndex = 2;
             // 
-            // textBox1
+            // Input_Search
             // 
-            textBox1.ForeColor = Color.Gray;
-            textBox1.Location = new Point(30, 58);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(188, 27);
-            textBox1.TabIndex = 1;
-            textBox1.Text = "Tìm kiếm theo tên hoặc mã vi phạm";
+            Input_Search.ForeColor = Color.Gray;
+            Input_Search.Location = new Point(30, 58);
+            Input_Search.Name = "Input_Search";
+            Input_Search.Size = new Size(188, 27);
+            Input_Search.TabIndex = 1;
+            Input_Search.TextChanged += Input_Search_TextChanged;
             // 
             // label2
             // 
@@ -144,7 +144,7 @@
         #endregion
         private Panel panel2;
         private Button button3;
-        private TextBox textBox1;
+        private TextBox Input_Search;
         private Label label2;
         private Button button2;
         private Label label1;

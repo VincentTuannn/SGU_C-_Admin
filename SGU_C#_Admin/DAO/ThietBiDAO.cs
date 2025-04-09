@@ -42,6 +42,60 @@ namespace SGU_C__User.DAO
             return thietBiList;
         }
 
+        public List<ThietBiDTO> GetAllThietBiByName(string tenThietBi)
+        {
+            List<ThietBiDTO> danhSach = new List<ThietBiDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaThietBi, TenThietBi, LoaiThietBi, TrangThai, GiaMuon FROM thietbi WHERE TenThietBi LIKE @TenThietBi";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TenThietBi", "%" + tenThietBi + "%");
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ThietBiDTO thietBi = new ThietBiDTO
+                    {
+                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
+                        TenThietBi = reader["TenThietBi"].ToString(),
+                        LoaiThietBi = reader["LoaiThietBi"].ToString(),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        GiaMuon = Convert.ToInt32(reader["GiaMuon"])
+                    };
+                    danhSach.Add(thietBi);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<ThietBiDTO> GetAllThietBiByID(int maThietBi)
+        {
+            List<ThietBiDTO> danhSach = new List<ThietBiDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaThietBi, TenThietBi, LoaiThietBi, TrangThai, GiaMuon FROM thietbi WHERE MaThietBi = @MaThietBi";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ThietBiDTO thietBi = new ThietBiDTO
+                    {
+                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
+                        TenThietBi = reader["TenThietBi"].ToString(),
+                        LoaiThietBi = reader["LoaiThietBi"].ToString(),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        GiaMuon = Convert.ToInt32(reader["GiaMuon"])
+                    };
+                    danhSach.Add(thietBi);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         public void AddThietBi(ThietBiDTO thietBi)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

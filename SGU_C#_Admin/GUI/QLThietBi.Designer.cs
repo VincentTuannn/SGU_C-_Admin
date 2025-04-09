@@ -32,13 +32,13 @@
             button2 = new Button();
             label1 = new Label();
             label2 = new Label();
-            textBox1 = new TextBox();
+            Input_Search = new TextBox();
             button3 = new Button();
             panel2 = new Panel();
+            btn_delete = new Button();
+            btn_fix = new Button();
             dataGridView1 = new DataGridView();
             button6 = new Button();
-            btn_fix = new Button();
-            btn_delete = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -86,13 +86,14 @@
             label2.TabIndex = 0;
             label2.Text = "Quản lý thiết bị";
             // 
-            // textBox1
+            // Input_Search
             // 
-            textBox1.ForeColor = Color.Gray;
-            textBox1.Location = new Point(30, 58);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(167, 27);
-            textBox1.TabIndex = 1;
+            Input_Search.ForeColor = Color.Gray;
+            Input_Search.Location = new Point(30, 58);
+            Input_Search.Name = "Input_Search";
+            Input_Search.Size = new Size(167, 27);
+            Input_Search.TabIndex = 1;
+            Input_Search.TextChanged += Input_Search_TextChanged;
             // 
             // button3
             // 
@@ -113,13 +114,33 @@
             panel2.Controls.Add(btn_fix);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(button3);
-            panel2.Controls.Add(textBox1);
+            panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
             panel2.Location = new Point(62, 117);
             panel2.Name = "panel2";
             panel2.Size = new Size(913, 349);
             panel2.TabIndex = 2;
             panel2.Paint += panel2_Paint;
+            // 
+            // btn_delete
+            // 
+            btn_delete.Location = new Point(813, 246);
+            btn_delete.Name = "btn_delete";
+            btn_delete.Size = new Size(86, 34);
+            btn_delete.TabIndex = 5;
+            btn_delete.Text = "Xóa";
+            btn_delete.UseVisualStyleBackColor = true;
+            btn_delete.Click += btn_delete_Click;
+            // 
+            // btn_fix
+            // 
+            btn_fix.Location = new Point(813, 137);
+            btn_fix.Name = "btn_fix";
+            btn_fix.Size = new Size(86, 34);
+            btn_fix.TabIndex = 4;
+            btn_fix.Text = "Sửa";
+            btn_fix.UseVisualStyleBackColor = true;
+            btn_fix.Click += btn_fix_Click;
             // 
             // dataGridView1
             // 
@@ -139,26 +160,6 @@
             button6.Text = "Quay lại";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
-            // 
-            // btn_fix
-            // 
-            btn_fix.Location = new Point(813, 137);
-            btn_fix.Name = "btn_fix";
-            btn_fix.Size = new Size(86, 34);
-            btn_fix.TabIndex = 4;
-            btn_fix.Text = "Sửa";
-            btn_fix.UseVisualStyleBackColor = true;
-            btn_fix.Click += btn_fix_Click;
-            // 
-            // btn_delete
-            // 
-            btn_delete.Location = new Point(813, 246);
-            btn_delete.Name = "btn_delete";
-            btn_delete.Size = new Size(86, 34);
-            btn_delete.TabIndex = 5;
-            btn_delete.Text = "Xóa";
-            btn_delete.UseVisualStyleBackColor = true;
-            btn_delete.Click += btn_delete_Click;
             // 
             // QLThietBi
             // 
@@ -186,7 +187,7 @@
         private Button button2;
         private Label label1;
         private Label label2;
-        private TextBox textBox1;
+        private TextBox Input_Search;
         private Button button3;
         private Panel panel2;
         private DataGridViewButtonColumn AdjustButton;

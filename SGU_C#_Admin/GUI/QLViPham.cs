@@ -55,5 +55,35 @@ namespace SGU_C__User
                 MessageBox.Show("Lỗi khi tải dữ liệu: " + ex.Message);
             }
         }
+
+        private void Input_Search_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = Input_Search.Text.Trim();
+            try
+            {
+                if (string.IsNullOrEmpty(searchText) || searchText == "Tìm theo nội dung vi phạm")
+                {
+                    LoadDataToGridView();
+                }
+                else
+                {
+                    var danhSach = viPhamBUS.GetAllViPhamByNoiDung(searchText);
+                    dataGridView1.DataSource = danhSach;
+
+                    dataGridView1.DefaultCellStyle.Font = new Font("Arial", 10);
+                    dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
+                    dataGridView1.Columns["MaViPham"].HeaderText = "Mã vi phạm";
+                    dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
+                    dataGridView1.Columns["MaThietBi"].HeaderText = "Mã thiết bị";
+                    dataGridView1.Columns["MaPhong"].HeaderText = "Mã phòng";
+                    dataGridView1.Columns["LoaiViPham"].HeaderText = "Loại vi phạm";
+                    dataGridView1.Columns["NoiDungViPham"].HeaderText = "Nội dung vi phạm";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
     }
 }
