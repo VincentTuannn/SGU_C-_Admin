@@ -30,7 +30,6 @@
         {
             panel1 = new Panel();
             button2 = new Button();
-            button1 = new Button();
             label1 = new Label();
             label2 = new Label();
             textBox1 = new TextBox();
@@ -47,7 +46,6 @@
             // 
             panel1.BackColor = Color.Blue;
             panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(4, 2);
             panel1.Name = "panel1";
@@ -64,18 +62,6 @@
             button2.TabIndex = 2;
             button2.Text = "Logout";
             button2.UseVisualStyleBackColor = false;
-            // 
-            // button1
-            // 
-            button1.BackColor = Color.Blue;
-            button1.Cursor = Cursors.Hand;
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(686, 17);
-            button1.Name = "button1";
-            button1.Size = new Size(149, 34);
-            button1.TabIndex = 1;
-            button1.Text = "Trang chủ";
-            button1.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -174,7 +160,6 @@
 
         private Panel panel1;
         private Button button2;
-        private Button button1;
         private Label label1;
         private Label label2;
         private TextBox textBox1;
