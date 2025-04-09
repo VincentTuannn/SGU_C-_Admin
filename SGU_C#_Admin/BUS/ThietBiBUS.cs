@@ -67,5 +67,20 @@ namespace SGU_C__User.BUS
         {
             thietBiDAO.DeleteThietBi(maThietBi);
         }
+
+        // Phương thức lấy số lượng thiết bị
+        public int UpdateSoLuong() 
+        {
+            try
+            {
+                int count = thietBiDAO.UpdateSoLuong(); 
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy số lượng thiết bị: " + ex.Message);
+            }
+        }
+
     }
 }

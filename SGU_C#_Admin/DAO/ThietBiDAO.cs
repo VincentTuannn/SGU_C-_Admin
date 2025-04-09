@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using System.Diagnostics;
 
 
 
@@ -89,6 +90,27 @@ namespace SGU_C__User.DAO
             }
         }
 
+        // Phương thức để lấy số lượng thiết bị từ bảng thietbi
+        public int UpdateSoLuong()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT COUNT(*) FROM thietbi WHERE TrangThai = @TrangThai AND trangthai IS NOT NULL";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@TrangThai", "Đang sử dụng");
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    conn.Close();
+                    return count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy số lượng thiết bị từ cơ sở dữ liệu: " + ex.Message);
+            }
+        }
 
     }
 }
