@@ -28,14 +28,14 @@ namespace SGU_C__User
                 Size = new Size(panel4.Width, 50),
                 Location = new Point(0, 50),
                 TextAlign = ContentAlignment.MiddleCenter
-            };
+            }; 
 
             panel4.Controls.Add(headerLabelThietBi);
             panel4.Controls.Add(numberLabelThietBi);
 
             CountSoLuong();
 
-    }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -95,5 +95,22 @@ namespace SGU_C__User
             }
         }
 
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+            using (Pen pen = new Pen(Color.Black, 2))
+            {
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+            }
+        }
+
+        private void panel7_Paint(object sender, PaintEventArgs e)
+        {
+            using (Pen pen = new Pen(Color.Black, 2))
+            {
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+            }
+        }
     }
 }

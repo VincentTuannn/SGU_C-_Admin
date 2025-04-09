@@ -37,6 +37,8 @@
             panel2 = new Panel();
             dataGridView1 = new DataGridView();
             button6 = new Button();
+            btn_fix = new Button();
+            btn_delete = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -107,6 +109,8 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(btn_delete);
+            panel2.Controls.Add(btn_fix);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(button3);
             panel2.Controls.Add(textBox1);
@@ -135,6 +139,26 @@
             button6.Text = "Quay lại";
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
+            // 
+            // btn_fix
+            // 
+            btn_fix.Location = new Point(813, 137);
+            btn_fix.Name = "btn_fix";
+            btn_fix.Size = new Size(86, 34);
+            btn_fix.TabIndex = 4;
+            btn_fix.Text = "Sửa";
+            btn_fix.UseVisualStyleBackColor = true;
+            btn_fix.Click += btn_fix_Click;
+            // 
+            // btn_delete
+            // 
+            btn_delete.Location = new Point(813, 246);
+            btn_delete.Name = "btn_delete";
+            btn_delete.Size = new Size(86, 34);
+            btn_delete.TabIndex = 5;
+            btn_delete.Text = "Xóa";
+            btn_delete.UseVisualStyleBackColor = true;
+            btn_delete.Click += btn_delete_Click;
             // 
             // QLThietBi
             // 
@@ -168,5 +192,7 @@
         private DataGridViewButtonColumn AdjustButton;
         private Button button6;
         private DataGridView dataGridView1;
+        private Button btn_delete;
+        private Button btn_fix;
     }
 }

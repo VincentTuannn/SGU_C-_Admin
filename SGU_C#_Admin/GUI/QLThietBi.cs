@@ -22,7 +22,9 @@ namespace SGU_C__User
             textBox1.ForeColor = Color.Gray;
             textBox1.Enter += TextBox1_Enter;
             textBox1.Leave += TextBox1_Leave;
-            LoadDataToGridView();
+            LoadDataToGridView(); //Tải lên bảng thiết bị
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; //Chọn 1 thiết bị
+            dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -32,7 +34,7 @@ namespace SGU_C__User
 
         private void Device_Management_Load(object sender, EventArgs e)
         {
-            
+
 
         }
 
@@ -104,5 +106,61 @@ namespace SGU_C__User
             }
         }
 
+        private void btn_fix_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                string tenThietBi = row.Cells["TenThietBi"].Value.ToString();
+                string loaiThietBi = row.Cells["LoaiThietBi"].Value.ToString();
+                string trangThai = row.Cells["TrangThai"].Value.ToString();
+                int giaMuon = Convert.ToInt32(row.Cells["GiaMuon"].Value); // Điều chỉnh kiểu dữ liệu nếu cần
+
+                // Mở form sửa thiết bị với dữ liệu đã chọn
+                SuaThietBi formSua = new SuaThietBi(maThietBi, tenThietBi, loaiThietBi, trangThai, giaMuon);
+                this.Hide();
+                if (formSua.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataToGridView(); // Tải lại dữ liệu sau khi sửa
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một thiết bị để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                string tenThietBi = row.Cells["TenThietBi"].Value.ToString();
+
+                // Xác nhận trước khi xóa
+                DialogResult result = MessageBox.Show($"Bạn có chắc muốn xóa thiết bị '{tenThietBi}' không?",
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        thietBiBUS.DeleteThietBi(maThietBi);
+                        LoadDataToGridView(); // Tải lại dữ liệu sau khi xóa
+                        MessageBox.Show("Xóa thiết bị thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi xóa thiết bị: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một thiết bị để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }

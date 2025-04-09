@@ -97,7 +97,7 @@ namespace SGU_C__User.DAO
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT COUNT(*) FROM thietbi WHERE TrangThai = @TrangThai AND trangthai IS NOT NULL";
+                    string query = "SELECT COUNT(*) FROM thietbi WHERE TrangThai = 'Đang sử dụng' AND TrangThai IS NOT NULL";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@TrangThai", "Đang sử dụng");
                     conn.Open();

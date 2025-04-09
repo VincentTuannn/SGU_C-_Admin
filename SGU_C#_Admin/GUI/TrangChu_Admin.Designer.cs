@@ -66,7 +66,7 @@ namespace SGU_C__User
             panel1.Controls.Add(label1);
             panel1.Location = new Point(0, 1);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1022, 62);
+            panel1.Size = new Size(1080, 62);
             panel1.TabIndex = 0;
             panel1.Paint += panel1_Paint;
             // 
@@ -74,7 +74,7 @@ namespace SGU_C__User
             // 
             button2.BackColor = Color.White;
             button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(851, 17);
+            button2.Location = new Point(898, 17);
             button2.Name = "button2";
             button2.Size = new Size(149, 34);
             button2.TabIndex = 2;
@@ -178,6 +178,7 @@ namespace SGU_C__User
             // 
             // panel3
             // 
+            panel3.BackColor = Color.White;
             panel3.Controls.Add(panel7);
             panel3.Controls.Add(panel6);
             panel3.Controls.Add(panel5);
@@ -185,7 +186,7 @@ namespace SGU_C__User
             panel3.Controls.Add(label3);
             panel3.Location = new Point(307, 123);
             panel3.Name = "panel3";
-            panel3.Size = new Size(704, 552);
+            panel3.Size = new Size(761, 552);
             panel3.TabIndex = 2;
             // 
             // panel7
@@ -193,10 +194,11 @@ namespace SGU_C__User
             panel7.BackColor = Color.FromArgb(255, 192, 255);
             panel7.Controls.Add(label10);
             panel7.Controls.Add(label11);
-            panel7.Location = new Point(382, 324);
+            panel7.Location = new Point(430, 324);
             panel7.Name = "panel7";
             panel7.Size = new Size(297, 146);
             panel7.TabIndex = 8;
+            panel7.Paint += panel7_Paint;
             // 
             // label10
             // 
@@ -224,7 +226,7 @@ namespace SGU_C__User
             panel6.BackColor = Color.FromArgb(192, 255, 192);
             panel6.Controls.Add(label6);
             panel6.Controls.Add(label7);
-            panel6.Location = new Point(379, 108);
+            panel6.Location = new Point(430, 108);
             panel6.Name = "panel6";
             panel6.Size = new Size(300, 142);
             panel6.TabIndex = 7;
@@ -260,6 +262,7 @@ namespace SGU_C__User
             panel5.Name = "panel5";
             panel5.Size = new Size(310, 146);
             panel5.TabIndex = 7;
+            panel5.Paint += panel5_Paint;
             // 
             // button8
             // 
@@ -306,7 +309,7 @@ namespace SGU_C__User
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1023, 755);
+            ClientSize = new Size(1080, 755);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -332,6 +335,11 @@ namespace SGU_C__User
         private void panel6_Paint(object sender, PaintEventArgs e)
         {
             //throw new NotImplementedException();
+            using (Pen pen = new Pen(Color.Black, 2))
+            {
+                pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+            }
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
