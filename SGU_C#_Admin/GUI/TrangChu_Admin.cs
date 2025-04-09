@@ -33,7 +33,7 @@ namespace SGU_C__User
             panel4.Controls.Add(headerLabelThietBi);
             panel4.Controls.Add(numberLabelThietBi);
 
-            UpdateSoLuong();
+            CountSoLuong();
 
     }
 
@@ -81,11 +81,11 @@ namespace SGU_C__User
         }
 
         // Phương thức cập nhật số lượng thiết bị trên giao diện
-        private void UpdateSoLuong()
+        private void CountSoLuong()
         {
             try
             {
-                int deviceCount = thietBiBUS.UpdateSoLuong();
+                int deviceCount = thietBiBUS.CountSoLuong();
                 numberLabelThietBi.Text = deviceCount.ToString();
             }
             catch (Exception ex)

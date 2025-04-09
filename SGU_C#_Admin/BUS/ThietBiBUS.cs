@@ -69,11 +69,11 @@ namespace SGU_C__User.BUS
         }
 
         // Phương thức lấy số lượng thiết bị
-        public int UpdateSoLuong() 
+        public int CountSoLuong() 
         {
             try
             {
-                int count = thietBiDAO.UpdateSoLuong(); 
+                int count = thietBiDAO.CountSoLuong(); 
                 return count;
             }
             catch (Exception ex)

@@ -90,8 +90,8 @@ namespace SGU_C__User.DAO
             }
         }
 
-        // Phương thức để lấy số lượng thiết bị từ bảng thietbi
-        public int UpdateSoLuong()
+        // Phương thức để lấy số lượng thiết bị từ bảng thietbiu
+        public int CountSoLuong()
         {
             try
             {
