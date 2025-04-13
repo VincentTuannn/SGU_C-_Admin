@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SGU_C__User.DTO
 {
-    internal class NguoiDungDTO
+    public class NguoiDungDTO
     {
         public int MaNguoiDung { get; set; }
         public string Email { get; set; }

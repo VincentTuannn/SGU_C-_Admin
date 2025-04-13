@@ -98,5 +98,17 @@ namespace SGU_C__User.BUS
         {
             nguoiDungDAO.DeleteNguoiDung(maNguoiDung);
         }
+
+        // login
+        public NguoiDungDTO DangNhap(string email, string matKhau)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(matKhau))
+            {
+                throw new Exception("Vui lòng nhập đầy đủ thông tin!");
+            }
+
+            return nguoiDungDAO.DangNhap(email, matKhau);
+        }
+
     }
 }
