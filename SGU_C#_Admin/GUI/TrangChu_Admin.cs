@@ -190,6 +190,7 @@
 using SGU_C__User.BUS;
 using SGU_C__User.DAO;
 using SGU_C__User.DTO;
+using SGU_C__User.GUI;
 
 namespace SGU_C__User
 {
@@ -200,21 +201,21 @@ namespace SGU_C__User
         private Label numberLabelDatPhong;
         private ThietBiBUS thietBiBUS = new ThietBiBUS();
         private ViPhamBUS viPhamBUS = new ViPhamBUS();
-        private NguoiDungDTO nguoiDung; 
+        private NguoiDungDTO nguoiDung;
 
         public TrangChu_Admin()
         {
             InitializeComponent();
-            InitializeUI(); 
+            InitializeUI();
             CountSoLuong();
             CountViPham();
         }
 
-        
-        public TrangChu_Admin(NguoiDungDTO nguoiDung) : this() 
+
+        public TrangChu_Admin(NguoiDungDTO nguoiDung) : this()
         {
             this.nguoiDung = nguoiDung;
-            DisplayUserInfo(); 
+            DisplayUserInfo();
         }
 
         private void InitializeUI()
@@ -302,13 +303,13 @@ namespace SGU_C__User
             {
                 Label userLabel = new Label
                 {
-                    Text = $"Xin chào, {nguoiDung.Email}", 
+                    Text = $"Xin chào, {nguoiDung.Email}",
                     Font = new Font("Arial", 10, FontStyle.Regular),
                     Size = new Size(panel1.Width, 30),
                     Location = new Point(10, 10),
                     TextAlign = ContentAlignment.MiddleLeft
                 };
-                panel1.Controls.Add(userLabel); 
+                panel1.Controls.Add(userLabel);
             }
         }
 
@@ -396,6 +397,13 @@ namespace SGU_C__User
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                 e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            QuanLyTaiKhoan qltkForm = new QuanLyTaiKhoan();
+            qltkForm.Show(); 
+            this.Hide(); 
         }
     }
 }

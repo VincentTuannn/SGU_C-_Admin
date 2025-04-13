@@ -17,10 +17,11 @@ namespace SGU_C__User.DTO
         public string GioiTinh { get; set; }
         public string SoDienThoai { get; set; }
         public string TrangThai { get; set; }
-
+        //
+        public int MaQuyenThuoc { get; set; }
         public NguoiDungDTO() { }
 
-        public NguoiDungDTO(int maNguoiDung, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string gioiTinh, string soDienThoai, string trangThai)
+        public NguoiDungDTO(int maNguoiDung, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string gioiTinh, string soDienThoai, string trangThai, int maQuyenThuoc)
         {
             MaNguoiDung = maNguoiDung;
             Email = email;
@@ -31,6 +32,7 @@ namespace SGU_C__User.DTO
             GioiTinh = gioiTinh;
             SoDienThoai = soDienThoai;
             TrangThai = trangThai;
+            MaQuyenThuoc = maQuyenThuoc;
         }
     }
 }
