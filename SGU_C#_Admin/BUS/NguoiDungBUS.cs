@@ -18,6 +18,30 @@ namespace SGU_C__User.BUS
             return nguoiDungDAO.GetAllNguoiDung();
         }
 
+        public List<NguoiDungDTO> GetAllNguoiDungByName(string hoVaTen)
+        {
+            try
+            {
+                return nguoiDungDAO.GetAllNguoiDungByName(hoVaTen);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm người dùng theo tên: " + ex.Message);
+            }
+        }
+
+        public List<NguoiDungDTO> GetAllNguoiDungByID(int maNguoiDung)
+        {
+            try
+            {
+                return nguoiDungDAO.GetAllNguoiDungByID(maNguoiDung);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm người dùng theo ID: " + ex.Message);
+            }
+        }
+
         public void AddNguoiDung(NguoiDungDTO nguoiDung)
         {
             // Kiểm tra logic nghiệp vụ trước khi thêm
