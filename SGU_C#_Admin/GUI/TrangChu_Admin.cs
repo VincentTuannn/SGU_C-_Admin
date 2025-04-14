@@ -128,7 +128,9 @@ namespace SGU_C__User
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            QLPhong roomManagementForm = new QLPhong();
+            roomManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)

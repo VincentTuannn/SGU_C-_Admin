@@ -39,6 +39,62 @@ namespace SGU_C__User.DAO
             return phongList;
         }
 
+        public List<PhongDTO> GetAllPhongByName(string tenPhong)
+        {
+            List<PhongDTO> danhSach = new List<PhongDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaPhong, TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon FROM Phong WHERE TenPhong LIKE @TenPhong";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TenPhong", "%" + tenPhong + "%");
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PhongDTO phong = new PhongDTO
+                    {
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        TenPhong = reader["TenPhong"].ToString(),
+                        LoaiPhong = reader["LoaiPhong"].ToString(),
+                        SucChua = Convert.ToInt32(reader["SucChua"]),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        GiaMuon = Convert.ToInt32(reader["GiaMuon"])
+                    };
+                    danhSach.Add(phong);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<PhongDTO> GetAllPhongByID(int maPhong)
+        {
+            List<PhongDTO> danhSach = new List<PhongDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaPhong, TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon FROM Phong WHERE MaPhong = @MaPhong";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaPhong", maPhong);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PhongDTO phong = new PhongDTO
+                    {
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        TenPhong = reader["TenPhong"].ToString(),
+                        LoaiPhong = reader["LoaiPhong"].ToString(),
+                        SucChua = Convert.ToInt32(reader["SucChua"]),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        GiaMuon = Convert.ToInt32(reader["GiaMuon"])
+                    };
+                    danhSach.Add(phong);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         public void AddPhong(PhongDTO phong)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
