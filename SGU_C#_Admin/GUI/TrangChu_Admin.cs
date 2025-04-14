@@ -10,6 +10,7 @@ namespace SGU_C__User
         private Label numberLabelDatPhong;
         private ThietBiBUS thietBiBUS = new ThietBiBUS();
         private ViPhamBUS viPhamBUS = new ViPhamBUS();
+        private PhongBUS phongBUS = new PhongBUS();
         public TrangChu_Admin()
         {
             InitializeComponent();
@@ -91,7 +92,7 @@ namespace SGU_C__User
 
             CountSoLuong();
             CountViPham();
-
+            CountPhongMuon();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -149,6 +150,20 @@ namespace SGU_C__User
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 numberLabelThietBi.Text = "0";
+            }
+        }
+
+        private void CountPhongMuon()
+        {
+            try
+            {
+                int roomCount = phongBUS.CountPhongMuon();
+                numberLabelDatPhong.Text = roomCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numberLabelDatPhong.Text = "0";
             }
         }
 

@@ -57,5 +57,19 @@ namespace SGU_C__User.BUS
         {
             phongDAO.DeletePhong(maPhong);
         }
+
+        public int CountPhongMuon()
+        {
+            try
+            {
+                int count = phongDAO.CountPhongMuon();
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy tổng số phòng mượn: " + ex.Message);
+            }
+        }
+
     }
 }

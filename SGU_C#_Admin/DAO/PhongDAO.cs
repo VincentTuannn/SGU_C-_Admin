@@ -88,5 +88,26 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public int CountPhongMuon()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT COUNT(*) FROM phong";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();
+                    conn.Close();
+                    return count;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy tổng số phòng đã mượn từ cơ sở dữ liệu: " + ex.Message);
+            }
+        }
+
     }
 }
