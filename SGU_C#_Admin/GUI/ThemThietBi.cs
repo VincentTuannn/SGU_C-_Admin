@@ -88,18 +88,7 @@ namespace SGU_C__User.GUI
             this.Close();
         }
 
-        private void ClearInputs()
-        {
-            textBox1.Clear();
-            textBox2.Clear();
-            comboBox1.SelectedIndex = -1;
-            textBox3.Clear();
-        }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void ThemThietBi_Load(object sender, EventArgs e)
         {

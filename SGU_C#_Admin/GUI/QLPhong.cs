@@ -87,7 +87,72 @@ namespace SGU_C__User.GUI
 
         private void btn_fix_Click(object sender, EventArgs e)
         {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maPhong = Convert.ToInt32(row.Cells["MaPhong"].Value);
+                string tenPhong = row.Cells["TenPhong"].Value.ToString();
+                string loaiPhong = row.Cells["LoaiPhong"].Value.ToString();
+                int sucChua = Convert.ToInt32(row.Cells["SucChua"].Value);
+                string trangThai = row.Cells["TrangThai"].Value.ToString();
+                int giaMuon = Convert.ToInt32(row.Cells["GiaMuon"].Value);
 
+                // Mở form sửa phòng với dữ liệu đã chọn
+                SuaPhong formSua = new SuaPhong(maPhong, tenPhong, loaiPhong, sucChua, trangThai, giaMuon);
+                this.Hide();
+                if (formSua.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataToGridView(); // Tải lại dữ liệu sau khi sửa
+                    this.Show(); // Hiển thị lại form hiện tại
+                }
+                else
+                {
+                    this.Show(); // Hiển thị lại form nếu người dùng hủy
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một phòng để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maPhong = Convert.ToInt32(row.Cells["MaPhong"].Value);
+                string tenPhong = row.Cells["TenPhong"].Value.ToString();
+
+                // Xác nhận trước khi xóa
+                DialogResult result = MessageBox.Show($"Bạn có chắc muốn xóa phòng '{tenPhong}' không?",
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        phongBUS.DeletePhong(maPhong); // Gọi phương thức xóa từ PhongBUS
+                        LoadDataToGridView(); // Tải lại dữ liệu sau khi xóa
+                        MessageBox.Show("Xóa phòng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi xóa phòng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một phòng để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ThemPhong AddRoom = new ThemPhong();
+            AddRoom.Show(); // Hiển thị form mới
+            this.Hide();
         }
     }
 }
