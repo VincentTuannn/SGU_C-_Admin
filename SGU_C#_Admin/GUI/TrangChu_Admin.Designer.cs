@@ -33,6 +33,7 @@ namespace SGU_C__User
             button2 = new Button();
             label1 = new Label();
             panel2 = new Panel();
+            button10 = new Button();
             button1 = new Button();
             button7 = new Button();
             button6 = new Button();
@@ -47,7 +48,6 @@ namespace SGU_C__User
             button8 = new Button();
             panel4 = new Panel();
             label3 = new Label();
-            button10 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -105,6 +105,18 @@ namespace SGU_C__User
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
+            // button10
+            // 
+            button10.Cursor = Cursors.Hand;
+            button10.Location = new Point(0, 566);
+            button10.Name = "button10";
+            button10.Size = new Size(228, 51);
+            button10.TabIndex = 6;
+            button10.Text = "Quản lý mượn phòng";
+            button10.TextAlign = ContentAlignment.MiddleLeft;
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
             // button1
             // 
             button1.Cursor = Cursors.Hand;
@@ -115,6 +127,7 @@ namespace SGU_C__User
             button1.Text = "Quản lý mượn thiết bị";
             button1.TextAlign = ContentAlignment.MiddleLeft;
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button7
             // 
@@ -256,17 +269,6 @@ namespace SGU_C__User
             label3.Size = new Size(193, 46);
             label3.TabIndex = 5;
             label3.Text = "Dashboard";
-            // 
-            // button10
-            // 
-            button10.Cursor = Cursors.Hand;
-            button10.Location = new Point(0, 566);
-            button10.Name = "button10";
-            button10.Size = new Size(228, 51);
-            button10.TabIndex = 6;
-            button10.Text = "Quản lý mượn phòng";
-            button10.TextAlign = ContentAlignment.MiddleLeft;
-            button10.UseVisualStyleBackColor = true;
             // 
             // TrangChu_Admin
             // 

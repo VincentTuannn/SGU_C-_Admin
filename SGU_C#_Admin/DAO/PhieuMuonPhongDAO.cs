@@ -40,6 +40,64 @@ namespace SGU_C__User.DAO
             return phieuMuonPhongList;
         }
 
+        public List<PhieuMuonPhongDTO> GetAllPhieuMuonPhongByMaNguoiDung(int maNguoiDung)
+        {
+            List<PhieuMuonPhongDTO> danhSach = new List<PhieuMuonPhongDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaPhieuMuonPhong, MaPhong, MaNguoiDung, ThoiGianMuon, ThoiGianTra, TrangThai, TongTien FROM phieumuonphong WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PhieuMuonPhongDTO phieuMuonPhong = new PhieuMuonPhongDTO
+                    {
+                        MaPhieuMuonPhong = Convert.ToInt32(reader["MaPhieuMuonPhong"]),
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        ThoiGianMuon = Convert.ToDateTime(reader["ThoiGianMuon"]),
+                        ThoiGianTra = Convert.ToDateTime(reader["ThoiGianTra"]),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        TongTien = Convert.ToInt32(reader["TongTien"])
+                    };
+                    danhSach.Add(phieuMuonPhong);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<PhieuMuonPhongDTO> GetAllPhieuMuonPhongByMaPhieuMuonPhong(int maPhieuMuonPhong)
+        {
+            List<PhieuMuonPhongDTO> danhSach = new List<PhieuMuonPhongDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaPhieuMuonPhong, MaPhong, MaNguoiDung, ThoiGianMuon, ThoiGianTra, TrangThai, TongTien FROM phieumuonphong WHERE MaPhieuMuonPhong = @MaPhieuMuonPhong";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaPhieuMuonPhong", maPhieuMuonPhong);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    PhieuMuonPhongDTO phieuMuonPhong = new PhieuMuonPhongDTO
+                    {
+                        MaPhieuMuonPhong = Convert.ToInt32(reader["MaPhieuMuonPhong"]),
+                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        ThoiGianMuon = Convert.ToDateTime(reader["ThoiGianMuon"]),
+                        ThoiGianTra = Convert.ToDateTime(reader["ThoiGianTra"]),
+                        TrangThai = reader["TrangThai"].ToString(),
+                        TongTien = Convert.ToInt32(reader["TongTien"])
+                    };
+                    danhSach.Add(phieuMuonPhong);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         public void AddPhieuMuonPhong(PhieuMuonPhongDTO phieuMuonPhong)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

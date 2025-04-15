@@ -209,5 +209,19 @@ namespace SGU_C__User
             accountManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            QLMuonPhong roomvoucherManagementForm = new QLMuonPhong();
+            roomvoucherManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            QLMuonThietBi devicevoucherManagementForm = new QLMuonThietBi();
+            devicevoucherManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
+        }
     }
 }
