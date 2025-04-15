@@ -223,5 +223,12 @@ namespace SGU_C__User
             devicevoucherManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            QLThanhToan abateManagement = new QLThanhToan();
+            abateManagement.Show();
+            this.Hide();
+        }
     }
 }

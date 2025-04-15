@@ -163,6 +163,7 @@ namespace SGU_C__User
             button5.Text = "Quản lý thanh toán";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button4
             // 

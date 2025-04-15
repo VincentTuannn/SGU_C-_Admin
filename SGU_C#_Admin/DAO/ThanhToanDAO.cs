@@ -37,6 +37,60 @@ namespace SGU_C__User.DAO
             return thanhToanList;
         }
 
+        public List<ThanhToanDTO> GetAllThanhToanByMaPhieuTra(int maPhieuTra)
+        {
+            List<ThanhToanDTO> danhSach = new List<ThanhToanDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaThanhToan, MaPhieuTra, TongTienPhaiTra, NgayThanhToan, HinhThucThanhToan FROM thanhtoan WHERE MaPhieuTra = @MaPhieuTra";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaPhieuTra", maPhieuTra);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ThanhToanDTO thanhToan = new ThanhToanDTO
+                    {
+                        MaThanhToan = Convert.ToInt32(reader["MaThanhToan"]),
+                        MaPhieuTra = Convert.ToInt32(reader["MaPhieuTra"]),
+                        TongTienPhaiTra = Convert.ToInt32(reader["TongTienPhaiTra"]),
+                        NgayThanhToan = Convert.ToDateTime(reader["NgayThanhToan"]),
+                        HinhThucThanhToan = reader["HinhThucThanhToan"].ToString()
+                    };
+                    danhSach.Add(thanhToan);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<ThanhToanDTO> GetAllThanhToanByMaThanhToan(int maThanhToan)
+        {
+            List<ThanhToanDTO> danhSach = new List<ThanhToanDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaThanhToan, MaPhieuTra, TongTienPhaiTra, NgayThanhToan, HinhThucThanhToan FROM thanhtoan WHERE MaThanhToan = @MaThanhToan";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaThanhToan", maThanhToan);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ThanhToanDTO thanhToan = new ThanhToanDTO
+                    {
+                        MaThanhToan = Convert.ToInt32(reader["MaThanhToan"]),
+                        MaPhieuTra = Convert.ToInt32(reader["MaPhieuTra"]),
+                        TongTienPhaiTra = Convert.ToInt32(reader["TongTienPhaiTra"]),
+                        NgayThanhToan = Convert.ToDateTime(reader["NgayThanhToan"]),
+                        HinhThucThanhToan = reader["HinhThucThanhToan"].ToString()
+                    };
+                    danhSach.Add(thanhToan);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         public void AddThanhToan(ThanhToanDTO thanhToan)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
