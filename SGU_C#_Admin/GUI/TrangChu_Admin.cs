@@ -92,6 +92,9 @@ namespace SGU_C__User
             panel6.Controls.Add(headerDatPhong);
             panel6.Controls.Add(numberLabelDatPhong);
 
+            Btn_QLCheckIn.MouseEnter += new EventHandler(Btn_QLCheckIn_MouseEnter);
+            Btn_QLCheckIn.MouseLeave += new EventHandler(Btn_CheckIn_MouseLeave);
+
             CountSoLuong();
             CountViPham();
             CountPhongMuon();
@@ -208,6 +211,18 @@ namespace SGU_C__User
             QLTaiKhoan accountManagementForm = new QLTaiKhoan();
             accountManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
+        }
+
+        private void Btn_QLCheckIn_MouseEnter(object sender, EventArgs e)
+        {
+            Btn_QLCheckIn.BackColor = Color.White;
+            Btn_QLCheckIn.ForeColor = Color.Black;
+        }
+
+        private void Btn_CheckIn_MouseLeave(object sender, EventArgs e)
+        {
+            Btn_QLCheckIn.BackColor = Color.Blue;
+            Btn_QLCheckIn.ForeColor = Color.White;
         }
 
         private void Btn_QLMuonPhong_Click(object sender, EventArgs e)
