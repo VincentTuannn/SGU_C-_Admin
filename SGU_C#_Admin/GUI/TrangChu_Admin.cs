@@ -112,21 +112,21 @@ namespace SGU_C__User
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
             QLThietBi deviceManagementForm = new QLThietBi();
             deviceManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void Btn_QLViPham_Click(object sender, EventArgs e)
         {
             QLViPham violationManagementForm = new QLViPham();
             violationManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void Btn_QLPhongBan_Click(object sender, EventArgs e)
         {
             QLPhong roomManagementForm = new QLPhong();
             roomManagementForm.Show(); // Hiển thị form mới
@@ -203,31 +203,38 @@ namespace SGU_C__User
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_QLTaiKhoan_Click(object sender, EventArgs e)
         {
             QLTaiKhoan accountManagementForm = new QLTaiKhoan();
             accountManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        private void Btn_QLMuonPhong_Click(object sender, EventArgs e)
         {
             QLMuonPhong roomvoucherManagementForm = new QLMuonPhong();
             roomvoucherManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Btn_QLMuonThietBi_Click(object sender, EventArgs e)
         {
             QLMuonThietBi devicevoucherManagementForm = new QLMuonThietBi();
             devicevoucherManagementForm.Show(); // Hiển thị form mới
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void Btn_QLThanhToan_Click(object sender, EventArgs e)
         {
             QLThanhToan abateManagement = new QLThanhToan();
             abateManagement.Show();
+            this.Hide();
+        }
+
+        private void Btn_QLCheckIn_Click(object sender, EventArgs e)
+        {
+            QLCheckIn checkinManagement = new QLCheckIn();
+            checkinManagement.Show();
             this.Hide();
         }
     }

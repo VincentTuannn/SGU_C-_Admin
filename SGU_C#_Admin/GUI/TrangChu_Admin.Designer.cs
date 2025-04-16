@@ -33,19 +33,19 @@ namespace SGU_C__User
             button2 = new Button();
             label1 = new Label();
             panel2 = new Panel();
-            button10 = new Button();
-            button1 = new Button();
-            button7 = new Button();
-            button6 = new Button();
-            button5 = new Button();
-            button4 = new Button();
-            button3 = new Button();
+            Btn_QLMuonPhong = new Button();
+            Btn_QLMuonThietBi = new Button();
+            Btn_QLViPham = new Button();
+            Btn_QLPhongBan = new Button();
+            Btn_QLThanhToan = new Button();
+            Btn_QLThietBi = new Button();
+            Btn_QLTaiKhoan = new Button();
             label2 = new Label();
             panel3 = new Panel();
             panel7 = new Panel();
             panel6 = new Panel();
             panel5 = new Panel();
-            button8 = new Button();
+            Btn_QLCheckIn = new Button();
             panel4 = new Panel();
             label3 = new Label();
             panel1.SuspendLayout();
@@ -91,13 +91,13 @@ namespace SGU_C__User
             // panel2
             // 
             panel2.BackColor = Color.White;
-            panel2.Controls.Add(button10);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(button7);
-            panel2.Controls.Add(button6);
-            panel2.Controls.Add(button5);
-            panel2.Controls.Add(button4);
-            panel2.Controls.Add(button3);
+            panel2.Controls.Add(Btn_QLMuonPhong);
+            panel2.Controls.Add(Btn_QLMuonThietBi);
+            panel2.Controls.Add(Btn_QLViPham);
+            panel2.Controls.Add(Btn_QLPhongBan);
+            panel2.Controls.Add(Btn_QLThanhToan);
+            panel2.Controls.Add(Btn_QLThietBi);
+            panel2.Controls.Add(Btn_QLTaiKhoan);
             panel2.Controls.Add(label2);
             panel2.Location = new Point(33, 123);
             panel2.Name = "panel2";
@@ -105,89 +105,89 @@ namespace SGU_C__User
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
             // 
-            // button10
+            // Btn_QLMuonPhong
             // 
-            button10.Cursor = Cursors.Hand;
-            button10.Location = new Point(0, 566);
-            button10.Name = "button10";
-            button10.Size = new Size(228, 51);
-            button10.TabIndex = 6;
-            button10.Text = "Quản lý mượn phòng";
-            button10.TextAlign = ContentAlignment.MiddleLeft;
-            button10.UseVisualStyleBackColor = true;
-            button10.Click += button10_Click;
+            Btn_QLMuonPhong.Cursor = Cursors.Hand;
+            Btn_QLMuonPhong.Location = new Point(0, 566);
+            Btn_QLMuonPhong.Name = "Btn_QLMuonPhong";
+            Btn_QLMuonPhong.Size = new Size(228, 51);
+            Btn_QLMuonPhong.TabIndex = 6;
+            Btn_QLMuonPhong.Text = "Quản lý mượn phòng";
+            Btn_QLMuonPhong.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLMuonPhong.UseVisualStyleBackColor = true;
+            Btn_QLMuonPhong.Click += Btn_QLMuonPhong_Click;
             // 
-            // button1
+            // Btn_QLMuonThietBi
             // 
-            button1.Cursor = Cursors.Hand;
-            button1.Location = new Point(0, 489);
-            button1.Name = "button1";
-            button1.Size = new Size(228, 51);
-            button1.TabIndex = 5;
-            button1.Text = "Quản lý mượn thiết bị";
-            button1.TextAlign = ContentAlignment.MiddleLeft;
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            Btn_QLMuonThietBi.Cursor = Cursors.Hand;
+            Btn_QLMuonThietBi.Location = new Point(0, 489);
+            Btn_QLMuonThietBi.Name = "Btn_QLMuonThietBi";
+            Btn_QLMuonThietBi.Size = new Size(228, 51);
+            Btn_QLMuonThietBi.TabIndex = 5;
+            Btn_QLMuonThietBi.Text = "Quản lý mượn thiết bị";
+            Btn_QLMuonThietBi.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLMuonThietBi.UseVisualStyleBackColor = true;
+            Btn_QLMuonThietBi.Click += Btn_QLMuonThietBi_Click;
             // 
-            // button7
+            // Btn_QLViPham
             // 
-            button7.Cursor = Cursors.Hand;
-            button7.Location = new Point(0, 408);
-            button7.Name = "button7";
-            button7.Size = new Size(228, 51);
-            button7.TabIndex = 4;
-            button7.Text = "Quản lý vi phạm";
-            button7.TextAlign = ContentAlignment.MiddleLeft;
-            button7.UseVisualStyleBackColor = true;
-            button7.Click += button7_Click;
+            Btn_QLViPham.Cursor = Cursors.Hand;
+            Btn_QLViPham.Location = new Point(0, 408);
+            Btn_QLViPham.Name = "Btn_QLViPham";
+            Btn_QLViPham.Size = new Size(228, 51);
+            Btn_QLViPham.TabIndex = 4;
+            Btn_QLViPham.Text = "Quản lý vi phạm";
+            Btn_QLViPham.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLViPham.UseVisualStyleBackColor = true;
+            Btn_QLViPham.Click += Btn_QLViPham_Click;
             // 
-            // button6
+            // Btn_QLPhongBan
             // 
-            button6.Cursor = Cursors.Hand;
-            button6.Location = new Point(0, 335);
-            button6.Name = "button6";
-            button6.Size = new Size(228, 51);
-            button6.TabIndex = 4;
-            button6.Text = "Quản lý phòng ban";
-            button6.TextAlign = ContentAlignment.MiddleLeft;
-            button6.UseVisualStyleBackColor = true;
-            button6.Click += button6_Click;
+            Btn_QLPhongBan.Cursor = Cursors.Hand;
+            Btn_QLPhongBan.Location = new Point(0, 335);
+            Btn_QLPhongBan.Name = "Btn_QLPhongBan";
+            Btn_QLPhongBan.Size = new Size(228, 51);
+            Btn_QLPhongBan.TabIndex = 4;
+            Btn_QLPhongBan.Text = "Quản lý phòng ban";
+            Btn_QLPhongBan.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLPhongBan.UseVisualStyleBackColor = true;
+            Btn_QLPhongBan.Click += Btn_QLPhongBan_Click;
             // 
-            // button5
+            // Btn_QLThanhToan
             // 
-            button5.Cursor = Cursors.Hand;
-            button5.Location = new Point(0, 260);
-            button5.Name = "button5";
-            button5.Size = new Size(228, 51);
-            button5.TabIndex = 3;
-            button5.Text = "Quản lý thanh toán";
-            button5.TextAlign = ContentAlignment.MiddleLeft;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            Btn_QLThanhToan.Cursor = Cursors.Hand;
+            Btn_QLThanhToan.Location = new Point(0, 260);
+            Btn_QLThanhToan.Name = "Btn_QLThanhToan";
+            Btn_QLThanhToan.Size = new Size(228, 51);
+            Btn_QLThanhToan.TabIndex = 3;
+            Btn_QLThanhToan.Text = "Quản lý thanh toán";
+            Btn_QLThanhToan.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLThanhToan.UseVisualStyleBackColor = true;
+            Btn_QLThanhToan.Click += Btn_QLThanhToan_Click;
             // 
-            // button4
+            // Btn_QLThietBi
             // 
-            button4.Cursor = Cursors.Hand;
-            button4.Location = new Point(3, 186);
-            button4.Name = "button4";
-            button4.Size = new Size(228, 51);
-            button4.TabIndex = 2;
-            button4.Text = "Quản lý thiết bị";
-            button4.TextAlign = ContentAlignment.MiddleLeft;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            Btn_QLThietBi.Cursor = Cursors.Hand;
+            Btn_QLThietBi.Location = new Point(3, 186);
+            Btn_QLThietBi.Name = "Btn_QLThietBi";
+            Btn_QLThietBi.Size = new Size(228, 51);
+            Btn_QLThietBi.TabIndex = 2;
+            Btn_QLThietBi.Text = "Quản lý thiết bị";
+            Btn_QLThietBi.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLThietBi.UseVisualStyleBackColor = true;
+            Btn_QLThietBi.Click += Btn_QLThietBi_Click;
             // 
-            // button3
+            // Btn_QLTaiKhoan
             // 
-            button3.Cursor = Cursors.Hand;
-            button3.Location = new Point(3, 112);
-            button3.Name = "button3";
-            button3.Size = new Size(228, 51);
-            button3.TabIndex = 1;
-            button3.Text = "Quản lý tài khoản";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            Btn_QLTaiKhoan.Cursor = Cursors.Hand;
+            Btn_QLTaiKhoan.Location = new Point(3, 112);
+            Btn_QLTaiKhoan.Name = "Btn_QLTaiKhoan";
+            Btn_QLTaiKhoan.Size = new Size(228, 51);
+            Btn_QLTaiKhoan.TabIndex = 1;
+            Btn_QLTaiKhoan.Text = "Quản lý tài khoản";
+            Btn_QLTaiKhoan.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_QLTaiKhoan.UseVisualStyleBackColor = true;
+            Btn_QLTaiKhoan.Click += Btn_QLTaiKhoan_Click;
             // 
             // label2
             // 
@@ -233,24 +233,25 @@ namespace SGU_C__User
             // panel5
             // 
             panel5.BackColor = Color.FromArgb(255, 255, 192);
-            panel5.Controls.Add(button8);
+            panel5.Controls.Add(Btn_QLCheckIn);
             panel5.Location = new Point(39, 324);
             panel5.Name = "panel5";
             panel5.Size = new Size(310, 146);
             panel5.TabIndex = 7;
             panel5.Paint += panel5_Paint;
             // 
-            // button8
+            // Btn_QLCheckIn
             // 
-            button8.BackColor = Color.Blue;
-            button8.Cursor = Cursors.Hand;
-            button8.ForeColor = Color.White;
-            button8.Location = new Point(70, 59);
-            button8.Name = "button8";
-            button8.Size = new Size(149, 46);
-            button8.TabIndex = 3;
-            button8.Text = "Xem chi tiết";
-            button8.UseVisualStyleBackColor = false;
+            Btn_QLCheckIn.BackColor = Color.Blue;
+            Btn_QLCheckIn.Cursor = Cursors.Hand;
+            Btn_QLCheckIn.ForeColor = Color.White;
+            Btn_QLCheckIn.Location = new Point(70, 59);
+            Btn_QLCheckIn.Name = "Btn_QLCheckIn";
+            Btn_QLCheckIn.Size = new Size(149, 46);
+            Btn_QLCheckIn.TabIndex = 3;
+            Btn_QLCheckIn.Text = "Xem chi tiết";
+            Btn_QLCheckIn.UseVisualStyleBackColor = false;
+            Btn_QLCheckIn.Click += Btn_QLCheckIn_Click;
             // 
             // panel4
             // 
@@ -330,20 +331,20 @@ namespace SGU_C__User
         private Button button2;
         private Panel panel2;
         private Label label2;
-        private Button button7;
-        private Button button6;
-        private Button button5;
-        private Button button4;
-        private Button button3;
+        private Button Btn_QLViPham;
+        private Button Btn_QLPhongBan;
+        private Button Btn_QLThanhToan;
+        private Button Btn_QLThietBi;
+        private Button Btn_QLTaiKhoan;
         private Panel panel3;
         private Panel panel7;
         private Panel panel6;
         private Panel panel5;
         private Panel panel4;
         private Label label3;
-        private Button button8;
+        private Button Btn_QLCheckIn;
         private Button button9;
-        private Button button1;
-        private Button button10;
+        private Button Btn_QLMuonThietBi;
+        private Button Btn_QLMuonPhong;
     }
 }
