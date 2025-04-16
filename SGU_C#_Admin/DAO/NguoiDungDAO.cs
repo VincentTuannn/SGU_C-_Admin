@@ -42,6 +42,68 @@ namespace SGU_C__User.DAO
             return nguoiDungList;
         }
 
+        public List<NguoiDungDTO> GetAllNguoiDungByName(string hoVaTen)
+        {
+            List<NguoiDungDTO> danhSach = new List<NguoiDungDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaNguoiDung, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE HoVaTen LIKE @HoVaTen";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@HoVaTen", "%" + hoVaTen + "%");
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    NguoiDungDTO nguoiDung = new NguoiDungDTO
+                    {
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        Email = reader["Email"].ToString(),
+                        MatKhau = reader["MatKhau"].ToString(),
+                        HoVaTen = reader["HoVaTen"].ToString(),
+                        NgaySinh = Convert.ToDateTime(reader["NgaySinh"]),
+                        DiaChi = reader["DiaChi"].ToString(),
+                        GioiTinh = reader["GioiTinh"].ToString(),
+                        SoDienThoai = reader["SoDienThoai"].ToString(),
+                        TrangThai = reader["TrangThai"].ToString()
+                    };
+                    danhSach.Add(nguoiDung);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
+        public List<NguoiDungDTO> GetAllNguoiDungByID(int maNguoiDung)
+        {
+            List<NguoiDungDTO> danhSach = new List<NguoiDungDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaNguoiDung, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    NguoiDungDTO nguoiDung = new NguoiDungDTO
+                    {
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        Email = reader["Email"].ToString(),
+                        MatKhau = reader["MatKhau"].ToString(),
+                        HoVaTen = reader["HoVaTen"].ToString(),
+                        NgaySinh = Convert.ToDateTime(reader["NgaySinh"]),
+                        DiaChi = reader["DiaChi"].ToString(),
+                        GioiTinh = reader["GioiTinh"].ToString(),
+                        SoDienThoai = reader["SoDienThoai"].ToString(),
+                        TrangThai = reader["TrangThai"].ToString()
+                    };
+                    danhSach.Add(nguoiDung);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
         public void AddNguoiDung(NguoiDungDTO nguoiDung)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

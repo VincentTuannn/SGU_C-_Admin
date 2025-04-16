@@ -17,6 +17,30 @@ namespace SGU_C__User.BUS
             return thanhToanDAO.GetAllThanhToan();
         }
 
+        public List<ThanhToanDTO> GetAllThanhToanByMaPhieuTra(int maPhieuTra)
+        {
+            try
+            {
+                return thanhToanDAO.GetAllThanhToanByMaPhieuTra(maPhieuTra);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm phòng theo mã người dùng: " + ex.Message);
+            }
+        }
+
+        public List<ThanhToanDTO> GetAllThanhToanByMaThanhToan(int maThanhToan)
+        {
+            try
+            {
+                return thanhToanDAO.GetAllThanhToanByMaThanhToan(maThanhToan);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm người dùng theo ID: " + ex.Message);
+            }
+        }
+
         public void AddThanhToan(ThanhToanDTO thanhToan)
         {
             // Kiểm tra logic nghiệp vụ trước khi thêm

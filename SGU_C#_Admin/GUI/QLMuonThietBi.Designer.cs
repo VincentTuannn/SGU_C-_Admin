@@ -1,6 +1,6 @@
-﻿namespace SGU_C__User
+﻿namespace SGU_C__User.GUI
 {
-    partial class QLViPham
+    partial class QLMuonThietBi
     {
         /// <summary>
         /// Required designer variable.
@@ -29,15 +29,13 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
-            btn_delete = new Button();
-            btn_fix = new Button();
             dataGridView1 = new DataGridView();
             Input_Search = new TextBox();
             label2 = new Label();
             button2 = new Button();
             label1 = new Label();
+            btn_back = new Button();
             panel1 = new Panel();
-            button8 = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -45,35 +43,13 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(btn_delete);
-            panel2.Controls.Add(btn_fix);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(60, 118);
+            panel2.Location = new Point(59, 115);
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 359);
-            panel2.TabIndex = 4;
-            // 
-            // btn_delete
-            // 
-            btn_delete.Location = new Point(983, 248);
-            btn_delete.Name = "btn_delete";
-            btn_delete.Size = new Size(83, 32);
-            btn_delete.TabIndex = 7;
-            btn_delete.Text = "Xóa";
-            btn_delete.UseVisualStyleBackColor = true;
-            btn_delete.Click += btn_delete_Click;
-            // 
-            // btn_fix
-            // 
-            btn_fix.Location = new Point(983, 135);
-            btn_fix.Name = "btn_fix";
-            btn_fix.Size = new Size(83, 32);
-            btn_fix.TabIndex = 6;
-            btn_fix.Text = "Sửa";
-            btn_fix.UseVisualStyleBackColor = true;
-            btn_fix.Click += btn_fix_Click;
+            panel2.TabIndex = 10;
             // 
             // dataGridView1
             // 
@@ -81,7 +57,7 @@
             dataGridView1.Location = new Point(134, 114);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(803, 193);
+            dataGridView1.Size = new Size(825, 193);
             dataGridView1.TabIndex = 2;
             // 
             // Input_Search
@@ -99,9 +75,9 @@
             label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(30, 24);
             label2.Name = "label2";
-            label2.Size = new Size(188, 31);
+            label2.Size = new Size(250, 31);
             label2.TabIndex = 0;
-            label2.Text = "Quản lý vi phạm";
+            label2.Text = "Quản lý mượn thiết bị";
             // 
             // button2
             // 
@@ -125,38 +101,38 @@
             label1.TabIndex = 0;
             label1.Text = "Smart Library Hub-Admin";
             // 
+            // btn_back
+            // 
+            btn_back.Location = new Point(59, 68);
+            btn_back.Name = "btn_back";
+            btn_back.Size = new Size(83, 32);
+            btn_back.TabIndex = 11;
+            btn_back.Text = "Quay lại";
+            btn_back.UseVisualStyleBackColor = true;
+            btn_back.Click += btn_back_Click;
+            // 
             // panel1
             // 
             panel1.BackColor = Color.Blue;
             panel1.Controls.Add(button2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(2, 3);
+            panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1161, 62);
-            panel1.TabIndex = 3;
+            panel1.TabIndex = 9;
             // 
-            // button8
-            // 
-            button8.Location = new Point(60, 71);
-            button8.Name = "button8";
-            button8.Size = new Size(83, 32);
-            button8.TabIndex = 5;
-            button8.Text = "Quay lại";
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click;
-            // 
-            // QLViPham
+            // QLMuonThietBi
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1166, 512);
-            Controls.Add(button8);
+            ClientSize = new Size(1162, 515);
             Controls.Add(panel2);
+            Controls.Add(btn_back);
             Controls.Add(panel1);
-            Name = "QLViPham";
+            Name = "QLMuonThietBi";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Quản lý vi phạm";
-            Load += QLViPham_Load;
+            Text = "QLMuonThietBi";
+            Load += QLMuonThietBi_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -166,16 +142,14 @@
         }
 
         #endregion
+
         private Panel panel2;
-        private Button button3;
+        private DataGridView dataGridView1;
         private TextBox Input_Search;
         private Label label2;
         private Button button2;
         private Label label1;
+        private Button btn_back;
         private Panel panel1;
-        private Button button8;
-        private DataGridView dataGridView1;
-        private Button btn_delete;
-        private Button btn_fix;
     }
 }

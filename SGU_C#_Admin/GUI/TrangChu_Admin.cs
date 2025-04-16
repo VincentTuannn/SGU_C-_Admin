@@ -1,5 +1,6 @@
 ﻿using SGU_C__User.BUS;
 using SGU_C__User.DAO;
+using SGU_C__User.GUI;
 
 namespace SGU_C__User
 {
@@ -10,6 +11,8 @@ namespace SGU_C__User
         private Label numberLabelDatPhong;
         private ThietBiBUS thietBiBUS = new ThietBiBUS();
         private ViPhamBUS viPhamBUS = new ViPhamBUS();
+        private PhongBUS phongBUS = new PhongBUS();
+        private NguoiDungBUS nguoiDungBUS = new NguoiDungBUS();
         public TrangChu_Admin()
         {
             InitializeComponent();
@@ -91,7 +94,7 @@ namespace SGU_C__User
 
             CountSoLuong();
             CountViPham();
-
+            CountPhongMuon();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -125,7 +128,9 @@ namespace SGU_C__User
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            QLPhong roomManagementForm = new QLPhong();
+            roomManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
         }
 
         private void panel4_Paint(object sender, PaintEventArgs e)
@@ -149,6 +154,20 @@ namespace SGU_C__User
             {
                 MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 numberLabelThietBi.Text = "0";
+            }
+        }
+
+        private void CountPhongMuon()
+        {
+            try
+            {
+                int roomCount = phongBUS.CountPhongMuon();
+                numberLabelDatPhong.Text = roomCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numberLabelDatPhong.Text = "0";
             }
         }
 
@@ -182,6 +201,34 @@ namespace SGU_C__User
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
                 e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            QLTaiKhoan accountManagementForm = new QLTaiKhoan();
+            accountManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            QLMuonPhong roomvoucherManagementForm = new QLMuonPhong();
+            roomvoucherManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            QLMuonThietBi devicevoucherManagementForm = new QLMuonThietBi();
+            devicevoucherManagementForm.Show(); // Hiển thị form mới
+            this.Hide(); // Ẩn form hiện tại
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            QLThanhToan abateManagement = new QLThanhToan();
+            abateManagement.Show();
+            this.Hide();
         }
     }
 }

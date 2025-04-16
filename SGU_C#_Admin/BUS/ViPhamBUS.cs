@@ -72,15 +72,15 @@ namespace SGU_C__User.BUS
             // Kiểm tra dữ liệu trước khi cập nhật
             if (viPham.MaViPham <= 0)
             {
-                throw new ArgumentException("Mã vi phạm phải lớn hơn 0.");
+                throw new ArgumentException("Mã vi phạm phải lớn hơn 0!");
             }
             if (viPham.MaNguoiDung <= 0 || viPham.MaThietBi <= 0 || viPham.MaPhong <= 0)
             {
-                throw new ArgumentException("Mã người dùng, thiết bị và phòng phải lớn hơn 0.");
+                throw new ArgumentException("Mã người dùng, thiết bị và phòng phải lớn hơn 0!");
             }
             if (string.IsNullOrEmpty(viPham.LoaiViPham) || !IsValidLoaiViPham(viPham.LoaiViPham))
             {
-                throw new ArgumentException("Loại vi phạm không hợp lệ.");
+                throw new ArgumentException("Loại vi phạm không hợp lệ!");
             }
             return viPhamDAO.UpdateViPham(viPham);
         }

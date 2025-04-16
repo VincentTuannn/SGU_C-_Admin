@@ -1,4 +1,5 @@
 ﻿using SGU_C__User.BUS;
+using SGU_C__User.GUI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,9 @@ namespace SGU_C__User
         public QLViPham()
         {
             InitializeComponent();
-            LoadDataToGridView();
+            LoadDataToGridView(); //Tải lên bảng thiết bị
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; //Chọn 1 thiết bị
+            dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -83,6 +86,64 @@ namespace SGU_C__User
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
+
+        private void btn_fix_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maViPham = Convert.ToInt32(row.Cells["MaViPham"].Value);
+                int maNguoiDung = Convert.ToInt32(row.Cells["MaNguoiDung"].Value);
+                int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                int maPhong = Convert.ToInt32(row.Cells["MaPhong"].Value);
+                string loaiViPham = row.Cells["LoaiViPham"].Value.ToString();
+                string noiDungViPham = row.Cells["NoiDungViPham"].Value.ToString();
+
+                // Mở form sửa vi phạm với dữ liệu đã chọn
+                SuaViPham formSua = new SuaViPham(maViPham, maNguoiDung, maThietBi, maPhong, loaiViPham, noiDungViPham);
+                this.Hide();
+                if (formSua.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDataToGridView(); // Tải lại dữ liệu sau khi sửa
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một vi phạm để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void btn_delete_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maViPham = Convert.ToInt32(row.Cells["MaViPham"].Value);
+                string loaiViPham = row.Cells["LoaiViPham"].Value.ToString();
+
+                // Xác nhận trước khi xóa
+                DialogResult result = MessageBox.Show($"Bạn có chắc muốn xóa vi phạm '{loaiViPham}' không?",
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        viPhamBUS.DeleteViPham(maViPham);
+                        LoadDataToGridView(); // Tải lại dữ liệu sau khi xóa
+                        MessageBox.Show("Xóa vi phạm thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi xóa vi phạm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một vi phạm để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }

@@ -17,6 +17,30 @@ namespace SGU_C__User.BUS
             return phongDAO.GetAllPhong();
         }
 
+        public List<PhongDTO> GetAllPhongByName(string tenPhong)
+        {
+            try
+            {
+                return phongDAO.GetAllPhongByName(tenPhong);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm phòng theo tên: " + ex.Message);
+            }
+        }
+
+        public List<PhongDTO> GetAllPhongByID(int maPhong)
+        {
+            try
+            {
+                return phongDAO.GetAllPhongByID(maPhong);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm thiết bị theo ID: " + ex.Message);
+            }
+        }
+
         public void AddPhong(PhongDTO phong)
         {
             // Kiểm tra logic nghiệp vụ trước khi thêm
@@ -57,5 +81,19 @@ namespace SGU_C__User.BUS
         {
             phongDAO.DeletePhong(maPhong);
         }
+
+        public int CountPhongMuon()
+        {
+            try
+            {
+                int count = phongDAO.CountPhongMuon();
+                return count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy tổng số phòng mượn: " + ex.Message);
+            }
+        }
+
     }
 }

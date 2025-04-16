@@ -38,6 +38,8 @@ Dự án này là một ứng dụng quản lý thư quán, tập trung vào ch�
    
    git clone https://github.com/VincentTuannn/SGU_C-_Admin.git
 
+2. **Tải các ứng dụng cần thiết:**
+
    Tải SQL Server 2022 Express
    
    https://www.microsoft.com/en-us/sql-server/sql-server-downloads?msockid=0f2f2017e2a5675637463505e3b766c3

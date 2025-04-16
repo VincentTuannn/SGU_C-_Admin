@@ -33,6 +33,8 @@ namespace SGU_C__User
             button2 = new Button();
             label1 = new Label();
             panel2 = new Panel();
+            button10 = new Button();
+            button1 = new Button();
             button7 = new Button();
             button6 = new Button();
             button5 = new Button();
@@ -89,6 +91,8 @@ namespace SGU_C__User
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(button10);
+            panel2.Controls.Add(button1);
             panel2.Controls.Add(button7);
             panel2.Controls.Add(button6);
             panel2.Controls.Add(button5);
@@ -97,9 +101,33 @@ namespace SGU_C__User
             panel2.Controls.Add(label2);
             panel2.Location = new Point(33, 123);
             panel2.Name = "panel2";
-            panel2.Size = new Size(234, 497);
+            panel2.Size = new Size(234, 620);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // button10
+            // 
+            button10.Cursor = Cursors.Hand;
+            button10.Location = new Point(0, 566);
+            button10.Name = "button10";
+            button10.Size = new Size(228, 51);
+            button10.TabIndex = 6;
+            button10.Text = "Quản lý mượn phòng";
+            button10.TextAlign = ContentAlignment.MiddleLeft;
+            button10.UseVisualStyleBackColor = true;
+            button10.Click += button10_Click;
+            // 
+            // button1
+            // 
+            button1.Cursor = Cursors.Hand;
+            button1.Location = new Point(0, 489);
+            button1.Name = "button1";
+            button1.Size = new Size(228, 51);
+            button1.TabIndex = 5;
+            button1.Text = "Quản lý mượn thiết bị";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button7
             // 
@@ -135,6 +163,7 @@ namespace SGU_C__User
             button5.Text = "Quản lý thanh toán";
             button5.TextAlign = ContentAlignment.MiddleLeft;
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // button4
             // 
@@ -158,6 +187,7 @@ namespace SGU_C__User
             button3.Text = "Quản lý tài khoản";
             button3.TextAlign = ContentAlignment.MiddleLeft;
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // label2
             // 
@@ -313,5 +343,7 @@ namespace SGU_C__User
         private Label label3;
         private Button button8;
         private Button button9;
+        private Button button1;
+        private Button button10;
     }
 }

@@ -17,6 +17,30 @@ namespace SGU_C__User.BUS
             return phieuMuonThietBiDAO.GetAllPhieuMuonThietBi();
         }
 
+        public List<PhieuMuonThietBiDTO> GetAllPhieuMuonThietBiByMaNguoiDung(int maNguoiDung)
+        {
+            try
+            {
+                return phieuMuonThietBiDAO.GetAllPhieuMuonThietBiByMaNguoiDung(maNguoiDung);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm phòng theo mã người dùng: " + ex.Message);
+            }
+        }
+
+        public List<PhieuMuonThietBiDTO> GetAllPhieuMuonThietBiByMaPhieuMuonThietBi(int maPhieuMuonThietBi)
+        {
+            try
+            {
+                return phieuMuonThietBiDAO.GetAllPhieuMuonThietBiByMaPhieuMuonThietBi(maPhieuMuonThietBi);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm người dùng theo ID: " + ex.Message);
+            }
+        }
+
         public void AddPhieuMuonThietBi(PhieuMuonThietBiDTO phieuMuonThietBi)
         {
             // Kiểm tra logic nghiệp vụ trước khi thêm
