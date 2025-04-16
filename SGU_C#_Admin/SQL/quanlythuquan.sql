@@ -31,7 +31,8 @@ CREATE TABLE [dbo].[nguoidung] (
     [TrangThai] VARCHAR(20) NOT NULL CHECK ([TrangThai] IN ('Hoạt động', 'Không hoạt động')) DEFAULT 'Hoạt động',
     CONSTRAINT [PK_nguoidung] PRIMARY KEY ([MaNguoiDung])
 );
-
+ALTER TABLE dbo.nguoidung
+DROP CONSTRAINT [CK__nguoidung__GioiT__...];
 -- Table: phieumuonphong
 CREATE TABLE [dbo].[phieumuonphong] (
     [MaPhieuMuonPhong] INT NOT NULL IDENTITY(1,1),

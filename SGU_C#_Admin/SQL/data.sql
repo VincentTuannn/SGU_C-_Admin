@@ -1,18 +1,5 @@
 -- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[thietbi] (bảng thiết bị)
-INSERT INTO [dbo].[thietbi] (
-    [TênThiếtBị],
-    [LoạiThiếtBị],
-    [TrạngThái],
-    [GiáMượn]
-) VALUES 
-    ('Máy chiếu Epson EB-X05', 'Máy chiếu', 'Có sẵn', 50000),
-    ('Laptop Dell XPS 13', 'Máy tính xách tay', 'Có sẵn', 100000),
-    ('Máy in HP LaserJet Pro', 'Máy in', 'Đang sử dụng', 30000),
-    ('Loa Bluetooth JBL', 'Thiết bị âm thanh', 'Có sẵn', 20000),
-    ('Máy ảnh Canon EOS 80D', 'Máy ảnh', 'Bảo trì', 80000),
-    ('Bảng trắng thông minh', 'Thiết bị trình chiếu', 'Có sẵn', 60000),
-    ('Tai nghe Sony WH-1000XM4', 'Thiết bị âm thanh', 'Có sẵn', 25000),
-    ('Máy scan Brother ADS-2200', 'Máy scan', 'Có sẵn', 35000);
+
   
   
 -- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[nguoidung] (bảng người dùng)
@@ -49,7 +36,43 @@ VALUES
 ('lethidieu@gmail.com', 'LTDieu_99!Pass2024', 'Lê Thị Diệu', '1999-07-09', 'Nghệ An', 'Nữ', '096776729', 'Hoạt động'),
 ('dangtrongkhoa@gmail.com', 'DTKhoa!SecurePass#', 'Đặng Trọng Khoa', '2001-05-05', 'Thái Bình', 'Nam', '093998730', 'Không hoạt động');
 
+INSERT INTO [dbo].[thietbi] (
+    [TênThiếtBị],
+    [LoạiThiếtBị],
+    [TrạngThái],
+    [GiáMượn]
+) VALUES 
+    ('Máy chiếu Epson EB-X05', 'Máy chiếu', 'Có sẵn', 50000),
+    ('Laptop Dell XPS 13', 'Máy tính xách tay', 'Có sẵn', 100000),
+    ('Máy in HP LaserJet Pro', 'Máy in', 'Đang sử dụng', 30000),
+    ('Loa Bluetooth JBL', 'Thiết bị âm thanh', 'Có sẵn', 20000),
+    ('Máy ảnh Canon EOS 80D', 'Máy ảnh', 'Bảo trì', 80000),
+    ('Bảng trắng thông minh', 'Thiết bị trình chiếu', 'Có sẵn', 60000),
+    ('Tai nghe Sony WH-1000XM4', 'Thiết bị âm thanh', 'Có sẵn', 25000),
+    ('Máy scan Brother ADS-2200', 'Máy scan', 'Có sẵn', 35000);
 
+    -- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[phong] (bảng phòng)
+INSERT INTO phong (TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon) VALUES
+('Phòng Hội thảo 1', 'Hội thảo', 50, 'Trống', 500000),
+('Phòng Hội thảo 2', 'Hội thảo', 80, 'Đang mượn', 800000),
+('Phòng Họp 1', 'Họp', 10, 'Trống', 150000),
+('Phòng Họp 2', 'Họp', 15, 'Bảo trì', 200000),
+('Phòng Đa năng 1', 'Đa năng', 30, 'Trống', 300000),
+('Phòng Đa năng 2', 'Đa năng', 40, 'Đang mượn', 400000),
+('Phòng Làm việc nhóm 1', 'Làm việc nhóm', 6, 'Trống', 100000),
+('Phòng Làm việc nhóm 2', 'Làm việc nhóm', 8, 'Đang mượn', 120000),
+('Phòng Thuyết trình 1', 'Thuyết trình', 20, 'Trống', 250000),
+('Phòng Thuyết trình 2', 'Thuyết trình', 25, 'Bảo trì', 280000),
+('Phòng Hội thảo 3', 'Hội thảo', 60, 'Trống', 600000),
+('Phòng Họp 3', 'Họp', 12, 'Đang mượn', 180000),
+('Phòng Đa năng 3', 'Đa năng', 35, 'Trống', 350000),
+('Phòng Làm việc nhóm 3', 'Làm việc nhóm', 7, 'Đang mượn', 110000),
+('Phòng Thuyết trình 3', 'Thuyết trình', 22, 'Trống', 260000),
+('Phòng Hội thảo 4', 'Hội thảo', 70, 'Bảo trì', 700000),
+('Phòng Họp 4', 'Họp', 14, 'Trống', 190000),
+('Phòng Đa năng 4', 'Đa năng', 45, 'Đang mượn', 450000),
+('Phòng Làm việc nhóm 4', 'Làm việc nhóm', 9, 'Trống', 130000),
+('Phòng Thuyết trình 4', 'Thuyết trình', 28, 'Đang mượn', 300000);
 -- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[checkin] (bảng check in)
 INSERT INTO checkin (MaNguoiDung, ThoiGianVao, ThoiGianRa, TrangThai) VALUES
 (101, '2024-04-01 08:00:00', '2024-04-01 10:00:00', 'Checked In'),
@@ -74,28 +97,7 @@ INSERT INTO checkin (MaNguoiDung, ThoiGianVao, ThoiGianRa, TrangThai) VALUES
 (107, '2024-04-06 07:45:00', '2024-04-06 10:45:00', 'Checked Out');
 
 
--- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[phong] (bảng phòng)
-INSERT INTO phong (TenPhong, LoaiPhong, SucChua, TrangThai, GiaMuon) VALUES
-('Phòng Hội thảo 1', 'Hội thảo', 50, 'Trống', 500000),
-('Phòng Hội thảo 2', 'Hội thảo', 80, 'Đang mượn', 800000),
-('Phòng Họp 1', 'Họp', 10, 'Trống', 150000),
-('Phòng Họp 2', 'Họp', 15, 'Bảo trì', 200000),
-('Phòng Đa năng 1', 'Đa năng', 30, 'Trống', 300000),
-('Phòng Đa năng 2', 'Đa năng', 40, 'Đang mượn', 400000),
-('Phòng Làm việc nhóm 1', 'Làm việc nhóm', 6, 'Trống', 100000),
-('Phòng Làm việc nhóm 2', 'Làm việc nhóm', 8, 'Đang mượn', 120000),
-('Phòng Thuyết trình 1', 'Thuyết trình', 20, 'Trống', 250000),
-('Phòng Thuyết trình 2', 'Thuyết trình', 25, 'Bảo trì', 280000),
-('Phòng Hội thảo 3', 'Hội thảo', 60, 'Trống', 600000),
-('Phòng Họp 3', 'Họp', 12, 'Đang mượn', 180000),
-('Phòng Đa năng 3', 'Đa năng', 35, 'Trống', 350000),
-('Phòng Làm việc nhóm 3', 'Làm việc nhóm', 7, 'Đang mượn', 110000),
-('Phòng Thuyết trình 3', 'Thuyết trình', 22, 'Trống', 260000),
-('Phòng Hội thảo 4', 'Hội thảo', 70, 'Bảo trì', 700000),
-('Phòng Họp 4', 'Họp', 14, 'Trống', 190000),
-('Phòng Đa năng 4', 'Đa năng', 45, 'Đang mượn', 450000),
-('Phòng Làm việc nhóm 4', 'Làm việc nhóm', 9, 'Trống', 130000),
-('Phòng Thuyết trình 4', 'Thuyết trình', 28, 'Đang mượn', 300000);
+
 
 
 -- CHÈN DỮ LIỆU VÀO BẢNG [dbo].[phieumuonphong] (bảng phiếu mượn phòng)
