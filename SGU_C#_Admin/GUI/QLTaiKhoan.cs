@@ -102,7 +102,7 @@ namespace SGU_C__User.GUI
             }
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void Btn_Back_Click(object sender, EventArgs e)
         {
             TrangChu_Admin mainForm = new TrangChu_Admin();
             mainForm.Show();

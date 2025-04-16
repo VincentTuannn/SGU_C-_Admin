@@ -27,29 +27,24 @@ namespace SGU_C__User.GUI
             this.maNguoiDung = maNguoiDung;
             this.maThietBi = maThietBi;
             this.maPhong = maPhong;
-            comboBox1.SelectedItem = loaiViPham; 
-            textBox1.Text = noiDungViPham;
+            comboBox_Type.SelectedItem = loaiViPham; 
+            textBox_Content.Text = noiDungViPham;
         }
 
         private void SuaViPham_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.Add("Trả trễ");
-            comboBox1.Items.Add("Làm hỏng");
-            comboBox1.Items.Add("Làm mất");
-            comboBox1.Items.Add("Khác");
+            comboBox_Type.Items.Add("Trả trễ");
+            comboBox_Type.Items.Add("Làm hỏng");
+            comboBox_Type.Items.Add("Làm mất");
+            comboBox_Type.Items.Add("Khác");
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_Accept_Click(object sender, EventArgs e)
         {
             try
             {
-                //if (viPhamBUS == null)
-                //{
-                //    MessageBox.Show("viPhamBUS chưa được khởi tạo!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //    return;
-                //}
-                string loaiViPham = comboBox1.SelectedItem?.ToString();
-                string noiDungViPham = textBox1.Text.Trim();
+                string loaiViPham = comboBox_Type.SelectedItem?.ToString();
+                string noiDungViPham = textBox_Content.Text.Trim();
 
                 // Kiểm tra dữ liệu đầu vào
                 if (string.IsNullOrEmpty(loaiViPham) || string.IsNullOrEmpty(noiDungViPham))
@@ -86,7 +81,7 @@ namespace SGU_C__User.GUI
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Btn_Cancel_Click(object sender, EventArgs e)
         {
             QLViPham mainForm = new QLViPham();
             mainForm.Show();

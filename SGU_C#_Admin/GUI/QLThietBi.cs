@@ -45,14 +45,14 @@ namespace SGU_C__User
 
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void Btn_Back_Click(object sender, EventArgs e)
         {
             TrangChu_Admin mainForm = new TrangChu_Admin();
             mainForm.Show();
             this.Close(); // Đóng form hiện tại
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_Add_Click(object sender, EventArgs e)
         {
 
             ThemThietBi AddDevice = new ThemThietBi();

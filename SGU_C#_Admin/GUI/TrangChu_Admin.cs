@@ -22,7 +22,7 @@ namespace SGU_C__User
             {
                 Text = "Tổng số thiết bị được mượn",
                 Font = new Font("Arial", 12, FontStyle.Bold),
-                Size = new Size(panel4.Width, 30),
+                Size = new Size(panel_ThietBi.Width, 30),
                 Location = new Point(0, 10),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -31,7 +31,7 @@ namespace SGU_C__User
             numberLabelThietBi = new Label
             {
                 Font = new Font("Arial", 36, FontStyle.Bold),
-                Size = new Size(panel4.Width, 50),
+                Size = new Size(panel_ThietBi.Width, 50),
                 Location = new Point(0, 50),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -41,7 +41,7 @@ namespace SGU_C__User
             {
                 Text = "Tổng số vi phạm",
                 Font = new Font("Arial", 12, FontStyle.Bold),
-                Size = new Size(panel4.Width, 30),
+                Size = new Size(panel_ThietBi.Width, 30),
                 Location = new Point(0, 10),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -50,7 +50,7 @@ namespace SGU_C__User
             numberLabelViPham = new Label
             {
                 Font = new Font("Arial", 36, FontStyle.Bold),
-                Size = new Size(panel4.Width, 50),
+                Size = new Size(panel_ThietBi.Width, 50),
                 Location = new Point(0, 50),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -60,7 +60,7 @@ namespace SGU_C__User
             {
                 Text = "Quản lý check-in/checkout",
                 Font = new Font("Arial", 12, FontStyle.Bold),
-                Size = new Size(panel4.Width, 30),
+                Size = new Size(panel_ThietBi.Width, 30),
                 Location = new Point(0, 10),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -70,7 +70,7 @@ namespace SGU_C__User
             {
                 Text = "Số lượt đặt chỗ hôm nay",
                 Font = new Font("Arial", 12, FontStyle.Bold),
-                Size = new Size(panel4.Width, 30),
+                Size = new Size(panel_ThietBi.Width, 30),
                 Location = new Point(0, 10),
                 TextAlign = ContentAlignment.MiddleCenter
             };
@@ -79,18 +79,18 @@ namespace SGU_C__User
             numberLabelDatPhong = new Label
             {
                 Font = new Font("Arial", 36, FontStyle.Bold),
-                Size = new Size(panel4.Width, 50),
+                Size = new Size(panel_ThietBi.Width, 50),
                 Location = new Point(0, 50),
                 TextAlign = ContentAlignment.MiddleCenter
             };
 
-            panel4.Controls.Add(headerLabelThietBi);
-            panel4.Controls.Add(numberLabelThietBi);
-            panel7.Controls.Add(headerLabelViPham);
-            panel7.Controls.Add(numberLabelViPham);
-            panel5.Controls.Add(headerCheckIn);
-            panel6.Controls.Add(headerDatPhong);
-            panel6.Controls.Add(numberLabelDatPhong);
+            panel_ThietBi.Controls.Add(headerLabelThietBi);
+            panel_ThietBi.Controls.Add(numberLabelThietBi);
+            panel_ViPham.Controls.Add(headerLabelViPham);
+            panel_ViPham.Controls.Add(numberLabelViPham);
+            panel_CheckIn.Controls.Add(headerCheckIn);
+            panel_PhongBan.Controls.Add(headerDatPhong);
+            panel_PhongBan.Controls.Add(numberLabelDatPhong);
 
             Btn_QLCheckIn.MouseEnter += new EventHandler(Btn_QLCheckIn_MouseEnter);
             Btn_QLCheckIn.MouseLeave += new EventHandler(Btn_CheckIn_MouseLeave);
@@ -105,15 +105,7 @@ namespace SGU_C__User
 
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
@@ -136,12 +128,12 @@ namespace SGU_C__User
             this.Hide(); // Ẩn form hiện tại
         }
 
-        private void panel4_Paint(object sender, PaintEventArgs e)
+        private void panel_ThietBi_Paint(object sender, PaintEventArgs e)
         {
             using (Pen pen = new Pen(Color.Black, 2))
             {
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+                e.Graphics.DrawRectangle(pen, 0, 0, panel_ThietBi.Width - 1, panel_ThietBi.Height - 1);
             }
         }
 
@@ -188,21 +180,21 @@ namespace SGU_C__User
             }
         }
 
-        private void panel5_Paint(object sender, PaintEventArgs e)
+        private void panel_CheckIn_Paint(object sender, PaintEventArgs e)
         {
             using (Pen pen = new Pen(Color.Black, 2))
             {
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+                e.Graphics.DrawRectangle(pen, 0, 0, panel_ThietBi.Width - 1, panel_ThietBi.Height - 1);
             }
         }
 
-        private void panel7_Paint(object sender, PaintEventArgs e)
+        private void panel_ViPham_Paint(object sender, PaintEventArgs e)
         {
             using (Pen pen = new Pen(Color.Black, 2))
             {
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+                e.Graphics.DrawRectangle(pen, 0, 0, panel_ThietBi.Width - 1, panel_ThietBi.Height - 1);
             }
         }
 

@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
-            button3 = new Button();
+            Btn_Add = new Button();
             btn_delete = new Button();
             btn_fix = new Button();
             dataGridView1 = new DataGridView();
             Input_Search = new TextBox();
             label2 = new Label();
-            button2 = new Button();
+            Btn_Logout = new Button();
             label1 = new Label();
-            button8 = new Button();
+            Btn_Back = new Button();
             panel1 = new Panel();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -46,7 +46,7 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(button3);
+            panel2.Controls.Add(Btn_Add);
             panel2.Controls.Add(btn_delete);
             panel2.Controls.Add(btn_fix);
             panel2.Controls.Add(dataGridView1);
@@ -57,18 +57,18 @@
             panel2.Size = new Size(1094, 359);
             panel2.TabIndex = 10;
             // 
-            // button3
+            // Btn_Add
             // 
-            button3.BackColor = Color.Black;
-            button3.Cursor = Cursors.Hand;
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(828, 26);
-            button3.Name = "button3";
-            button3.Size = new Size(131, 35);
-            button3.TabIndex = 14;
-            button3.Text = "Thêm phòng";
-            button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
+            Btn_Add.BackColor = Color.Black;
+            Btn_Add.Cursor = Cursors.Hand;
+            Btn_Add.ForeColor = Color.White;
+            Btn_Add.Location = new Point(828, 26);
+            Btn_Add.Name = "Btn_Add";
+            Btn_Add.Size = new Size(131, 35);
+            Btn_Add.TabIndex = 14;
+            Btn_Add.Text = "Thêm phòng";
+            Btn_Add.UseVisualStyleBackColor = false;
+            Btn_Add.Click += Btn_Add_Click;
             // 
             // btn_delete
             // 
@@ -118,16 +118,16 @@
             label2.TabIndex = 0;
             label2.Text = "Quản lý phòng ban";
             // 
-            // button2
+            // Btn_Logout
             // 
-            button2.BackColor = Color.White;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(1003, 17);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Logout";
-            button2.UseVisualStyleBackColor = false;
+            Btn_Logout.BackColor = Color.White;
+            Btn_Logout.Cursor = Cursors.Hand;
+            Btn_Logout.Location = new Point(1003, 17);
+            Btn_Logout.Name = "Btn_Logout";
+            Btn_Logout.Size = new Size(149, 34);
+            Btn_Logout.TabIndex = 2;
+            Btn_Logout.Text = "Logout";
+            Btn_Logout.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -140,20 +140,20 @@
             label1.TabIndex = 0;
             label1.Text = "Smart Library Hub-Admin";
             // 
-            // button8
+            // Btn_Back
             // 
-            button8.Location = new Point(61, 70);
-            button8.Name = "button8";
-            button8.Size = new Size(83, 32);
-            button8.TabIndex = 11;
-            button8.Text = "Quay lại";
-            button8.UseVisualStyleBackColor = true;
-            button8.Click += button8_Click_1;
+            Btn_Back.Location = new Point(61, 70);
+            Btn_Back.Name = "Btn_Back";
+            Btn_Back.Size = new Size(83, 32);
+            Btn_Back.TabIndex = 11;
+            Btn_Back.Text = "Quay lại";
+            Btn_Back.UseVisualStyleBackColor = true;
+            Btn_Back.Click += Btn_Back_Click_1;
             // 
             // panel1
             // 
             panel1.BackColor = Color.Blue;
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(3, 2);
             panel1.Name = "panel1";
@@ -166,7 +166,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1164, 570);
             Controls.Add(panel2);
-            Controls.Add(button8);
+            Controls.Add(Btn_Back);
             Controls.Add(panel1);
             Name = "QLPhong";
             StartPosition = FormStartPosition.CenterScreen;
@@ -186,12 +186,12 @@
         private DataGridView dataGridView1;
         private TextBox Input_Search;
         private Label label2;
-        private Button button2;
+        private Button Btn_Logout;
         private Label label1;
-        private Button button8;
+        private Button Btn_Back;
         private Panel panel1;
         private Button btn_delete;
         private Button btn_fix;
-        private Button button3;
+        private Button Btn_Add;
     }
 }

@@ -21,29 +21,29 @@ namespace SGU_C__User.GUI
             InitializeComponent();
             phongBUS = new PhongBUS();
             this.maPhong = maPhong;
-            textBox1.Text = tenPhong;
-            textBox2.Text = loaiPhong;
-            textBox3.Text = sucChua.ToString();
-            textBox4.Text = giaMuon.ToString();
-            comboBox1.SelectedItem = trangThai;
+            textBox_Name.Text = tenPhong;
+            textBox_Type.Text = loaiPhong;
+            textBox_Capacity.Text = sucChua.ToString();
+            textBox_Price.Text = giaMuon.ToString();
+            comboBox_Status.SelectedItem = trangThai;
         }
 
         private void SuaPhong_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.Add("Trống");
-            comboBox1.Items.Add("Đang mượn");
-            comboBox1.Items.Add("Bảo trì");
+            comboBox_Status.Items.Add("Trống");
+            comboBox_Status.Items.Add("Đang mượn");
+            comboBox_Status.Items.Add("Bảo trì");
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_Accept_Click(object sender, EventArgs e)
         {
             try
             {
-                string tenPhong = textBox1.Text.Trim();
-                string loaiPhong = textBox2.Text.Trim();
-                string sucChua = textBox3.Text.Trim();
-                string giaMuon = textBox4.Text.Trim(); // Thêm TextBox cho GiaMuon
-                string trangThai = comboBox1.SelectedItem?.ToString();
+                string tenPhong = textBox_Name.Text.Trim();
+                string loaiPhong = textBox_Type.Text.Trim();
+                string sucChua = textBox_Capacity.Text.Trim();
+                string giaMuon = textBox_Price.Text.Trim(); // Thêm TextBox cho GiaMuon
+                string trangThai = comboBox_Status.SelectedItem?.ToString();
 
                 // Kiểm tra dữ liệu đầu vào
                 if (string.IsNullOrEmpty(tenPhong) || string.IsNullOrEmpty(loaiPhong) ||
@@ -95,7 +95,7 @@ namespace SGU_C__User.GUI
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Btn_Cancel_Click(object sender, EventArgs e)
         {
             QLPhong mainForm = new QLPhong();
             mainForm.Show();

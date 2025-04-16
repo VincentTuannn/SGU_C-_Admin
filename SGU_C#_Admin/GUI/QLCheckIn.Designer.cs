@@ -32,7 +32,7 @@
             dataGridView1 = new DataGridView();
             Input_Search = new TextBox();
             label2 = new Label();
-            button2 = new Button();
+            Btn_Logout = new Button();
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
@@ -79,16 +79,16 @@
             label2.TabIndex = 0;
             label2.Text = "Quản lý check in";
             // 
-            // button2
+            // Btn_Logout
             // 
-            button2.BackColor = Color.White;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(1003, 17);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Logout";
-            button2.UseVisualStyleBackColor = false;
+            Btn_Logout.BackColor = Color.White;
+            Btn_Logout.Cursor = Cursors.Hand;
+            Btn_Logout.Location = new Point(1003, 17);
+            Btn_Logout.Name = "Btn_Logout";
+            Btn_Logout.Size = new Size(149, 34);
+            Btn_Logout.TabIndex = 2;
+            Btn_Logout.Text = "Logout";
+            Btn_Logout.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -114,7 +114,7 @@
             // panel1
             // 
             panel1.BackColor = Color.Blue;
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(1, 1);
             panel1.Name = "panel1";
@@ -146,7 +146,7 @@
         private DataGridView dataGridView1;
         private TextBox Input_Search;
         private Label label2;
-        private Button button2;
+        private Button Btn_Logout;
         private Label label1;
         private Button Btn_Back;
         private Panel panel1;

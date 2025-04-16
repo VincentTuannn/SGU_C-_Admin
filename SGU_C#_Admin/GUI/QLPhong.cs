@@ -78,7 +78,7 @@ namespace SGU_C__User.GUI
             }
         }
 
-        private void button8_Click_1(object sender, EventArgs e)
+        private void Btn_Back_Click_1(object sender, EventArgs e)
         {
             TrangChu_Admin mainForm = new TrangChu_Admin();
             mainForm.Show();
@@ -148,7 +148,7 @@ namespace SGU_C__User.GUI
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_Add_Click(object sender, EventArgs e)
         {
             ThemPhong AddRoom = new ThemPhong();
             AddRoom.Show(); // Hiển thị form mới

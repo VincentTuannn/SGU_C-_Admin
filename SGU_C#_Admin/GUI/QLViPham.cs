@@ -24,7 +24,7 @@ namespace SGU_C__User
             dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
         }
 
-        private void button8_Click(object sender, EventArgs e)
+        private void Btn_Back_Click(object sender, EventArgs e)
         {
             TrangChu_Admin mainForm = new TrangChu_Admin();
             mainForm.Show();

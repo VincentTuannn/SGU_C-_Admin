@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            button2 = new Button();
+            Btn_Logout = new Button();
             label1 = new Label();
             label6 = new Label();
-            comboBox1 = new ComboBox();
+            comboBox_Status = new ComboBox();
             label5 = new Label();
-            textBox3 = new TextBox();
+            textBox_Capacity = new TextBox();
             label4 = new Label();
-            textBox2 = new TextBox();
+            textBox_Type = new TextBox();
             label3 = new Label();
-            button4 = new Button();
-            button3 = new Button();
-            textBox1 = new TextBox();
+            Btn_Cancel = new Button();
+            Btn_Accept = new Button();
+            textBox_Name = new TextBox();
             label2 = new Label();
-            textBox4 = new TextBox();
+            textBox_Price = new TextBox();
             label7 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -50,23 +50,23 @@
             // panel1
             // 
             panel1.BackColor = Color.Blue;
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1022, 62);
             panel1.TabIndex = 39;
             // 
-            // button2
+            // Btn_Logout
             // 
-            button2.BackColor = Color.White;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(851, 17);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Logout";
-            button2.UseVisualStyleBackColor = false;
+            Btn_Logout.BackColor = Color.White;
+            Btn_Logout.Cursor = Cursors.Hand;
+            Btn_Logout.Location = new Point(851, 17);
+            Btn_Logout.Name = "Btn_Logout";
+            Btn_Logout.Size = new Size(149, 34);
+            Btn_Logout.TabIndex = 2;
+            Btn_Logout.Text = "Logout";
+            Btn_Logout.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -89,29 +89,29 @@
             label6.TabIndex = 50;
             label6.Text = "THÊM PHÒNG";
             // 
-            // comboBox1
+            // comboBox_Status
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(124, 457);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(192, 28);
-            comboBox1.TabIndex = 49;
+            comboBox_Status.FormattingEnabled = true;
+            comboBox_Status.Location = new Point(130, 545);
+            comboBox_Status.Name = "comboBox_Status";
+            comboBox_Status.Size = new Size(192, 28);
+            comboBox_Status.TabIndex = 49;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(127, 421);
+            label5.Location = new Point(127, 509);
             label5.Name = "label5";
             label5.Size = new Size(75, 20);
             label5.TabIndex = 48;
             label5.Text = "Trạng thái";
             // 
-            // textBox3
+            // textBox_Capacity
             // 
-            textBox3.Location = new Point(127, 366);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(245, 27);
-            textBox3.TabIndex = 47;
+            textBox_Capacity.Location = new Point(127, 366);
+            textBox_Capacity.Name = "textBox_Capacity";
+            textBox_Capacity.Size = new Size(245, 27);
+            textBox_Capacity.TabIndex = 47;
             // 
             // label4
             // 
@@ -122,12 +122,12 @@
             label4.TabIndex = 46;
             label4.Text = "Sức chứa";
             // 
-            // textBox2
+            // textBox_Type
             // 
-            textBox2.Location = new Point(127, 279);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(245, 27);
-            textBox2.TabIndex = 45;
+            textBox_Type.Location = new Point(127, 279);
+            textBox_Type.Name = "textBox_Type";
+            textBox_Type.Size = new Size(245, 27);
+            textBox_Type.TabIndex = 45;
             // 
             // label3
             // 
@@ -138,32 +138,32 @@
             label3.TabIndex = 44;
             label3.Text = "Loại phòng";
             // 
-            // button4
+            // Btn_Cancel
             // 
-            button4.Location = new Point(275, 591);
-            button4.Name = "button4";
-            button4.Size = new Size(100, 29);
-            button4.TabIndex = 43;
-            button4.Text = "Hủy";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            Btn_Cancel.Location = new Point(275, 591);
+            Btn_Cancel.Name = "Btn_Cancel";
+            Btn_Cancel.Size = new Size(100, 29);
+            Btn_Cancel.TabIndex = 43;
+            Btn_Cancel.Text = "Hủy";
+            Btn_Cancel.UseVisualStyleBackColor = true;
+            Btn_Cancel.Click += Btn_Cancel_Click;
             // 
-            // button3
+            // Btn_Accept
             // 
-            button3.Location = new Point(130, 591);
-            button3.Name = "button3";
-            button3.Size = new Size(100, 29);
-            button3.TabIndex = 42;
-            button3.Text = "Xác nhận";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            Btn_Accept.Location = new Point(130, 591);
+            Btn_Accept.Name = "Btn_Accept";
+            Btn_Accept.Size = new Size(100, 29);
+            Btn_Accept.TabIndex = 42;
+            Btn_Accept.Text = "Xác nhận";
+            Btn_Accept.UseVisualStyleBackColor = true;
+            Btn_Accept.Click += Btn_Accept_Click;
             // 
-            // textBox1
+            // textBox_Name
             // 
-            textBox1.Location = new Point(127, 197);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(245, 27);
-            textBox1.TabIndex = 41;
+            textBox_Name.Location = new Point(127, 197);
+            textBox_Name.Name = "textBox_Name";
+            textBox_Name.Size = new Size(245, 27);
+            textBox_Name.TabIndex = 41;
             // 
             // label2
             // 
@@ -174,17 +174,17 @@
             label2.TabIndex = 40;
             label2.Text = "Tên phòng";
             // 
-            // textBox4
+            // textBox_Price
             // 
-            textBox4.Location = new Point(124, 542);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(245, 27);
-            textBox4.TabIndex = 52;
+            textBox_Price.Location = new Point(127, 458);
+            textBox_Price.Name = "textBox_Price";
+            textBox_Price.Size = new Size(245, 27);
+            textBox_Price.TabIndex = 52;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(124, 509);
+            label7.Location = new Point(127, 425);
             label7.Name = "label7";
             label7.Size = new Size(74, 20);
             label7.TabIndex = 51;
@@ -195,19 +195,19 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1022, 648);
-            Controls.Add(textBox4);
+            Controls.Add(textBox_Price);
             Controls.Add(label7);
             Controls.Add(panel1);
             Controls.Add(label6);
-            Controls.Add(comboBox1);
+            Controls.Add(comboBox_Status);
             Controls.Add(label5);
-            Controls.Add(textBox3);
+            Controls.Add(textBox_Capacity);
             Controls.Add(label4);
-            Controls.Add(textBox2);
+            Controls.Add(textBox_Type);
             Controls.Add(label3);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(textBox1);
+            Controls.Add(Btn_Cancel);
+            Controls.Add(Btn_Accept);
+            Controls.Add(textBox_Name);
             Controls.Add(label2);
             Name = "ThemPhong";
             StartPosition = FormStartPosition.CenterScreen;
@@ -222,20 +222,20 @@
         #endregion
 
         private Panel panel1;
-        private Button button2;
+        private Button Btn_Logout;
         private Label label1;
         private Label label6;
-        private ComboBox comboBox1;
+        private ComboBox comboBox_Status;
         private Label label5;
-        private TextBox textBox3;
+        private TextBox textBox_Capacity;
         private Label label4;
-        private TextBox textBox2;
+        private TextBox textBox_Type;
         private Label label3;
-        private Button button4;
-        private Button button3;
-        private TextBox textBox1;
+        private Button Btn_Cancel;
+        private Button Btn_Accept;
+        private TextBox textBox_Name;
         private Label label2;
-        private TextBox textBox4;
+        private TextBox textBox_Price;
         private Label label7;
     }
 }

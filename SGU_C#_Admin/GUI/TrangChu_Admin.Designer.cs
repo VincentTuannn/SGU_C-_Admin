@@ -30,7 +30,7 @@ namespace SGU_C__User
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            button2 = new Button();
+            Btn_Logout = new Button();
             label1 = new Label();
             panel2 = new Panel();
             Btn_QLMuonPhong = new Button();
@@ -42,39 +42,38 @@ namespace SGU_C__User
             Btn_QLTaiKhoan = new Button();
             label2 = new Label();
             panel3 = new Panel();
-            panel7 = new Panel();
-            panel6 = new Panel();
-            panel5 = new Panel();
+            panel_ViPham = new Panel();
+            panel_PhongBan = new Panel();
+            panel_CheckIn = new Panel();
             Btn_QLCheckIn = new Button();
-            panel4 = new Panel();
+            panel_ThietBi = new Panel();
             label3 = new Label();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
-            panel5.SuspendLayout();
+            panel_CheckIn.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.BackColor = Color.Blue;
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(0, 1);
             panel1.Name = "panel1";
             panel1.Size = new Size(1080, 62);
             panel1.TabIndex = 0;
-            panel1.Paint += panel1_Paint;
             // 
-            // button2
+            // Btn_Logout
             // 
-            button2.BackColor = Color.White;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(898, 17);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Logout";
-            button2.UseVisualStyleBackColor = false;
+            Btn_Logout.BackColor = Color.White;
+            Btn_Logout.Cursor = Cursors.Hand;
+            Btn_Logout.Location = new Point(898, 17);
+            Btn_Logout.Name = "Btn_Logout";
+            Btn_Logout.Size = new Size(149, 34);
+            Btn_Logout.TabIndex = 2;
+            Btn_Logout.Text = "Logout";
+            Btn_Logout.UseVisualStyleBackColor = false;
             // 
             // label1
             // 
@@ -86,7 +85,6 @@ namespace SGU_C__User
             label1.Size = new Size(191, 20);
             label1.TabIndex = 0;
             label1.Text = "Smart Library Hub-Admin";
-            label1.Click += label1_Click;
             // 
             // panel2
             // 
@@ -202,43 +200,43 @@ namespace SGU_C__User
             // panel3
             // 
             panel3.BackColor = Color.White;
-            panel3.Controls.Add(panel7);
-            panel3.Controls.Add(panel6);
-            panel3.Controls.Add(panel5);
-            panel3.Controls.Add(panel4);
+            panel3.Controls.Add(panel_ViPham);
+            panel3.Controls.Add(panel_PhongBan);
+            panel3.Controls.Add(panel_CheckIn);
+            panel3.Controls.Add(panel_ThietBi);
             panel3.Controls.Add(label3);
             panel3.Location = new Point(307, 123);
             panel3.Name = "panel3";
             panel3.Size = new Size(761, 552);
             panel3.TabIndex = 2;
             // 
-            // panel7
+            // panel_ViPham
             // 
-            panel7.BackColor = Color.FromArgb(255, 192, 255);
-            panel7.Location = new Point(430, 324);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(297, 146);
-            panel7.TabIndex = 8;
-            panel7.Paint += panel7_Paint;
+            panel_ViPham.BackColor = Color.FromArgb(255, 192, 255);
+            panel_ViPham.Location = new Point(430, 324);
+            panel_ViPham.Name = "panel_ViPham";
+            panel_ViPham.Size = new Size(297, 146);
+            panel_ViPham.TabIndex = 8;
+            panel_ViPham.Paint += panel_ViPham_Paint;
             // 
-            // panel6
+            // panel_PhongBan
             // 
-            panel6.BackColor = Color.FromArgb(192, 255, 192);
-            panel6.Location = new Point(430, 108);
-            panel6.Name = "panel6";
-            panel6.Size = new Size(300, 142);
-            panel6.TabIndex = 7;
-            panel6.Paint += panel6_Paint;
+            panel_PhongBan.BackColor = Color.FromArgb(192, 255, 192);
+            panel_PhongBan.Location = new Point(430, 108);
+            panel_PhongBan.Name = "panel_PhongBan";
+            panel_PhongBan.Size = new Size(300, 142);
+            panel_PhongBan.TabIndex = 7;
+            panel_PhongBan.Paint += panel_PhongBan_Paint;
             // 
-            // panel5
+            // panel_CheckIn
             // 
-            panel5.BackColor = Color.FromArgb(255, 255, 192);
-            panel5.Controls.Add(Btn_QLCheckIn);
-            panel5.Location = new Point(39, 324);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(310, 146);
-            panel5.TabIndex = 7;
-            panel5.Paint += panel5_Paint;
+            panel_CheckIn.BackColor = Color.FromArgb(255, 255, 192);
+            panel_CheckIn.Controls.Add(Btn_QLCheckIn);
+            panel_CheckIn.Location = new Point(39, 324);
+            panel_CheckIn.Name = "panel_CheckIn";
+            panel_CheckIn.Size = new Size(310, 146);
+            panel_CheckIn.TabIndex = 7;
+            panel_CheckIn.Paint += panel_CheckIn_Paint;
             // 
             // Btn_QLCheckIn
             // 
@@ -253,14 +251,14 @@ namespace SGU_C__User
             Btn_QLCheckIn.UseVisualStyleBackColor = false;
             Btn_QLCheckIn.Click += Btn_QLCheckIn_Click;
             // 
-            // panel4
+            // panel_ThietBi
             // 
-            panel4.BackColor = Color.FromArgb(192, 255, 255);
-            panel4.Location = new Point(39, 108);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(310, 142);
-            panel4.TabIndex = 6;
-            panel4.Paint += panel4_Paint;
+            panel_ThietBi.BackColor = Color.FromArgb(192, 255, 255);
+            panel_ThietBi.Location = new Point(39, 108);
+            panel_ThietBi.Name = "panel_ThietBi";
+            panel_ThietBi.Size = new Size(310, 142);
+            panel_ThietBi.TabIndex = 6;
+            panel_ThietBi.Paint += panel_ThietBi_Paint;
             // 
             // label3
             // 
@@ -290,17 +288,17 @@ namespace SGU_C__User
             panel2.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            panel5.ResumeLayout(false);
+            panel_CheckIn.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        private void panel6_Paint(object sender, PaintEventArgs e)
+        private void panel_PhongBan_Paint(object sender, PaintEventArgs e)
         {
             //throw new NotImplementedException();
             using (Pen pen = new Pen(Color.Black, 2))
             {
                 pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-                e.Graphics.DrawRectangle(pen, 0, 0, panel4.Width - 1, panel4.Height - 1);
+                e.Graphics.DrawRectangle(pen, 0, 0, panel_ThietBi.Width - 1, panel_ThietBi.Height - 1);
             }
         }
 
@@ -328,7 +326,7 @@ namespace SGU_C__User
 
         private Panel panel1;
         private Label label1;
-        private Button button2;
+        private Button Btn_Logout;
         private Panel panel2;
         private Label label2;
         private Button Btn_QLViPham;
@@ -337,10 +335,10 @@ namespace SGU_C__User
         private Button Btn_QLThietBi;
         private Button Btn_QLTaiKhoan;
         private Panel panel3;
-        private Panel panel7;
-        private Panel panel6;
-        private Panel panel5;
-        private Panel panel4;
+        private Panel panel_ViPham;
+        private Panel panel_PhongBan;
+        private Panel panel_CheckIn;
+        private Panel panel_ThietBi;
         private Label label3;
         private Button Btn_QLCheckIn;
         private Button button9;

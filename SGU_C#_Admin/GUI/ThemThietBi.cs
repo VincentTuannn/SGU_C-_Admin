@@ -27,21 +27,21 @@ namespace SGU_C__User.GUI
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Btn_Cancel_Click(object sender, EventArgs e)
         {
             QLThietBi mainForm = new QLThietBi();
             mainForm.Show();
             this.Close();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Btn_Accept_Click(object sender, EventArgs e)
         {
             try
             {
-                string tenThietBi = textBox1.Text.Trim();
-                string loaiThietBi = textBox2.Text.Trim();
-                string giaMuon = textBox3.Text.Trim();
-                string trangThai = comboBox1.SelectedItem?.ToString();
+                string tenThietBi = textBox_Name.Text.Trim();
+                string loaiThietBi = textBox_Type.Text.Trim();
+                string giaMuon = textBox_Price.Text.Trim();
+                string trangThai = comboBox_Status.SelectedItem?.ToString();
 
                 //Kiểm tra dữ liệu đầu vào
                 if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) || string.IsNullOrEmpty(giaMuon) || string.IsNullOrEmpty(trangThai))
@@ -92,9 +92,9 @@ namespace SGU_C__User.GUI
 
         private void ThemThietBi_Load(object sender, EventArgs e)
         {
-            comboBox1.Items.Add("Có sẵn");
-            comboBox1.Items.Add("Đang sử dụng");
-            comboBox1.Items.Add("Bảo trì");
+            comboBox_Status.Items.Add("Có sẵn");
+            comboBox_Status.Items.Add("Đang sử dụng");
+            comboBox_Status.Items.Add("Bảo trì");
         }
     }
 }

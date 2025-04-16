@@ -32,11 +32,11 @@
             button2 = new Button();
             label1 = new Label();
             label6 = new Label();
-            comboBox1 = new ComboBox();
+            comboBox_Type = new ComboBox();
             label5 = new Label();
-            button4 = new Button();
-            button3 = new Button();
-            textBox1 = new TextBox();
+            Btn_Cancel = new Button();
+            Btn_Accept = new Button();
+            textBox_Content = new TextBox();
             label2 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -83,54 +83,54 @@
             label6.TabIndex = 38;
             label6.Text = "SỬA VI PHẠM";
             // 
-            // comboBox1
+            // comboBox_Type
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(133, 226);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(192, 28);
-            comboBox1.TabIndex = 37;
+            comboBox_Type.FormattingEnabled = true;
+            comboBox_Type.Location = new Point(137, 210);
+            comboBox_Type.Name = "comboBox_Type";
+            comboBox_Type.Size = new Size(192, 28);
+            comboBox_Type.TabIndex = 37;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(136, 190);
+            label5.Location = new Point(140, 174);
             label5.Name = "label5";
             label5.Size = new Size(94, 20);
             label5.TabIndex = 36;
             label5.Text = "Loại vi phạm";
             // 
-            // button4
+            // Btn_Cancel
             // 
-            button4.Location = new Point(278, 417);
-            button4.Name = "button4";
-            button4.Size = new Size(100, 29);
-            button4.TabIndex = 31;
-            button4.Text = "Hủy";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            Btn_Cancel.Location = new Point(282, 401);
+            Btn_Cancel.Name = "Btn_Cancel";
+            Btn_Cancel.Size = new Size(100, 29);
+            Btn_Cancel.TabIndex = 31;
+            Btn_Cancel.Text = "Hủy";
+            Btn_Cancel.UseVisualStyleBackColor = true;
+            Btn_Cancel.Click += Btn_Cancel_Click;
             // 
-            // button3
+            // Btn_Accept
             // 
-            button3.Location = new Point(133, 417);
-            button3.Name = "button3";
-            button3.Size = new Size(100, 29);
-            button3.TabIndex = 30;
-            button3.Text = "Xác nhận";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            Btn_Accept.Location = new Point(137, 401);
+            Btn_Accept.Name = "Btn_Accept";
+            Btn_Accept.Size = new Size(100, 29);
+            Btn_Accept.TabIndex = 30;
+            Btn_Accept.Text = "Xác nhận";
+            Btn_Accept.UseVisualStyleBackColor = true;
+            Btn_Accept.Click += Btn_Accept_Click;
             // 
-            // textBox1
+            // textBox_Content
             // 
-            textBox1.Location = new Point(133, 335);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(482, 27);
-            textBox1.TabIndex = 29;
+            textBox_Content.Location = new Point(137, 319);
+            textBox_Content.Name = "textBox_Content";
+            textBox_Content.Size = new Size(482, 27);
+            textBox_Content.TabIndex = 29;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(133, 302);
+            label2.Location = new Point(137, 286);
             label2.Name = "label2";
             label2.Size = new Size(128, 20);
             label2.TabIndex = 28;
@@ -143,11 +143,11 @@
             ClientSize = new Size(1025, 482);
             Controls.Add(panel1);
             Controls.Add(label6);
-            Controls.Add(comboBox1);
+            Controls.Add(comboBox_Type);
             Controls.Add(label5);
-            Controls.Add(button4);
-            Controls.Add(button3);
-            Controls.Add(textBox1);
+            Controls.Add(Btn_Cancel);
+            Controls.Add(Btn_Accept);
+            Controls.Add(textBox_Content);
             Controls.Add(label2);
             Name = "SuaViPham";
             StartPosition = FormStartPosition.CenterScreen;
@@ -165,11 +165,11 @@
         private Button button2;
         private Label label1;
         private Label label6;
-        private ComboBox comboBox1;
+        private ComboBox comboBox_Type;
         private Label label5;
-        private Button button4;
-        private Button button3;
-        private TextBox textBox1;
+        private Button Btn_Cancel;
+        private Button Btn_Accept;
+        private TextBox textBox_Content;
         private Label label2;
     }
 }
