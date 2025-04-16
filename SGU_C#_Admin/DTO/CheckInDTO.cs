@@ -8,7 +8,7 @@ namespace SGU_C__User.DTO
 {
     internal class CheckInDTO
     {
-        public int MaCheck { get; set; }
+        public int MaCheckin { get; set; }
         public int MaNguoiDung { get; set; }
         public DateTime ThoiGianVao { get; set; }
         public DateTime ThoiGianRa { get; set; }
@@ -16,9 +16,9 @@ namespace SGU_C__User.DTO
 
         public CheckInDTO() { }
 
-        public CheckInDTO(int maCheck, int maNguoiDung, DateTime thoiGianVao, DateTime thoiGianRa, string trangThai)
+        public CheckInDTO(int maCheckIn, int maNguoiDung, DateTime thoiGianVao, DateTime thoiGianRa, string trangThai)
         {
-            MaCheck = maCheck;
+            MaCheckin = maCheckIn;
             MaNguoiDung = maNguoiDung;
             ThoiGianVao = thoiGianVao;
             ThoiGianRa = thoiGianRa;

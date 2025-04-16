@@ -17,6 +17,18 @@ namespace SGU_C__User.BUS
             return checkInDAO.GetAllCheckIn();
         }
 
+        public List<CheckInDTO> GetAllCheckInByMaNguoiDung(int maNguoiDung)
+        {
+            try
+            {
+                return checkInDAO.GetAllCheckInByMaNguoiDung(maNguoiDung);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi tìm kiếm checkin theo mã người dùng: " + ex.Message);
+            }
+        }
+
         public void AddCheckIn(CheckInDTO checkIn)
         {
             // Kiểm tra logic nghiệp vụ trước khi thêm
@@ -53,9 +65,9 @@ namespace SGU_C__User.BUS
             checkInDAO.UpdateCheckIn(checkIn);
         }
 
-        public void DeleteCheckIn(int maCheck)
+        public void DeleteCheckIn(int maCheckIn)
         {
-            checkInDAO.DeleteCheckIn(maCheck);
+            checkInDAO.DeleteCheckIn(maCheckIn);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SGU_C__User.DAO
                 {
                     CheckInDTO checkIn = new CheckInDTO
                     {
-                        MaCheck = Convert.ToInt32(reader["MaCheck"]),
+                        MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
                         ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
                         ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
@@ -37,6 +37,34 @@ namespace SGU_C__User.DAO
             }
             return checkInList;
         }
+
+        public List<CheckInDTO> GetAllCheckInByMaNguoiDung(int maNguoiDung)
+        {
+            List<CheckInDTO> danhSach = new List<CheckInDTO>();
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT MaCheckin, MaNguoiDung, ThoiGianVao, ThoiGianRa, TrangThai FROM checkin WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CheckInDTO checkIn = new CheckInDTO
+                    {
+                        MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
+                        MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
+                        ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
+                        TrangThai = reader["TrangThai"].ToString(),
+                    };
+                    danhSach.Add(checkIn);
+                }
+                conn.Close();
+            }
+            return danhSach;
+        }
+
 
         public void AddCheckIn(CheckInDTO checkIn)
         {
@@ -61,9 +89,9 @@ namespace SGU_C__User.DAO
             {
                 string query = "UPDATE checkin SET MaNguoiDung = @MaNguoiDung, " +
                               "ThoiGianVao = @ThoiGianVao, ThoiGianRa = @ThoiGianRa, " +
-                              "TrangThai = @TrangThai WHERE MaCheck = @MaCheck";
+                              "TrangThai = @TrangThai WHERE MaCheckin = @MaCheckin";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaCheck", checkIn.MaCheck);
+                cmd.Parameters.AddWithValue("@MaCheckin", checkIn.MaCheckin);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", checkIn.MaNguoiDung);
                 cmd.Parameters.AddWithValue("@ThoiGianVao", checkIn.ThoiGianVao);
                 cmd.Parameters.AddWithValue("@ThoiGianRa", checkIn.ThoiGianRa);
@@ -74,13 +102,13 @@ namespace SGU_C__User.DAO
             }
         }
 
-        public void DeleteCheckIn(int maCheck)
+        public void DeleteCheckIn(int maCheckIn)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM checkin WHERE MaCheck = @MaCheck";
+                string query = "DELETE FROM checkin WHERE MaCheckin = @MaCheckin";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaCheck", maCheck);
+                cmd.Parameters.AddWithValue("@MaCheckin", maCheckIn);
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
