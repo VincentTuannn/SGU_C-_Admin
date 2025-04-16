@@ -9,6 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using OfficeOpenXml;
+using System.IO;
+using SGU_C__User.DTO;
 
 namespace SGU_C__User
 {
@@ -188,6 +191,102 @@ namespace SGU_C__User
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
+            }
+        }
+
+        private void importExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    openFileDialog.Filter = "Excel Files|*.xlsx;*.xls";
+                    openFileDialog.Title = "Chọn file Excel";
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(new FileInfo(openFileDialog.FileName)))
+                        {
+                            var worksheet = package.Workbook.Worksheets[0]; // Lấy sheet đầu tiên
+                            int rowCount = worksheet.Dimension.Rows;
+                            int successCount = 0;
+                            int errorCount = 0;
+                            StringBuilder errorMessages = new StringBuilder();
+
+                            // Bắt đầu từ dòng 2 (bỏ qua header)
+                            for (int row = 2; row <= rowCount; row++)
+                            {
+                                try
+                                {
+                                    string tenThietBi = worksheet.Cells[row, 1].Text.Trim();
+                                    string loaiThietBi = worksheet.Cells[row, 2].Text.Trim();
+                                    string trangThai = worksheet.Cells[row, 3].Text.Trim();
+                                    string giaMuonText = worksheet.Cells[row, 4].Text.Trim();
+
+                                    // Kiểm tra dữ liệu
+                                    if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) || 
+                                        string.IsNullOrEmpty(trangThai) || string.IsNullOrEmpty(giaMuonText))
+                                    {
+                                        errorMessages.AppendLine($"Dòng {row}: Thiếu thông tin bắt buộc");
+                                        errorCount++;
+                                        continue;
+                                    }
+
+                                    if (!int.TryParse(giaMuonText, out int giaMuon) || giaMuon < 0)
+                                    {
+                                        errorMessages.AppendLine($"Dòng {row}: Giá mượn không hợp lệ");
+                                        errorCount++;
+                                        continue;
+                                    }
+
+                                    if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(trangThai))
+                                    {
+                                        errorMessages.AppendLine($"Dòng {row}: Trạng thái không hợp lệ (phải là: Có sẵn, Đang sử dụng, Bảo trì)");
+                                        errorCount++;
+                                        continue;
+                                    }
+
+                                    // Tạo đối tượng ThietBiDTO
+                                    ThietBiDTO thietBi = new ThietBiDTO
+                                    {
+                                        TenThietBi = tenThietBi,
+                                        LoaiThietBi = loaiThietBi,
+                                        TrangThai = trangThai,
+                                        GiaMuon = giaMuon
+                                    };
+
+                                    // Thêm vào database
+                                    thietBiBUS.AddThietBi(thietBi);
+                                    successCount++;
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorMessages.AppendLine($"Dòng {row}: {ex.Message}");
+                                    errorCount++;
+                                }
+                            }
+
+                            // Hiển thị kết quả
+                            string message = $"Import hoàn tất!\nThành công: {successCount}\nThất bại: {errorCount}";
+                            if (errorCount > 0)
+                            {
+                                message += "\n\nChi tiết lỗi:\n" + errorMessages.ToString();
+                            }
+
+                            MessageBox.Show(message, "Kết quả import", MessageBoxButtons.OK, 
+                                errorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+
+                            // Tải lại dữ liệu
+                            LoadDataToGridView();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi import Excel: {ex.Message}", "Lỗi", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -20,6 +20,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EPPlus" Version="7.0.8" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup />
