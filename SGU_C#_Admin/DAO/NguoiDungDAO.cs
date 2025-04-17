@@ -163,5 +163,48 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public NguoiDungDTO DangNhap(string email, string matKhau)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM nguoidung WHERE Email = @Email AND MatKhau = @MatKhau AND TrangThai = N'Hoạt động'";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@MatKhau", matKhau);
+
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        return new NguoiDungDTO
+                        {
+                            MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                            Email = reader["Email"].ToString(),
+                            MatKhau = reader["MatKhau"].ToString(),
+                            HoVaTen = reader["HoVaTen"].ToString(),
+                            NgaySinh = Convert.ToDateTime(reader["NgaySinh"]),
+                            DiaChi = reader["DiaChi"].ToString(),
+                            GioiTinh = reader["GioiTinh"].ToString(),
+                            SoDienThoai = reader["SoDienThoai"].ToString(),
+                            TrangThai = reader["TrangThai"].ToString()
+                        };
+                    }
+                    else
+                    {
+                        // Thêm debug để kiểm tra tại sao không có dữ liệu
+                        MessageBox.Show($"Không tìm thấy user với Email: {email}, MatKhau: {matKhau}, TrangThai: Hoạt động", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi kết nối đến cơ sở dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
     }
 }
