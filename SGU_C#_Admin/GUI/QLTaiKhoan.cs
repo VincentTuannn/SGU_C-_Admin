@@ -47,6 +47,7 @@ namespace SGU_C__User.GUI
                     dataGridView1.DefaultCellStyle.Font = new Font("Arial", 10);
                     dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
                     dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
+                    dataGridView1.Columns["MaQuyen"].HeaderText = "Mã quyền";
                     dataGridView1.Columns["HoVaTen"].HeaderText = "Họ và tên";
                     dataGridView1.Columns["Email"].HeaderText = "Email";
                     dataGridView1.Columns["SoDienThoai"].HeaderText = "Số điện thoại";
@@ -91,6 +92,7 @@ namespace SGU_C__User.GUI
 
                 // Tùy chỉnh tiêu đề cột
                 dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
+                dataGridView1.Columns["MaQuyen"].HeaderText = "Mã quyền";
                 dataGridView1.Columns["HoVaTen"].HeaderText = "Họ và tên";
                 dataGridView1.Columns["Email"].HeaderText = "Email";
                 dataGridView1.Columns["SoDienThoai"].HeaderText = "Số điện thoại";

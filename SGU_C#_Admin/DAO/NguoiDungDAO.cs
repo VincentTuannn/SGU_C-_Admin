@@ -26,6 +26,7 @@ namespace SGU_C__User.DAO
                     NguoiDungDTO nguoiDung = new NguoiDungDTO
                     {
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        MaQuyen = Convert.ToInt32(reader["MaQuyen"]),
                         Email = reader["Email"].ToString(),
                         MatKhau = reader["MatKhau"].ToString(),
                         HoVaTen = reader["HoVaTen"].ToString(),
@@ -47,7 +48,7 @@ namespace SGU_C__User.DAO
             List<NguoiDungDTO> danhSach = new List<NguoiDungDTO>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT MaNguoiDung, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE HoVaTen LIKE @HoVaTen";
+                string query = "SELECT MaNguoiDung, MaQuyen, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE HoVaTen LIKE @HoVaTen";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@HoVaTen", "%" + hoVaTen + "%");
                 conn.Open();
@@ -57,6 +58,7 @@ namespace SGU_C__User.DAO
                     NguoiDungDTO nguoiDung = new NguoiDungDTO
                     {
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        MaQuyen = Convert.ToInt32(reader["MaQuyen"]),
                         Email = reader["Email"].ToString(),
                         MatKhau = reader["MatKhau"].ToString(),
                         HoVaTen = reader["HoVaTen"].ToString(),
@@ -78,7 +80,7 @@ namespace SGU_C__User.DAO
             List<NguoiDungDTO> danhSach = new List<NguoiDungDTO>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT MaNguoiDung, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
+                string query = "SELECT MaNguoiDung, MaQuyen, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
                 conn.Open();
@@ -88,6 +90,7 @@ namespace SGU_C__User.DAO
                     NguoiDungDTO nguoiDung = new NguoiDungDTO
                     {
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                        MaQuyen = Convert.ToInt32(reader["MaQuyen"]),
                         Email = reader["Email"].ToString(),
                         MatKhau = reader["MatKhau"].ToString(),
                         HoVaTen = reader["HoVaTen"].ToString(),
@@ -182,6 +185,7 @@ namespace SGU_C__User.DAO
                         return new NguoiDungDTO
                         {
                             MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                            MaQuyen = Convert.ToInt32(reader["MaQuyen"]),
                             Email = reader["Email"].ToString(),
                             MatKhau = reader["MatKhau"].ToString(),
                             HoVaTen = reader["HoVaTen"].ToString(),

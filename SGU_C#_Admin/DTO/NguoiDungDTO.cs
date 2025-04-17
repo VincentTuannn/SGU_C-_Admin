@@ -9,6 +9,7 @@ namespace SGU_C__User.DTO
     internal class NguoiDungDTO
     {
         public int MaNguoiDung { get; set; }
+        public int MaQuyen { get; set; }
         public string Email { get; set; }
         public string MatKhau { get; set; }
         public string HoVaTen { get; set; }
@@ -20,9 +21,10 @@ namespace SGU_C__User.DTO
 
         public NguoiDungDTO() { }
 
-        public NguoiDungDTO(int maNguoiDung, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string gioiTinh, string soDienThoai, string trangThai)
+        public NguoiDungDTO(int maNguoiDung, int maQuyen, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string gioiTinh, string soDienThoai, string trangThai)
         {
             MaNguoiDung = maNguoiDung;
+            MaQuyen = maQuyen;
             Email = email;
             MatKhau = matKhau;
             HoVaTen = hoVaTen;
