@@ -103,11 +103,6 @@ namespace SGU_C__User.GUI
                 if (formSua.ShowDialog() == DialogResult.OK)
                 {
                     LoadDataToGridView(); // Tải lại dữ liệu sau khi sửa
-                    this.Show(); // Hiển thị lại form hiện tại
-                }
-                else
-                {
-                    this.Show(); // Hiển thị lại form nếu người dùng hủy
                 }
             }
             else
