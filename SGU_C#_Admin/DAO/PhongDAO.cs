@@ -151,7 +151,7 @@ namespace SGU_C__User.DAO
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT COUNT(*) FROM phong";
+                    string query = "SELECT COUNT(*) FROM phong WHERE TrangThai = N'Đang mượn'";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     conn.Open();
                     int count = (int)cmd.ExecuteScalar();

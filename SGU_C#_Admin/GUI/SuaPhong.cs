@@ -71,7 +71,7 @@ namespace SGU_C__User.GUI
                 // Tạo đối tượng PhongDTO
                 PhongDTO phong = new PhongDTO
                 {
-                    MaPhong = maPhong, // Giả định maPhong đã được khai báo trước (lấy từ form trước đó)
+                    MaPhong = maPhong, 
                     TenPhong = tenPhong,
                     LoaiPhong = loaiPhong,
                     SucChua = SucChua,
@@ -80,7 +80,7 @@ namespace SGU_C__User.GUI
                 };
 
                 // Gọi BUS để cập nhật phòng
-                phongBUS.UpdatePhong(phong); // Giả định có phương thức UpdatePhong trong PhongBUS
+                phongBUS.UpdatePhong(phong); 
                 MessageBox.Show("Cập nhật phòng thành công!", "Thành công",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
