@@ -124,7 +124,7 @@ namespace SGU_C__User.BUS
         }
 
         // login
-        public NguoiDungDTO DangNhap(string email, string matKhau)
+        public NguoiDungDTO DangNhap(string email, string matKhau, int maQuyen)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(matKhau))
             {
@@ -134,19 +134,38 @@ namespace SGU_C__User.BUS
             return nguoiDungDAO.DangNhap(email, matKhau);
         }
 
-        public NguoiDungDTO DangNhapAdmin(string email, string matKhau)
+        public NguoiDungDTO DangNhapAdmin(string email, string matKhau, int maQuyen)
         {
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(matKhau))
             {
                 throw new Exception("Vui lòng nhập đầy đủ thông tin!");
             }
             else
-            if (email != "admin@gmail.com" || matKhau != "admin123")
             {
-                throw new Exception("Email hoặc mật khẩu chưa chính xác!");
-            }
+                // Kiểm tra mã quyền (phải là 1 cho admin)
+                if (maQuyen != 1)
+                {
+                    MessageBox.Show("Tài khoản này không có quyền admin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return null;
+                }
 
-            return nguoiDungDAO.DangNhap(email, matKhau);
+                // Gọi DAO để lấy thông tin người dùng
+                NguoiDungDTO nguoiDung = nguoiDungDAO.DangNhap(email, matKhau);
+                if (nguoiDung == null)
+                {
+                    MessageBox.Show("Email hoặc mật khẩu không đúng, hoặc tài khoản không hoạt động!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
+                // Kiểm tra lại MaQuyen từ dữ liệu (để chắc chắn)
+                if (nguoiDung.MaQuyen != 1)
+                {
+                    MessageBox.Show("Tài khoản này không có quyền admin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+
+                return nguoiDung;
+            }
         }
     }
 }

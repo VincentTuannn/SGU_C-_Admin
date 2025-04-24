@@ -196,11 +196,11 @@ namespace SGU_C__User.DAO
                             TrangThai = reader["TrangThai"].ToString()
                         };
                     }
-                    else
-                    {
-                        // Thêm debug để kiểm tra tại sao không có dữ liệu
-                        MessageBox.Show($"Không tìm thấy user với Email: {email}, MatKhau: {matKhau}, TrangThai: Hoạt động", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    //else
+                    //{
+                    //    // Thêm debug để kiểm tra tại sao không có dữ liệu
+                    //    MessageBox.Show($"Không tìm thấy user với Email: {email}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //}
                     return null;
                 }
             }

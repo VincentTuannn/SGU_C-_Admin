@@ -28,12 +28,13 @@ namespace SGU_C__User.GUI
                 // Lấy thông tin từ textBox
                 string email = textBox_Email.Text;
                 string matKhau = textBox_Password.Text;
+                int maQuyen = 1; // Quyền admin
 
-
-                nguoiDungBus.DangNhapAdmin(email, matKhau);
+                // Gọi phương thức DangNhapAdmin từ NguoiDungBus
+                NguoiDungDTO nguoiDung = nguoiDungBus.DangNhapAdmin(email, matKhau, maQuyen);
 
                 // Kiểm tra kết quả đăng nhập
-                if (nguoiDungBus != null)
+                if (nguoiDung != null)
                 {
                     // Đăng nhập thành công, chuyển hướng đến TrangChu_Admin
                     TrangChu_Admin trangChu = new TrangChu_Admin();
@@ -42,7 +43,6 @@ namespace SGU_C__User.GUI
                 }
                 else
                 {
-                    // Đăng nhập thất bại, hiển thị thông báo lỗi
                     MessageBox.Show("Đăng nhập thất bại! Vui lòng kiểm tra thông tin.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
