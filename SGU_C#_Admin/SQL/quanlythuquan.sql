@@ -168,7 +168,7 @@ INSERT INTO [dbo].[quyen] ([TenQuyen]) VALUES (N'Admin'), (N'User');
 -- Chèn dữ liệu vào bảng nguoidung
 INSERT INTO [dbo].[nguoidung] ([MaQuyen], [Email], [MatKhau], [HoVaTen], [NgaySinh], [DiaChi], [GioiTinh], [SoDienThoai], [TrangThai])
 VALUES
-    (1, N'admin@gmail.com', N'Admin@2024#Secure!', N'Admin', '1980-01-01', N'123 Nguyen Hue, HCM', N'Nam', N'0987654001', N'Hoạt động'),
+    (1, N'admin@gmail.com', N'admin123', N'Admin', '1980-01-01', N'123 Nguyen Hue, HCM', N'Nam', N'0987654001', N'Hoạt động'),
     (2, N'tranthithuy@gmail.com', N'TTThuy!98$Mypass', N'Trần Thị Thùy', '1995-08-15', N'TP.HCM', N'Nữ', N'0912345002', N'Hoạt động'),
     (2, N'levanchien@gmail.com', N'LVChien@Secure99*', N'Lê Văn Chiến', '1992-03-22', N'Đà Nẵng', N'Nam', N'0909123003', N'Hoạt động'),
     (2, N'phamminhduc@gmail.com', N'PMDuc_2024!Secure$', N'Phạm Minh Đức', '2000-02-20', N'Hải Phòng', N'Nam', N'0988888004', N'Hoạt động'),

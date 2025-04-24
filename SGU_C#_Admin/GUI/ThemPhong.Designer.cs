@@ -67,6 +67,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -140,6 +141,7 @@
             // 
             // Btn_Cancel
             // 
+            Btn_Cancel.Cursor = Cursors.Hand;
             Btn_Cancel.Location = new Point(275, 591);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
@@ -150,6 +152,7 @@
             // 
             // Btn_Accept
             // 
+            Btn_Accept.Cursor = Cursors.Hand;
             Btn_Accept.Location = new Point(130, 591);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
@@ -211,7 +214,7 @@
             Controls.Add(label2);
             Name = "ThemPhong";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ThemPhong";
+            Text = "Thêm phòng";
             Load += ThemPhong_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -65,6 +65,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -95,6 +96,7 @@
             // 
             // Btn_Accept
             // 
+            Btn_Accept.Cursor = Cursors.Hand;
             Btn_Accept.Location = new Point(131, 542);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
@@ -105,6 +107,7 @@
             // 
             // Btn_Cancel
             // 
+            Btn_Cancel.Cursor = Cursors.Hand;
             Btn_Cancel.Location = new Point(276, 542);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
@@ -191,7 +194,7 @@
             Controls.Add(panel1);
             Name = "ThemThietBi";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ThemThietBi";
+            Text = "Thêm thiết bị";
             Load += ThemThietBi_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

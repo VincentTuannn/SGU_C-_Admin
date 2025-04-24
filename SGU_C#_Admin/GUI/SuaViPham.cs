@@ -27,7 +27,7 @@ namespace SGU_C__User.GUI
             this.maNguoiDung = maNguoiDung;
             this.maThietBi = maThietBi;
             this.maPhong = maPhong;
-            comboBox_Type.SelectedItem = loaiViPham; 
+            comboBox_Type.SelectedItem = loaiViPham;
             textBox_Content.Text = noiDungViPham;
         }
 
@@ -57,10 +57,10 @@ namespace SGU_C__User.GUI
                 // Tạo đối tượng ViPhamDTO
                 ViPhamDTO viPham = new ViPhamDTO
                 {
-                    MaViPham = maViPham, 
-                    MaNguoiDung = maNguoiDung, 
-                    MaThietBi = maThietBi, 
-                    MaPhong = maPhong, 
+                    MaViPham = maViPham,
+                    MaNguoiDung = maNguoiDung,
+                    MaThietBi = maThietBi,
+                    MaPhong = maPhong,
                     LoaiViPham = loaiViPham,
                     NoiDungViPham = noiDungViPham
                 };
@@ -85,6 +85,13 @@ namespace SGU_C__User.GUI
         {
             QLViPham mainForm = new QLViPham();
             mainForm.Show();
+            this.Close();
+        }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
             this.Close();
         }
     }

@@ -67,6 +67,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -85,9 +86,9 @@
             label6.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(127, 93);
             label6.Name = "label6";
-            label6.Size = new Size(261, 54);
+            label6.Size = new Size(495, 54);
             label6.TabIndex = 38;
-            label6.Text = "SỬA PHÒNG";
+            label6.Text = "SỬA THÔNG TIN PHÒNG";
             // 
             // textBox_Price
             // 
@@ -156,6 +157,7 @@
             // 
             // Btn_Cancel
             // 
+            Btn_Cancel.Cursor = Cursors.Hand;
             Btn_Cancel.Location = new Point(278, 585);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
@@ -166,6 +168,7 @@
             // 
             // Btn_Accept
             // 
+            Btn_Accept.Cursor = Cursors.Hand;
             Btn_Accept.Location = new Point(133, 585);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
@@ -211,7 +214,7 @@
             Controls.Add(label6);
             Name = "SuaPhong";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "SuaPhong";
+            Text = "Sửa thông tin phòng";
             Load += SuaPhong_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

@@ -65,6 +65,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -139,6 +140,7 @@
             // 
             // btn_delete
             // 
+            btn_delete.Cursor = Cursors.Hand;
             btn_delete.Location = new Point(813, 245);
             btn_delete.Name = "btn_delete";
             btn_delete.Size = new Size(86, 35);
@@ -149,6 +151,7 @@
             // 
             // btn_fix
             // 
+            btn_fix.Cursor = Cursors.Hand;
             btn_fix.Location = new Point(813, 137);
             btn_fix.Name = "btn_fix";
             btn_fix.Size = new Size(86, 35);
@@ -168,6 +171,7 @@
             // 
             // Btn_Back
             // 
+            Btn_Back.Cursor = Cursors.Hand;
             Btn_Back.Location = new Point(62, 69);
             Btn_Back.Name = "Btn_Back";
             Btn_Back.Size = new Size(86, 35);

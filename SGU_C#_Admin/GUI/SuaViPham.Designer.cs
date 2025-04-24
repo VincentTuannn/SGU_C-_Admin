@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
-            button2 = new Button();
+            Btn_Logout = new Button();
             label1 = new Label();
             label6 = new Label();
             comboBox_Type = new ComboBox();
@@ -44,23 +44,24 @@
             // panel1
             // 
             panel1.BackColor = Color.Blue;
-            panel1.Controls.Add(button2);
+            panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
             panel1.Location = new Point(1, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1022, 62);
             panel1.TabIndex = 27;
             // 
-            // button2
+            // Btn_Logout
             // 
-            button2.BackColor = Color.White;
-            button2.Cursor = Cursors.Hand;
-            button2.Location = new Point(851, 17);
-            button2.Name = "button2";
-            button2.Size = new Size(149, 34);
-            button2.TabIndex = 2;
-            button2.Text = "Logout";
-            button2.UseVisualStyleBackColor = false;
+            Btn_Logout.BackColor = Color.White;
+            Btn_Logout.Cursor = Cursors.Hand;
+            Btn_Logout.Location = new Point(851, 17);
+            Btn_Logout.Name = "Btn_Logout";
+            Btn_Logout.Size = new Size(149, 34);
+            Btn_Logout.TabIndex = 2;
+            Btn_Logout.Text = "Logout";
+            Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -79,9 +80,9 @@
             label6.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(127, 93);
             label6.Name = "label6";
-            label6.Size = new Size(288, 54);
+            label6.Size = new Size(522, 54);
             label6.TabIndex = 38;
-            label6.Text = "SỬA VI PHẠM";
+            label6.Text = "SỬA THÔNG TIN VI PHẠM";
             // 
             // comboBox_Type
             // 
@@ -102,6 +103,7 @@
             // 
             // Btn_Cancel
             // 
+            Btn_Cancel.Cursor = Cursors.Hand;
             Btn_Cancel.Location = new Point(282, 401);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
@@ -112,6 +114,7 @@
             // 
             // Btn_Accept
             // 
+            Btn_Accept.Cursor = Cursors.Hand;
             Btn_Accept.Location = new Point(137, 401);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
@@ -151,7 +154,7 @@
             Controls.Add(label2);
             Name = "SuaViPham";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "SuaViPham";
+            Text = "Sửa thông tin vi phạm";
             Load += SuaViPham_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -162,7 +165,7 @@
         #endregion
 
         private Panel panel1;
-        private Button button2;
+        private Button Btn_Logout;
         private Label label1;
         private Label label6;
         private ComboBox comboBox_Type;

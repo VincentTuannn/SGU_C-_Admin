@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
-            Input_Search = new TextBox();
             label2 = new Label();
             Btn_Logout = new Button();
             label1 = new Label();
@@ -41,28 +40,19 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
             panel2.Location = new Point(58, 115);
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 467);
             panel2.TabIndex = 13;
             // 
-            // Input_Search
-            // 
-            Input_Search.ForeColor = Color.Gray;
-            Input_Search.Location = new Point(30, 58);
-            Input_Search.Name = "Input_Search";
-            Input_Search.Size = new Size(188, 27);
-            Input_Search.TabIndex = 1;
-            // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(30, 24);
             label2.Name = "label2";
-            label2.Size = new Size(114, 31);
+            label2.Size = new Size(197, 54);
             label2.TabIndex = 0;
             label2.Text = "Thống kê";
             // 
@@ -76,6 +66,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -90,6 +81,7 @@
             // 
             // Btn_Back
             // 
+            Btn_Back.Cursor = Cursors.Hand;
             Btn_Back.Location = new Point(58, 68);
             Btn_Back.Name = "Btn_Back";
             Btn_Back.Size = new Size(83, 32);
@@ -118,7 +110,7 @@
             Controls.Add(panel1);
             Name = "ThongKe";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "ThongKe";
+            Text = "Thống kê";
             Load += ThongKe_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
@@ -130,7 +122,6 @@
         #endregion
 
         private Panel panel2;
-        private TextBox Input_Search;
         private Label label2;
         private Button Btn_Logout;
         private Label label1;

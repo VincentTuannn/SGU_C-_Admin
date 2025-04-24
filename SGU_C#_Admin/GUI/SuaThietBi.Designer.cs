@@ -65,6 +65,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -128,6 +129,7 @@
             // 
             // Btn_Cancel
             // 
+            Btn_Cancel.Cursor = Cursors.Hand;
             Btn_Cancel.Location = new Point(271, 540);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
@@ -138,6 +140,7 @@
             // 
             // Btn_Accept
             // 
+            Btn_Accept.Cursor = Cursors.Hand;
             Btn_Accept.Location = new Point(126, 540);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
@@ -168,9 +171,9 @@
             label6.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label6.Location = new Point(123, 93);
             label6.Name = "label6";
-            label6.Size = new Size(276, 54);
+            label6.Size = new Size(510, 54);
             label6.TabIndex = 26;
-            label6.Text = "SỬA THIẾT BỊ";
+            label6.Text = "SỬA THÔNG TIN THIẾT BỊ";
             // 
             // SuaThietBi
             // 
@@ -191,7 +194,7 @@
             Controls.Add(label2);
             Name = "SuaThietBi";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "SuaThietBi";
+            Text = "Sửa thông tin thiết bị";
             Load += SuaThietBi_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

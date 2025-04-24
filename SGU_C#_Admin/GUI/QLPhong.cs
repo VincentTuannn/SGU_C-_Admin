@@ -149,5 +149,12 @@ namespace SGU_C__User.GUI
             AddRoom.Show(); // Hiển thị form mới
             this.Hide();
         }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

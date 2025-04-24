@@ -133,5 +133,20 @@ namespace SGU_C__User.BUS
 
             return nguoiDungDAO.DangNhap(email, matKhau);
         }
+
+        public NguoiDungDTO DangNhapAdmin(string email, string matKhau)
+        {
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(matKhau))
+            {
+                throw new Exception("Vui lòng nhập đầy đủ thông tin!");
+            }
+            else
+            if (email != "admin@gmail.com" || matKhau != "admin123")
+            {
+                throw new Exception("Email hoặc mật khẩu chưa chính xác!");
+            }
+
+            return nguoiDungDAO.DangNhap(email, matKhau);
+        }
     }
 }

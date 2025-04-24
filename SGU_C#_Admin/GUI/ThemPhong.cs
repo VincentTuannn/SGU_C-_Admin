@@ -100,5 +100,12 @@ namespace SGU_C__User.GUI
             comboBox_Status.Items.Add("Đang mượn");
             comboBox_Status.Items.Add("Bảo trì");
         }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

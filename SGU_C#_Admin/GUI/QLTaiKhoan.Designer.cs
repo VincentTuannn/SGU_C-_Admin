@@ -89,6 +89,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -103,6 +104,7 @@
             // 
             // Btn_Back
             // 
+            Btn_Back.Cursor = Cursors.Hand;
             Btn_Back.Location = new Point(60, 70);
             Btn_Back.Name = "Btn_Back";
             Btn_Back.Size = new Size(83, 32);
@@ -131,7 +133,7 @@
             Controls.Add(panel1);
             Name = "QLTaiKhoan";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "QLTaiKhoan";
+            Text = "Quản lý tài khoản";
             Load += QLTaiKhoan_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

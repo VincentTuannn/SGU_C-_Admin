@@ -225,7 +225,7 @@ namespace SGU_C__User
                                     string giaMuonText = worksheet.Cells[row, 4].Text.Trim();
 
                                     // Kiểm tra dữ liệu
-                                    if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) || 
+                                    if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) ||
                                         string.IsNullOrEmpty(trangThai) || string.IsNullOrEmpty(giaMuonText))
                                     {
                                         errorMessages.AppendLine($"Dòng {row}: Thiếu thông tin bắt buộc");
@@ -274,7 +274,7 @@ namespace SGU_C__User
                                 message += "\n\nChi tiết lỗi:\n" + errorMessages.ToString();
                             }
 
-                            MessageBox.Show(message, "Kết quả import", MessageBoxButtons.OK, 
+                            MessageBox.Show(message, "Kết quả import", MessageBoxButtons.OK,
                                 errorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
 
                             // Tải lại dữ liệu
@@ -285,9 +285,16 @@ namespace SGU_C__User
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi import Excel: {ex.Message}", "Lỗi", 
+                MessageBox.Show($"Lỗi khi import Excel: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
         }
     }
 }

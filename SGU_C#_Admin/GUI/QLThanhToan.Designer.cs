@@ -89,6 +89,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -103,6 +104,7 @@
             // 
             // btn_back
             // 
+            btn_back.Cursor = Cursors.Hand;
             btn_back.Location = new Point(58, 71);
             btn_back.Name = "btn_back";
             btn_back.Size = new Size(83, 32);
@@ -131,7 +133,7 @@
             Controls.Add(panel1);
             Name = "QLThanhToan";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "QLThanhToan";
+            Text = "Quản lý thanh toán";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();

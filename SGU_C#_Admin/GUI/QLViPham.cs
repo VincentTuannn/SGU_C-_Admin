@@ -146,5 +146,12 @@ namespace SGU_C__User
                 MessageBox.Show("Vui lòng chọn một vi phạm để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

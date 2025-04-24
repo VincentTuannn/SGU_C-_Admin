@@ -251,5 +251,12 @@ namespace SGU_C__User
             statisticsManagement.Show();
             this.Hide();
         }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

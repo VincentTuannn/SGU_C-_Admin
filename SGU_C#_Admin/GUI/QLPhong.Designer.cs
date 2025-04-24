@@ -128,6 +128,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -168,9 +169,10 @@
             Controls.Add(panel2);
             Controls.Add(Btn_Back);
             Controls.Add(panel1);
+            Cursor = Cursors.Hand;
             Name = "QLPhong";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "QLPhong";
+            Text = "Quản lý phòng ban";
             Load += QLPhong_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

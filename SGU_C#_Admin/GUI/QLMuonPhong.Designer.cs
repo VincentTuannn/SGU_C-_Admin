@@ -89,6 +89,7 @@
             Btn_Logout.TabIndex = 2;
             Btn_Logout.Text = "Logout";
             Btn_Logout.UseVisualStyleBackColor = false;
+            Btn_Logout.Click += Btn_Logout_Click;
             // 
             // label1
             // 
@@ -103,6 +104,7 @@
             // 
             // btn_back
             // 
+            btn_back.Cursor = Cursors.Hand;
             btn_back.Location = new Point(59, 68);
             btn_back.Name = "btn_back";
             btn_back.Size = new Size(83, 32);
@@ -131,7 +133,7 @@
             Controls.Add(panel1);
             Name = "QLMuonPhong";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "QLMuonPhong";
+            Text = "Quản lý mượn phòng";
             Load += QLMuonPhong_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();

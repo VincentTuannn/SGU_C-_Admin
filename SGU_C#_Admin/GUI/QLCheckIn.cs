@@ -91,5 +91,12 @@ namespace SGU_C__User.GUI
                 MessageBox.Show("Lỗi khi tìm kiếm: " + ex.Message);
             }
         }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
     }
 }

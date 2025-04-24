@@ -71,7 +71,7 @@ namespace SGU_C__User.GUI
                 // Tạo đối tượng PhongDTO
                 PhongDTO phong = new PhongDTO
                 {
-                    MaPhong = maPhong, 
+                    MaPhong = maPhong,
                     TenPhong = tenPhong,
                     LoaiPhong = loaiPhong,
                     SucChua = SucChua,
@@ -80,7 +80,7 @@ namespace SGU_C__User.GUI
                 };
 
                 // Gọi BUS để cập nhật phòng
-                phongBUS.UpdatePhong(phong); 
+                phongBUS.UpdatePhong(phong);
                 MessageBox.Show("Cập nhật phòng thành công!", "Thành công",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -99,6 +99,13 @@ namespace SGU_C__User.GUI
         {
             QLPhong mainForm = new QLPhong();
             mainForm.Show();
+            this.Close();
+        }
+
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
             this.Close();
         }
     }
