@@ -105,7 +105,7 @@ namespace SGU_C__User
 
         }
 
-       
+
 
         private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
@@ -242,6 +242,13 @@ namespace SGU_C__User
         {
             QLCheckIn checkinManagement = new QLCheckIn();
             checkinManagement.Show();
+            this.Hide();
+        }
+
+        private void Btn_ThongKe_Click(object sender, EventArgs e)
+        {
+            ThongKe statisticsManagement = new ThongKe();
+            statisticsManagement.Show();
             this.Hide();
         }
     }

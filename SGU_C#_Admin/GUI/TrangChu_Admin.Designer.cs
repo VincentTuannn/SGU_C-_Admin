@@ -33,6 +33,7 @@ namespace SGU_C__User
             Btn_Logout = new Button();
             label1 = new Label();
             panel2 = new Panel();
+            Btn_ThongKe = new Button();
             Btn_QLMuonPhong = new Button();
             Btn_QLMuonThietBi = new Button();
             Btn_QLViPham = new Button();
@@ -89,6 +90,7 @@ namespace SGU_C__User
             // panel2
             // 
             panel2.BackColor = Color.White;
+            panel2.Controls.Add(Btn_ThongKe);
             panel2.Controls.Add(Btn_QLMuonPhong);
             panel2.Controls.Add(Btn_QLMuonThietBi);
             panel2.Controls.Add(Btn_QLViPham);
@@ -99,9 +101,21 @@ namespace SGU_C__User
             panel2.Controls.Add(label2);
             panel2.Location = new Point(33, 123);
             panel2.Name = "panel2";
-            panel2.Size = new Size(234, 620);
+            panel2.Size = new Size(234, 696);
             panel2.TabIndex = 1;
             panel2.Paint += panel2_Paint;
+            // 
+            // Btn_ThongKe
+            // 
+            Btn_ThongKe.Cursor = Cursors.Hand;
+            Btn_ThongKe.Location = new Point(0, 642);
+            Btn_ThongKe.Name = "Btn_ThongKe";
+            Btn_ThongKe.Size = new Size(228, 51);
+            Btn_ThongKe.TabIndex = 7;
+            Btn_ThongKe.Text = "Thống kê";
+            Btn_ThongKe.TextAlign = ContentAlignment.MiddleLeft;
+            Btn_ThongKe.UseVisualStyleBackColor = true;
+            Btn_ThongKe.Click += Btn_ThongKe_Click;
             // 
             // Btn_QLMuonPhong
             // 
@@ -274,7 +288,7 @@ namespace SGU_C__User
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1080, 755);
+            ClientSize = new Size(1080, 862);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
@@ -344,5 +358,6 @@ namespace SGU_C__User
         private Button button9;
         private Button Btn_QLMuonThietBi;
         private Button Btn_QLMuonPhong;
+        private Button Btn_ThongKe;
     }
 }
