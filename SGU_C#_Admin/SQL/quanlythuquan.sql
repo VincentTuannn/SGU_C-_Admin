@@ -171,7 +171,7 @@ VALUES
     (1, N'admin@gmail.com', N'admin123', N'Admin', '2004-07-22', N'123 Tân Thới Nhất, HCM', N'Nam', N'0987654001', N'Hoạt động'),
     (1, N'vincenttuan1098@gmail.com', N'nqtuan123', N'Nguyễn Quốc Tuấn', '2004-07-22', N'123 Xuân Thới Đông, HCM', N'Nam', N'0354525657', N'Hoạt động'),
     (2, N'phamthituongvy@gmail.com', N'pttvy123', N'Phạm Thị Tường Vy', '2004-01-03', N'HCM', N'Nữ', N'0354696871', N'Hoạt động'),
-    (2, N'dinhlecamtu@gmail.com', N'dlctu123', N'Đinh Lê Cẩm Tú', '2004-11-11', N'HCM', N'Nữ', N'0354525657', N'Hoạt động'),
+    (2, N'dinhlecamtu@gmail.com', N'dlctu123', N'Đinh Lê Cẩm Tú', '2004-11-11', N'HCM', N'Nữ', N'0354525658', N'Hoạt động'),
     (2, N'nguyenleminhthu@gmail.com', N'nlmthu123', N'Nguyễn Lê Minh Thư', '2004-06-08', N'HCM', N'Nữ', N'0968849220', N'Hoạt động'),
     (2, N'tranthithuy@gmail.com', N'ttthuy123', N'Trần Thị Thùy', '1995-08-15', N'TP.HCM', N'Nữ', N'0912345002', N'Hoạt động'),
     (2, N'levanchien@gmail.com', N'lvchien123', N'Lê Văn Chiến', '1992-03-22', N'Đà Nẵng', N'Nam', N'0909123003', N'Hoạt động'),
@@ -202,7 +202,7 @@ VALUES
     (2, N'hoangnhithu@gmail.com', N'hnthu123', N'Hoàng Nhị Thư', '1996-02-18', N'Gia Lai', N'Nữ', N'0920015028', N'Hoạt động'),
     (2, N'lethidieu@gmail.com', N'ltdieu123', N'Lê Thị Diệu', '1999-07-09', N'Nghệ An', N'Nữ', N'0967767029', N'Hoạt động'),
     (2, N'dangtrongkhoa@gmail.com', N'dtkhoa123', N'Đặng Trọng Khoa', '2001-05-05', N'Thái Bình', N'Nam', N'0939987030', N'Không hoạt động'),
-    (2, N'phupham422@gmail.com', N'ptphu123', N'Phạm Thiên Phú', '2004-01-17', N'HCM', N'Nam', N'0886734325', N'Hoạt động');
+    (1, N'phupham422@gmail.com', N'ptphu123', N'Phạm Thiên Phú', '2004-01-17', N'HCM', N'Nam', N'0886734325', N'Hoạt động');
 
 -- Chèn dữ liệu vào bảng thietbi
 INSERT INTO [dbo].[thietbi] ([TenThietBi], [LoaiThietBi], [TrangThai], [GiaMuon])
