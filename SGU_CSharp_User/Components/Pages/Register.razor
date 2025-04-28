@@ -1,0 +1,190 @@
+﻿@page "/register"
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Threading.Tasks
+@inject NavigationManager NavigationManager
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Đăng Ký Tài Khoản</h3>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="registerModel" OnValidSubmit="HandleRegistration" id="registrationForm" name="registrationForm">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger mb-3" />
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Họ:</label>
+                                <InputText id="firstName" @bind-Value="registerModel.FirstName" class="form-control" />
+                                <ValidationMessage For="@(() => registerModel.FirstName)" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Tên:</label>
+                                <InputText id="lastName" @bind-Value="registerModel.LastName" class="form-control" />
+                                <ValidationMessage For="@(() => registerModel.LastName)" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <InputText id="email" @bind-Value="registerModel.Email" class="form-control" />
+                            <ValidationMessage For="@(() => registerModel.Email)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Số điện thoại:</label>
+                            <InputText id="phone" @bind-Value="registerModel.PhoneNumber" class="form-control" />
+                            <ValidationMessage For="@(() => registerModel.PhoneNumber)" class="text-danger" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">Mật khẩu:</label>
+                                <div class="input-group">
+                                    <InputText type="@(showPassword ? "text" : "password")" id="password" 
+                                        @bind-Value="registerModel.Password" class="form-control" />
+                                </div>
+                                <ValidationMessage For="@(() => registerModel.Password)" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword" class="form-label">Xác nhận mật khẩu:</label>
+                                <InputText type="@(showPassword ? "text" : "password")" id="confirmPassword" 
+                                    @bind-Value="registerModel.ConfirmPassword" class="form-control" />
+                                <ValidationMessage For="@(() => registerModel.ConfirmPassword)" class="text-danger" />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dob" class="form-label">Ngày sinh:</label>
+                            <InputDate id="dob" @bind-Value="registerModel.DateOfBirth" class="form-control" />
+                            <ValidationMessage For="@(() => registerModel.DateOfBirth)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Địa chỉ:</label>
+                            <InputTextArea id="address" @bind-Value="registerModel.Address" class="form-control" rows="2" />
+                            <ValidationMessage For="@(() => registerModel.Address)" class="text-danger" />
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <InputCheckbox id="agreeTerms" @bind-Value="registerModel.AgreeToTerms" class="form-check-input darker-border-checkbox" />
+                            <label class="form-check-label" for="agreeTerms">
+                                Tôi đồng ý với <a href="/terms" target="_blank">Điều khoản sử dụng</a> và <a href="/privacy" target="_blank">Chính sách bảo mật</a>
+                            </label>
+                            <ValidationMessage For="@(() => registerModel.AgreeToTerms)" class="text-danger d-block" />
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @errorMessage
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" disabled="@isLoading">
+                                @if (isLoading)
+                                {
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    <span class="ms-2">Đang xử lý...</span>
+                                }
+                                else
+                                {
+                                    <span>Đăng ký</span>
+                                }
+                            </button>
+                        </div>
+                    </EditForm>
+
+                    <div class="mt-3 text-center">
+                        <p>Đã có tài khoản? <a href="/login">Đăng nhập</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RegisterModel registerModel = new();
+    private bool showPassword = false;
+    private bool isLoading = false;
+    private string errorMessage = string.Empty;
+
+    private void TogglePasswordVisibility()
+    {
+        showPassword = !showPassword;
+    }
+
+    private async Task HandleRegistration()
+    {
+        isLoading = true;
+        errorMessage = string.Empty;
+
+        try
+        {
+            // Simulate an API call delay
+            await Task.Delay(1000);
+
+            // TODO: Replace with your actual registration logic
+            // This is where you'll implement your controller logic later
+
+            // For now, just redirect to a success page or home
+            NavigationManager.NavigateTo("/registration-success");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Đăng ký thất bại: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    public class RegisterModel
+    {
+        [Required(ErrorMessage = "Họ là bắt buộc")]
+        [StringLength(50, ErrorMessage = "Họ không được vượt quá {1} ký tự")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Tên là bắt buộc")]
+        [StringLength(50, ErrorMessage = "Tên không được vượt quá {1} ký tự")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email là bắt buộc")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
+        [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]
+        [RegularExpression(@"^(0|\+84)[0-9]{9,10}$", ErrorMessage = "Số điện thoại không đúng định dạng (VD: 0xxxxxxxxx hoặc +84xxxxxxxxx)")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Mật khẩu là bắt buộc")]
+        [StringLength(100, ErrorMessage = "Mật khẩu phải có ít nhất {2} ký tự", MinimumLength = 6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$", 
+            ErrorMessage = "Mật khẩu phải có ít nhất 1 ký tự viết hoa, 1 ký tự viết thường, 1 chữ số và 1 ký tự đặc biệt")]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Xác nhận mật khẩu là bắt buộc")]
+        [Compare(nameof(Password), ErrorMessage = "Mật khẩu xác nhận không khớp")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Ngày sinh là bắt buộc")]
+        [Range(typeof(DateTime), "1/1/1900", "1/1/2010", ErrorMessage = "Ngày sinh không hợp lệ")]
+        public DateTime DateOfBirth { get; set; } = DateTime.Now.AddYears(-18);
+
+        [Required(ErrorMessage = "Địa chỉ là bắt buộc")]
+        [StringLength(200, ErrorMessage = "Địa chỉ không được vượt quá {1} ký tự")]
+        public string Address { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Bạn phải đồng ý với điều khoản sử dụng và chính sách bảo mật")]
+        [Range(typeof(bool), "true", "true", ErrorMessage = "Bạn phải đồng ý với điều khoản sử dụng và chính sách bảo mật")]
+        public bool AgreeToTerms { get; set; }
+    }
+}
