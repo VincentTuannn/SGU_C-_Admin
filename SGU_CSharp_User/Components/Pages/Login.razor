@@ -1,0 +1,243 @@
+﻿@page "/login"
+@using SGU_CSharp_User.Service
+@using SGU_CSharp_User.Model
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.JSInterop
+@inject NguoiDungService NguoiDungService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+<PageTitle>Đăng nhập</PageTitle>
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-left">
+            <div class="login-overlay"></div>
+            <div class="login-content">
+                <h2>Smart Library Hub</h2>
+                <p>Đăng nhập để khám phá thế giới tri thức không giới hạn</p>
+                <div class="login-features">
+                    <div class="feature-item">
+                        <i class="bi bi-book"></i>
+                        <span>Hàng ngàn tài liệu học tập</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-calendar-check"></i>
+                        <span>Đặt phòng học nhóm dễ dàng</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="bi bi-laptop"></i>
+                        <span>Truy cập mọi lúc, mọi nơi</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="login-header">
+                <img src="/images/logo.png" alt="Smart Library Hub" class="logo" />
+                <h3>Đăng Nhập</h3>
+                <p>Chào mừng bạn quay trở lại!</p>
+            </div>
+
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin" class="login-form">
+                <DataAnnotationsValidator />
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @errorMessage
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label for="email">
+                        <i class="bi bi-envelope"></i>
+                        <span>Email</span>
+                    </label>
+                    <InputText type="email" id="email" class="form-control" placeholder="Nhập email của bạn"
+                               @bind-Value="loginModel.Email" />
+                    <ValidationMessage For="@(() => loginModel.Email)" class="validation-message" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="bi bi-lock"></i>
+                        <span>Mật khẩu</span>
+                    </label>
+                    <div class="password-container">
+                        <InputText type="@(showPassword ? "text" : "password")" id="password" class="form-control"
+                                   placeholder="Nhập mật khẩu của bạn" @bind-Value="loginModel.Password" />
+                        <button type="button" class="toggle-password" @onclick="TogglePasswordVisibility">
+                            <i class="bi @(showPassword ? "bi-eye-slash" : "bi-eye")"></i>
+                        </button>
+                    </div>
+                    <ValidationMessage For="@(() => loginModel.Password)" class="validation-message" />
+                </div>
+
+                <div class="form-options">
+                    <div class="remember-me">
+                        <InputCheckbox id="rememberMe" class="custom-checkbox" @bind-Value="loginModel.RememberMe" />
+                        <label for="rememberMe">Ghi nhớ đăng nhập</label>
+                    </div>
+                    <a href="/forgot-password" class="forgot-link">Quên mật khẩu?</a>
+                </div>
+
+                <button type="submit" class="btn-login" disabled="@isLoading">
+                    @if (isLoading)
+                    {
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="ms-2">Đang xử lý...</span>
+                    }
+                    else
+                    {
+                        <span>Đăng nhập</span>
+                        <i class="bi bi-arrow-right"></i>
+                    }
+                </button>
+
+                <div class="login-divider">
+                    <span>hoặc</span>
+                </div>
+
+                <div class="social-login">
+                    <button type="button" class="btn-social google" @onclick="LoginWithGoogle">
+                        <i class="bi bi-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="btn-social facebook" @onclick="LoginWithFacebook">
+                        <i class="bi bi-facebook"></i>
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </EditForm>
+
+            <div class="register-link">
+                <p>Chưa có tài khoản? <a href="/register">Đăng ký ngay</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private bool showPassword = false;
+    private bool isLoading = false;
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Kiểm tra xem người dùng đã đăng nhập chưa
+        var isLoggedIn = await IsUserLoggedIn();
+        if (isLoggedIn)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task<bool> IsUserLoggedIn()
+    {
+        try
+        {
+            var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
+            return !string.IsNullOrEmpty(userData);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        showPassword = !showPassword;
+    }
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = string.Empty;
+
+        try
+        {
+            // Gọi service để đăng nhập
+            var user = NguoiDungService.login(loginModel.Email, loginModel.Password);
+
+            if (user != null)
+            {
+                // Kiểm tra trạng thái người dùng
+                if (user.TrangThai != "Hoạt động")
+                {
+                    errorMessage = "Tài khoản của bạn hiện không hoạt động.";
+                    return;
+                }
+
+                // Chuẩn bị dữ liệu người dùng để lưu vào localStorage
+                // Loại bỏ thông tin nhạy cảm như mật khẩu
+                var userData = new
+                {
+                    user.MaNguoiDung,
+                    user.Email,
+                    user.HoVaTen,
+                    user.MaQuyen,
+                    user.GioiTinh,
+                    user.SoDienThoai,
+                    user.DiaChi,
+                    user.TrangThai,
+                    NgaySinh = user.NgaySinh.ToString("yyyy-MM-dd")
+                };
+
+                // Chuyển đối tượng thành chuỗi JSON
+                var userJson = System.Text.Json.JsonSerializer.Serialize(userData);
+
+                // Lưu vào localStorage
+                await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userData", userJson);
+
+                // Nếu người dùng chọn "Ghi nhớ đăng nhập", lưu thêm flag
+                if (loginModel.RememberMe)
+                {
+                    await JSRuntime.InvokeVoidAsync("localStorage.setItem", "rememberMe", "true");
+                }
+
+                // Chuyển hướng đến trang chủ
+                NavigationManager.NavigateTo("/",true);
+            }
+            else
+            {
+                errorMessage = "Email hoặc mật khẩu không chính xác.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi đăng nhập: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void LoginWithGoogle()
+    {
+        // Chức năng đăng nhập với Google (sẽ triển khai sau)
+        errorMessage = "Đăng nhập bằng Google chưa được hỗ trợ.";
+    }
+
+    private void LoginWithFacebook()
+    {
+        // Chức năng đăng nhập với Facebook (sẽ triển khai sau)
+        errorMessage = "Đăng nhập bằng Facebook chưa được hỗ trợ.";
+    }
+
+    // Model cho form đăng nhập
+    public class LoginModel
+    {
+        [Required(ErrorMessage = "Vui lòng nhập email")]
+        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
+        public string Password { get; set; } = string.Empty;
+
+        public bool RememberMe { get; set; }
+    }
+}

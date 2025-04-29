@@ -1,0 +1,187 @@
+﻿@page "/profile"
+@using SGU_CSharp_User.Model
+@using SGU_CSharp_User.Service
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.JSInterop
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject NguoiDungService NguoiDungService
+@rendermode InteractiveServer
+<PageTitle>Thông tin cá nhân</PageTitle>
+
+<h2>Hồ sơ cá nhân</h2>
+
+<div class="profile-container">
+    <EditForm Model="@profileModel" OnValidSubmit="@UpdateProfile" FormName="UpdateProfile">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+                <label>Họ và tên:</label>
+                <InputText class="form-control" @bind-Value="profileModel.HoVaTen" disabled="true" />
+                <ValidationMessage For="@(() => profileModel.HoVaTen)" />
+            </div>
+
+            <div class="form-group">
+                <label>Email:</label>
+                <InputText class="form-control" @bind-Value="profileModel.Email" disabled="true" />
+                <ValidationMessage For="@(() => profileModel.Email)" />
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại:</label>
+                <InputText class="form-control" @bind-Value="profileModel.SoDienThoai" disabled="true" />
+                <ValidationMessage For="@(() => profileModel.SoDienThoai)" />
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ:</label>
+                <InputText class="form-control" @bind-Value="profileModel.DiaChi" disabled="true" />
+                <ValidationMessage For="@(() => profileModel.DiaChi)" />
+            </div>
+
+            <div class="form-group">
+                <label>Ngày sinh:</label>
+                <InputDate class="form-control" @bind-Value="profileModel.NgaySinh" disabled="true" />
+                <ValidationMessage For="@(() => profileModel.NgaySinh)" />
+            </div>
+
+            <div class="form-group">
+                <label>Giới tính:</label>
+                <InputSelect class="form-control" @bind-Value="profileModel.GioiTinh" disabled="true">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </InputSelect>
+                <ValidationMessage For="@(() => profileModel.GioiTinh)" />
+            </div>
+
+        <div class="form-group">
+            <label>Mật khẩu mới (nếu muốn thay đổi):</label>
+            <InputText class="form-control" @bind-Value="profileModel.NewPassword" type="password" />
+            <ValidationMessage For="@(() => profileModel.NewPassword)" />
+        </div>
+
+        <div class="form-group">
+            <label>Xác nhận mật khẩu mới:</label>
+            <InputText class="form-control" @bind-Value="profileModel.ConfirmPassword" type="password" />
+            <ValidationMessage For="@(() => profileModel.ConfirmPassword)" />
+        </div>
+
+        @if (isSuccess)
+        {
+            <div class="alert alert-success" role="alert">
+                Cập nhật hồ sơ thành công!
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+
+        <button class="btn btn-primary" type="submit">Cập nhật hồ sơ</button>
+    </EditForm>
+</div>
+
+@code {
+
+    private ProfileUpdateModel profileModel = new();
+    private bool isSuccess = false;
+    private string errorMessage = string.Empty;
+    private bool isLoggedIn = false;
+
+    private bool firstRender = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Don't make JS interop calls here - it will cause errors during prerendering
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.firstRender = false;
+            await CheckLoginStatus();
+            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+        }
+    }
+
+    private async Task CheckLoginStatus()
+    {
+        try
+        {
+            var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
+
+            Console.WriteLine(userData);
+
+            if (!string.IsNullOrEmpty(userData))
+            {
+                isLoggedIn = true;
+
+                // Deserialize user data from JSON
+                var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
+
+                // Check if user data is valid
+                if (userInfo == null)
+                {
+                    NavigationManager.NavigateTo("/login", true);
+                    return;
+                }
+
+                // Populate profile model from user data
+                profileModel.MaNguoiDung = userInfo.MaNguoiDung;
+                profileModel.Email = userInfo.Email;
+                profileModel.HoVaTen = userInfo.HoVaTen;
+                profileModel.SoDienThoai = userInfo.SoDienThoai ?? string.Empty;
+                profileModel.DiaChi = userInfo.DiaChi ?? string.Empty;
+                profileModel.GioiTinh = userInfo.GioiTinh;
+
+                // Parse date from string representation in localStorage
+                if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
+                {
+                    profileModel.NgaySinh = ngaySinh;
+                }
+            }
+            else
+            {
+                // No user data found, redirect to login
+                isLoggedIn = false;
+                NavigationManager.NavigateTo("/login", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Error handling
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error loading user profile: {ex.Message}");
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+
+
+    private async Task UpdateProfile()
+    {
+        try
+        {
+            isSuccess = false;
+            errorMessage = string.Empty;
+
+            await Task.Delay(1000);
+
+            isSuccess = true;
+
+            profileModel.NewPassword = null;
+            profileModel.ConfirmPassword = null;
+
+            Console.WriteLine("Hồ sơ đã được cập nhật thành công!");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Lỗi khi cập nhật hồ sơ: {ex.Message}");
+        }
+    }
+}

@@ -1,0 +1,260 @@
+﻿@page "/"
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+<PageTitle>Trang chủ</PageTitle>
+
+<div class="hero-section">
+    <div class="overlay"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Smart Library Hub</h1>
+        <p class="hero-subtitle">Khám phá không gian tri thức không giới hạn</p>
+        <div class="hero-buttons">
+            <a href="/booking" class="btn btn-primary btn-lg">Đặt chỗ ngay</a>
+            <a href="#services" class="btn btn-outline-light btn-lg" @onclick="ScrollToServices">Khám phá dịch vụ</a>
+        </div>
+    </div>
+</div>
+
+<section class="welcome-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="section-title">Chào mừng đến với Smart Library Hub</h2>
+                <p class="section-description">
+                    Thư quán hiện đại - nơi kết nối tri thức và công nghệ. Chúng tôi cung cấp không gian học tập
+                    yên tĩnh, các tài liệu học thuật đa dạng và các thiết bị hiện đại hỗ trợ việc học tập và nghiên cứu của bạn.
+                </p>
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-number">5000+</span>
+                        <span class="stat-text">Tài liệu</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">30+</span>
+                        <span class="stat-text">Phòng học</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-text">Hỗ trợ</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="/images/library-modern.jpg" alt="Modern Library" class="img-fluid rounded welcome-image" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="services-section">
+    <div class="container">
+        <h2 class="section-title text-center">Dịch vụ của chúng tôi</h2>
+        <p class="section-description text-center">Khám phá các dịch vụ đa dạng tại Smart Library Hub</p>
+
+        <div class="row mt-5">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-book"></i>
+                    </div>
+                    <h3>Mượn tài liệu</h3>
+                    <p>Truy cập vào kho tài liệu phong phú với hơn 5,000 đầu sách, tạp chí và tài liệu học tập chuyên ngành.</p>
+                    <a href="/books" class="service-link">Xem thêm <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <h3>Đặt phòng học</h3>
+                    <p>Đặt phòng học nhóm, phòng họp, hay không gian làm việc yên tĩnh với đầy đủ tiện nghi.</p>
+                    <a href="/booking" class="service-link">Đặt ngay <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-laptop"></i>
+                    </div>
+                    <h3>Mượn thiết bị</h3>
+                    <p>Mượn các thiết bị hiện đại như máy tính, máy chiếu, và thiết bị ghi âm phục vụ học tập và làm việc.</p>
+                    <a href="/devices" class="service-link">Xem thiết bị <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-wifi"></i>
+                    </div>
+                    <h3>Kết nối Internet</h3>
+                    <p>Wi-Fi tốc độ cao và ổn định, đáp ứng nhu cầu truy cập dữ liệu và làm việc trực tuyến.</p>
+                    <a href="#" class="service-link">Tìm hiểu thêm <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-cup-hot"></i>
+                    </div>
+                    <h3>Khu vực thư giãn</h3>
+                    <p>Không gian thư giãn với đồ uống, giúp bạn nghỉ ngơi và tái tạo năng lượng giữa những giờ học tập.</p>
+                    <a href="#" class="service-link">Khám phá <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="bi bi-headset"></i>
+                    </div>
+                    <h3>Hỗ trợ 24/7</h3>
+                    <p>Đội ngũ hỗ trợ chuyên nghiệp, sẵn sàng giải đáp thắc mắc và hỗ trợ bạn mọi lúc mọi nơi.</p>
+                    <a href="/contact" class="service-link">Liên hệ <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonial-section">
+    <div class="container">
+        <h2 class="section-title text-center">Đánh giá từ người dùng</h2>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="testimonial-item">
+                                <div class="testimonial-content">
+                                    <p>"Smart Library Hub đã thay đổi cách tôi học tập. Không gian yên tĩnh và các thiết bị hiện đại giúp tôi tập trung và hiệu quả hơn."</p>
+                                    <div class="testimonial-author">
+                                        <h5>Nguyễn Văn A</h5>
+                                        <p>Sinh viên Đại học</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="testimonial-item">
+                                <div class="testimonial-content">
+                                    <p>"Việc đặt phòng trở nên dễ dàng với hệ thống online. Tôi có thể đặt phòng học nhóm cho team mình chỉ với vài cú nhấp chuột."</p>
+                                    <div class="testimonial-author">
+                                        <h5>Trần Thị B</h5>
+                                        <p>Nghiên cứu sinh</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="testimonial-item">
+                                <div class="testimonial-content">
+                                    <p>"Kho tài liệu phong phú và dễ dàng truy cập. Tôi luôn tìm được những sách tham khảo cần thiết cho nghiên cứu của mình."</p>
+                                    <div class="testimonial-author">
+                                        <h5>Lê Văn C</h5>
+                                        <p>Giảng viên</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Sẵn sàng trải nghiệm?</h2>
+            <p>Đăng ký tài khoản ngay hôm nay để truy cập đầy đủ các dịch vụ của Smart Library Hub</p>
+            <div class="cta-buttons">
+                <a href="/register" class="btn btn-primary btn-lg">Đăng ký ngay</a>
+                <a href="/contact" class="btn btn-outline-light btn-lg">Liên hệ hỗ trợ</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="main-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="footer-heading">Smart Library Hub</h5>
+                <p class="footer-text">Nơi kết nối tri thức và công nghệ, mang đến không gian học tập hiện đại và tiện nghi cho mọi người.</p>
+                <div class="social-links mt-3">
+                    <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="footer-heading">Dịch vụ</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Mượn tài liệu</a></li>
+                    <li><a href="/booking">Đặt phòng</a></li>
+                    <li><a href="#">Mượn thiết bị</a></li>
+                    <li><a href="#">Không gian học tập</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                <h5 class="footer-heading">Hỗ trợ</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Trợ giúp</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Điều khoản</a></li>
+                    <li><a href="#">Chính sách</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+                <h5 class="footer-heading">Liên hệ</h5>
+                <ul class="footer-contact">
+                    <li><i class="bi bi-geo-alt"></i> 273 An Dương Vương, Phường 3, Quận 5, TP.HCM</li>
+                    <li><i class="bi bi-telephone"></i> (028) 3835 4409</li>
+                    <li><i class="bi bi-envelope"></i> info@smartlibraryhub.com</li>
+                    <li><i class="bi bi-clock"></i> 8:00 - 22:00, Thứ 2 - Chủ nhật</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="container">
+            <p>© 2025 Smart Library Hub. Mọi quyền được bảo lưu.</p>
+        </div>
+    </div>
+</footer>
+<script>
+    window.scrollToElement = function(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+</script>
+@code {
+
+    private async Task ScrollToServices()
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToElement", "services");
+    }
+}
