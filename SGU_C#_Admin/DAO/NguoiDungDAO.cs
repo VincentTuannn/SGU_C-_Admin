@@ -210,5 +210,18 @@ namespace SGU_C__User.DAO
                 throw;
             }
         }
+        public bool IsEmailExist(string email)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE Email = @Email";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
     }
 }

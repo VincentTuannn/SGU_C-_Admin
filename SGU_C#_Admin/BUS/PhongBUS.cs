@@ -48,6 +48,10 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Tên phòng và loại phòng không được để trống!");
             }
+            if (phongDAO.IsRoomExist(phong.TenPhong))
+            {
+                throw new Exception("Tên phòng đã tồn tại!");
+            }
             if (phong.SucChua <= 0 || phong.GiaMuon < 0)
             {
                 throw new Exception("Sức chứa phải lớn hơn 0 và giá mượn không được âm!");
@@ -65,6 +69,10 @@ namespace SGU_C__User.BUS
             if (string.IsNullOrEmpty(phong.TenPhong) || string.IsNullOrEmpty(phong.LoaiPhong))
             {
                 throw new Exception("Tên phòng và loại phòng không được để trống!");
+            }
+            if (phongDAO.IsRoomExist(phong.TenPhong))
+            {
+                throw new Exception("Tên phòng đã tồn tại!");
             }
             if (phong.SucChua <= 0 || phong.GiaMuon < 0)
             {

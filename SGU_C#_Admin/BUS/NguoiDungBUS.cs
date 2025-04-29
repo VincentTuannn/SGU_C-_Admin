@@ -49,6 +49,10 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Email không hợp lệ!");
             }
+            if (nguoiDungDAO.IsEmailExist(nguoiDung.Email))
+            {
+                throw new Exception("Email đã tồn tại!");
+            }
             if (string.IsNullOrEmpty(nguoiDung.MatKhau) || nguoiDung.MatKhau.Length < 6)
             {
                 throw new Exception("Mật khẩu phải có ít nhất 6 ký tự!");
@@ -86,6 +90,10 @@ namespace SGU_C__User.BUS
             if (string.IsNullOrEmpty(nguoiDung.Email) || !Regex.IsMatch(nguoiDung.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 throw new Exception("Email không hợp lệ!");
+            }
+            if (nguoiDungDAO.IsEmailExist(nguoiDung.Email))
+            {
+                throw new Exception("Email đã tồn tại!");
             }
             if (string.IsNullOrEmpty(nguoiDung.MatKhau) || nguoiDung.MatKhau.Length < 6)
             {

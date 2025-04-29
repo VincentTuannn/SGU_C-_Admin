@@ -58,6 +58,10 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Tên thiết bị không được để trống!");
             }
+            if (thietBiDAO.IsDeviceExist(thietBi.TenThietBi))
+            {
+                throw new Exception("Thiết bị đã tồn tại!");
+            }
             if (string.IsNullOrEmpty(thietBi.LoaiThietBi))
             {
                 throw new Exception("Loại thiết bị không được để trống!");
@@ -79,6 +83,10 @@ namespace SGU_C__User.BUS
             if (string.IsNullOrEmpty(thietBi.TenThietBi))
             {
                 throw new Exception("Tên thiết bị không được để trống!");
+            }
+            if (thietBiDAO.IsDeviceExist(thietBi.TenThietBi))
+            {
+                throw new Exception("Thiết bị đã tồn tại!");
             }
             if (string.IsNullOrEmpty(thietBi.LoaiThietBi))
             {

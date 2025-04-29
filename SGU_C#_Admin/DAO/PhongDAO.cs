@@ -165,5 +165,20 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public bool IsRoomExist(string tenPhong)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM thietbi WHERE TenPhong = @TenPhong";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TenPhong", tenPhong);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
+
+
     }
 }

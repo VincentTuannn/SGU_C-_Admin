@@ -165,5 +165,19 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public bool IsDeviceExist(string tenThietBi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM thietbi WHERE TenThietBi = @TenThietBi";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TenThietBi", tenThietBi);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
+
     }
 }
