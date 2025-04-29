@@ -1,5 +1,95 @@
-﻿<h3>History</h3>
+﻿@page "/history"
+<PageTitle>Lịch sử hoạt động</PageTitle>
+
+<h3>Lịch sử hoạt động</h3>
+<table class="custom-table">
+    <thead>
+        <tr>
+            <th>Thiết bị</th>
+            <th>Ngày mượn</th>
+            <th>Ngày trả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in activityHistory)
+        {
+            <tr>
+                <td>@item.Device</td>
+                <td>@item.BorrowDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ReturnDate?.ToString("dd/MM/yyyy")</td>
+                <td class="@GetStatusClass(item.Status)">@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Danh sách vi phạm</h3>
+<table class="custom-table">
+    <thead>
+        <tr>
+            <th>Mã vi phạm</th>
+            <th>Thiết bị/Phòng</th>
+            <th>Nội dung vi phạm</th>
+            <th>Ngày vi phạm</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in violations)
+        {
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.DeviceRoom</td>
+                <td>@item.Content</td>
+                <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                <td class="@GetStatusClass(item.Status)">@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="violation-status-box">
+    <strong>Tình trạng vi phạm</strong>
+    <p>Bạn đã vi phạm @violations.Count lần. Nếu vi phạm đến lần thứ 7, tài khoản sẽ bị khóa.</p>
+</div>
+
 
 @code {
+    private List<Activity> activityHistory = new()
+    {
+        new Activity { Device = "Laptop Dell", BorrowDate = new DateTime(2025, 3, 10), ReturnDate = new DateTime(2025, 3, 12), Status = "Đã trả" }
+    };
 
+    private List<Violation> violations = new()
+    {
+        new Violation { Code = "VP001", DeviceRoom = "Laptop Dell / Phòng 101", Content = "Trả muộn", Date = new DateTime(2025, 3, 15), Status = "Chưa thanh toán" },
+        new Violation { Code = "VP002", DeviceRoom = "Máy chiếu / Phòng 102", Content = "Làm hỏng thiết bị", Date = new DateTime(2025, 3, 16), Status = "Đã thanh toán" },
+        new Violation { Code = "VP003", DeviceRoom = "Loa / Phòng 103", Content = "Không trả thiết bị", Date = new DateTime(2025, 3, 17), Status = "Chưa thanh toán" }
+    };
+
+    private string GetStatusClass(string status) => status switch
+    {
+        "Đã trả" => "status-success",
+        "Đã thanh toán" => "status-success",
+        "Chưa thanh toán" => "status-danger",
+        _ => ""
+    };
+
+    class Activity
+    {
+        public string Device { get; set; }
+        public DateTime BorrowDate { get; set; }
+        public DateTime? ReturnDate { get; set; }
+        public string Status { get; set; }
+    }
+
+    class Violation
+    {
+        public string Code { get; set; }
+        public string DeviceRoom { get; set; }
+        public string Content { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; }
+    }
 }

@@ -1,0 +1,75 @@
+﻿@page "/booking/room"
+@* @model BookingModel *@
+<PageTitle>Đặt phòng</PageTitle>
+
+<div class="container">
+    <h1>Đặt phòng</h1>
+
+    <form method="post" class="form">
+        <div class="form-group">
+            <label for="room">Tên phòng:</label>
+            <select id="room" name="room" required>
+                <option value="">-- Chọn phòng --</option>
+                <option value="A101">Phòng A101</option>
+                <option value="B202">Phòng B202</option>
+                <option value="C303">Phòng C303</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Ngày đặt:</label>
+            <input type="date" id="date" name="date" required />
+        </div>
+
+        <div class="form-group time">
+            <div>
+                <label for="startTime">Giờ bắt đầu:</label>
+                <input type="time" id="startTime" name="startTime" required />
+            </div>
+            <div>
+                <label for="endTime">Giờ kết thúc:</label>
+                <input type="time" id="endTime" name="endTime" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="purpose">Mục đích sử dụng:</label>
+            <textarea id="purpose" name="purpose" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group center">
+            <button type="submit" class="submit-button">Đặt phòng</button>
+        </div>
+    </form>
+
+    @if (isSubmitted)
+    {
+        <div class="confirmation-message">
+            <h3>Đặt phòng thành công!</h3>
+            <p>Phòng: @room</p>
+            <p>Ngày: @Date.ToString("dd/MM/yyyy")</p>
+            <p>Giờ: @StartTime.ToString("HH:mm") - @EndTime.ToString("HH:mm")</p>
+            <p>Mục đích: @Purpose</p>
+        </div>
+    }
+</div>
+
+@code {
+    // [BindProperty]
+    public string room { get; set; }
+    // [BindProperty]
+    public DateTime Date { get; set; }
+    // [BindProperty]
+    public TimeSpan StartTime { get; set; }
+    // [BindProperty]
+    public TimeSpan EndTime { get; set; }
+    // [BindProperty]
+    public string Purpose { get; set; }
+
+    private bool isSubmitted = false;
+
+    public void OnPost()
+    {
+        isSubmitted = true;
+    }
+}

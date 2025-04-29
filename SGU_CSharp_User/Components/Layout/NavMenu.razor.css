@@ -107,3 +107,62 @@
 .logo{
     width:200px
 }
+
+.user-dropdown {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 30px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+    .user-dropdown:hover, .user-dropdown:focus {
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .user-dropdown .bi-person-circle {
+        font-size: 1.2rem;
+        color: #1b6ec2;
+    }
+
+.dropdown-menu {
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 8px;
+    min-width: 220px;
+}
+
+.dropdown-item {
+    border-radius: 6px;
+    padding: 8px 15px;
+    color: #444;
+    transition: all 0.2s ease;
+}
+
+    .dropdown-item:hover {
+        background-color: rgba(27, 110, 194, 0.1);
+        color: #1b6ec2;
+    }
+
+    .dropdown-item i {
+        color: #1b6ec2;
+    }
+
+.dropdown-divider {
+    margin: 6px 0;
+}
+.dropdown-toggle {
+    z-index: 1050; 
+}
+/* Mobile responsiveness */
+@media (max-width: 992px) {
+    .user-dropdown {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+}

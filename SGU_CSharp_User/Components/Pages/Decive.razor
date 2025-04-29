@@ -1,0 +1,77 @@
+﻿@page "/booking/device"
+<PageTitle>Đặt thiết bị</PageTitle>
+
+
+<div class="container">
+    <h1>Đặt mượn thiết bị</h1>
+
+    <form method="post" class="form">
+        <div class="form-group">
+            <label for="device">Chọn thiết bị:</label>
+            <select id="device" name="device" required>
+                <option value="">-- Chọn thiết bị --</option>
+                <option value="Projector">Máy chiếu</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Microphone">Microphone</option>
+                <option value="Speaker">Loa</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="borrowDate">Ngày mượn:</label>
+            <input type="date" id="borrowDate" name="borrowDate" required />
+        </div>
+
+        <div class="form-group time">
+            <div>
+                <label for="startTime">Giờ bắt đầu:</label>
+                <input type="time" id="startTime" name="startTime" required />
+            </div>
+            <div>
+                <label for="endTime">Giờ kết thúc:</label>
+                <input type="time" id="endTime" name="endTime" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="purpose">Mục đích sử dụng:</label>
+            <textarea id="purpose" name="purpose" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group center">
+            <button type="submit" class="submit-button">Mượn thiết bị</button>
+        </div>
+    </form>
+
+    @if (isSubmitted)
+    {
+        <div class="confirmation-message">
+            <h3>Đặt mượn thiết bị thành công!</h3>
+            <p>Thiết bị: @Device</p>
+            <p>Ngày mượn: @BorrowDate.ToString("dd/MM/yyyy")</p>
+            <p>Giờ mượn: @StartTime.ToString("HH:mm") - @EndTime.ToString("HH:mm")</p>
+            <p>Mục đích: @Purpose</p>
+        </div>
+    }
+</div>
+
+@code {
+    // [BindProperty]
+    public string Device { get; set; }
+    // [BindProperty]
+    public DateTime BorrowDate { get; set; }
+    // [BindProperty]
+    public TimeSpan StartTime { get; set; }
+    // [BindProperty]
+    public TimeSpan EndTime { get; set; }
+    // [BindProperty]
+    public string Purpose { get; set; }
+
+    private bool isSubmitted = false;
+
+    public void OnPost()
+    {
+ 
+        isSubmitted = true;
+    }
+}

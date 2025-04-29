@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
@@ -16,15 +18,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <None Include=".env" CopyToOutputDirectory="PreserveNewest" />
     <None Include="wwwroot\images\logo.png" />
 
   </ItemGroup>
 
   <ItemGroup>
-	  <Folder Include="Model\" />
-	  <Folder Include="Repository\" />
-	  <Folder Include="Service\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
 
 </Project>
