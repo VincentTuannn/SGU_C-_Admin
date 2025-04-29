@@ -169,8 +169,6 @@ namespace SGU_C__User.DAO
 
         public NguoiDungDTO DangNhap(string email, string matKhau)
         {
-            try
-            {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     string query = "SELECT * FROM nguoidung WHERE Email = @Email AND MatKhau = @MatKhau AND TrangThai = N'Hoạt động'";
@@ -196,19 +194,8 @@ namespace SGU_C__User.DAO
                             TrangThai = reader["TrangThai"].ToString()
                         };
                     }
-                    //else
-                    //{
-                    //    // Thêm debug để kiểm tra tại sao không có dữ liệu
-                    //    MessageBox.Show($"Không tìm thấy user với Email: {email}", "Debug", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //}
                     return null;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi khi kết nối đến cơ sở dữ liệu: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
         }
         public bool IsEmailExist(string email)
         {
