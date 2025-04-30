@@ -61,7 +61,7 @@ namespace SGU_CSharp_User.Service
                 return false;
             }
         }
-        public async Task<(bool Success, string Message)> UpdatePassword(int userId, string newPassword,string currentPassword)
+        public async Task<(bool Success, string Message)> UpdatePassword(int userId, string newPassword, string currentPassword)
         {
             try
             {
@@ -104,5 +104,57 @@ namespace SGU_CSharp_User.Service
                 return (false, "Đã xảy ra lỗi khi cập nhật mật khẩu.");
             }
         }
+  
+    public async Task<NguoiDungModel> GetUserByEmailAndPhone(string email, string phoneNumber)
+        {
+            try
+            {
+                // Tìm người dùng có email và số điện thoại khớp
+                var user = _context.Users
+                    .FirstOrDefault(u => u.Email == email && u.SoDienThoai == phoneNumber);
+
+                return user; // Sẽ trả về null nếu không tìm thấy người dùng
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetUserByEmailAndPhone: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> UpdatePasswordForgot(string email, string phoneNumber, string newPassword)
+        {
+            try
+            {
+                // Tìm người dùng dựa trên email và số điện thoại
+                var user = await Task.FromResult(_context.Users
+                    .FirstOrDefault(u => u.Email == email && u.SoDienThoai == phoneNumber));
+
+                if (user == null)
+                {
+                    return (false, "Không tìm thấy thông tin người dùng.");
+                }
+
+                // Kiểm tra mật khẩu mới
+                if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+                {
+                    return (false, "Mật khẩu mới phải có ít nhất 6 ký tự.");
+                }
+
+                // Cập nhật mật khẩu mới
+                user.MatKhau = newPassword;
+
+                // Lưu thay đổi vào database
+                await _context.SaveChangesAsync();
+
+                return (true, "Đặt lại mật khẩu thành công.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in UpdatePasswordForgot: {ex.Message}");
+                return (false, "Đã xảy ra lỗi khi đặt lại mật khẩu.");
+            }
+        }
+
     }
 }
