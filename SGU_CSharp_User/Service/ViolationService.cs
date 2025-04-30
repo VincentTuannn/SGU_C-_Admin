@@ -17,24 +17,20 @@ namespace SGU_CSharp_User.Service
         {
             try
             {
-                // Query violations where the MaNguoiDung matches the userId
                 var violations = await _context.ViPhamModels
                     .Where(v => v.MaNguoiDung == userId)
-                    .Include(v => v.ThietBi)  // Include related device information
-                    .Include(v => v.Phong)    // Include related room information
-                    .Include(v => v.NguoiDung) // Include user information if needed
-                    .OrderByDescending(v => v.MaViPham) // Order by violation ID, assuming newer violations have higher IDs
-                    .AsNoTracking() // Improve performance for read-only operations
+                    .Include(v => v.ThietBi)  
+                    .Include(v => v.Phong)  
+                    .Include(v => v.NguoiDung) 
+                    .OrderByDescending(v => v.MaViPham) 
+                    .AsNoTracking() 
                     .ToListAsync();
 
                 return violations;
             }
             catch (Exception ex)
             {
-                // Log the error
                 Console.WriteLine($"Error in GetUserViolations: {ex.Message}");
-
-                // Return empty list in case of error
                 return new List<ViPhamModel>();
             }
         }

@@ -77,7 +77,6 @@
             {
                 isLoggedIn = true;
 
-                // Parse userData JSON to extract name
                 var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
                 userName = userInfo?.HoVaTen ?? "Người dùng";
             }
@@ -99,11 +98,9 @@
     {
         try
         {
-            // Remove user data from localStorage
             await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "userData");
             await JSRuntime.InvokeVoidAsync("localStorage.removeItem", "rememberMe");
 
-            // Update UI
             isLoggedIn = false;
             userName = string.Empty;
 

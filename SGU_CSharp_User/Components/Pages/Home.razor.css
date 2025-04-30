@@ -1,4 +1,4 @@
-﻿/* Hero Section */
+﻿
 .hero-section {
     position: relative;
     height: 80vh;
@@ -58,7 +58,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
-/* Welcome Section */
 .welcome-section {
     padding: 5rem 0;
 }
@@ -70,16 +69,6 @@
     position: relative;
 }
 
-/*    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 0;
-        height: 4px;
-        width: 60px;
-        background-color: #0d6efd;
-    }
-*/
 .text-center .section-title::after {
     left: 50%;
     transform: translateX(-50%);

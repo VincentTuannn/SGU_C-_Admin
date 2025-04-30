@@ -352,7 +352,7 @@
             {
                 await LoadUserData();
             }
-            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+            StateHasChanged(); 
         }
     }
 
@@ -388,15 +388,9 @@
     {
         try
         {
-            // TODO: Implement service calls to load user's data
             borrowedDevices = await DeviceService.GetUserBorrowedDevices(userId.Value);
             bookedRooms = await RoomService.GetUserBookedRooms(userId.Value);
             violations = await ViolationService.GetUserViolations(userId.Value);
-
-            // For testing empty states, initialize empty lists
-            // borrowedDevices = new List<PhieuMuonThietBiModel>();
-            // bookedRooms = new List<PhieuMuonPhongModel>();
-            // violations = new List<ViPhamModel>();
         }
         catch (Exception ex)
         {
@@ -413,7 +407,7 @@
     {
         NavigationManager.NavigateTo("/booking/device");
     }
-    // Pagination parameters
+
     private int devicePageSize = 5;
     private int deviceCurrentPage = 1;
     private int roomPageSize = 5;
@@ -421,7 +415,6 @@
     private int violationPageSize = 5;
     private int violationCurrentPage = 1;
 
-    // Get paginated data
     private IEnumerable<PhieuMuonThietBiModel> GetPaginatedDevices()
     {
         if (borrowedDevices == null) return new List<PhieuMuonThietBiModel>();
@@ -446,12 +439,10 @@
             .Take(violationPageSize);
     }
 
-    // Calculate total pages
     private int GetTotalDevicePages() => borrowedDevices == null ? 0 : (int)Math.Ceiling(borrowedDevices.Count / (double)devicePageSize);
     private int GetTotalRoomPages() => bookedRooms == null ? 0 : (int)Math.Ceiling(bookedRooms.Count / (double)roomPageSize);
     private int GetTotalViolationPages() => violations == null ? 0 : (int)Math.Ceiling(violations.Count / (double)violationPageSize);
 
-    // Page navigation
     private void ChangeDevicePage(int page)
     {
         deviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalDevicePages()));

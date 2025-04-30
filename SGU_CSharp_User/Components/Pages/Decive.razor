@@ -26,25 +26,68 @@
 
         <div class="form-group">
             <label for="device">Chọn thiết bị:</label>
-            <InputSelect id="device" @bind-Value="BookingModel.MaThietBi" class="form-control">
-                <option value="">-- Chọn thiết bị --</option>
-                @if (AvailableDevices != null)
+            <div class="search-combobox">
+                <div class="search-combobox-input-container">
+                    <input id="deviceSearchInput"
+                           type="text"
+                           class="form-control"
+                           placeholder="Nhập để tìm thiết bị..."
+                           autocomplete="off"
+                           @bind="searchInput"
+                           @bind:event="oninput"
+                           @onfocus="HandleInputFocus"
+                           @onkeyup="HandleKeyUp" />
+                    <button class="search-combobox-toggle" type="button" @onclick="ToggleDropdown">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </div>
+
+                @if (isDropdownOpen)
                 {
-                    @foreach (var device in AvailableDevices)
-                    {
-                        <option value="@device.MaThietBi">@device.TenThietBi - @device.GiaMuon</option>
-                    }
+                    <div class="search-combobox-dropdown">
+                        @if (!filteredDevices.Any())
+                        {
+                            <div class="search-combobox-item search-combobox-no-results">
+                                Không tìm thấy thiết bị
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var device in filteredDevices)
+                            {
+                                <div class="search-combobox-item @(device.MaThietBi == BookingModel.MaThietBi ? "selected" : "")"
+                                     @onclick="() => SelectDevice(device)">
+                                    <span class="device-name">@device.TenThietBi</span>
+                                    <span class="device-price">@device.GiaMuon.ToString("#,##0") đ</span>
+                                </div>
+                            }
+                        }
+                    </div>
                 }
-                else
-                {
-                    <option value="Projector">Máy chiếu</option>
-                    <option value="Laptop">Laptop</option>
-                    <option value="Microphone">Microphone</option>
-                    <option value="Speaker">Loa</option>
-                }
-            </InputSelect>
+            </div>
             <ValidationMessage For="@(() => BookingModel.MaThietBi)" class="text-danger" />
         </div>
+
+        <!-- Device select -->
+        <div class="selected-device-info">
+            @if (SelectedDevice != null)
+            {
+                <div class="selected-device">
+                    <div class="device-header">Thiết bị đã chọn</div>
+                    <div class="device-details">
+                        <div class="device-name">@SelectedDevice.TenThietBi</div>
+                        <div class="device-price">@SelectedDevice.GiaMuon.ToString("#,##0") đ/lần</div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="no-device-selected">
+                    <i class="bi bi-info-circle-fill"></i> Vui lòng chọn thiết bị
+                </div>
+            }
+        </div>
+
 
         <div class="form-group">
             <label for="borrowDate">Ngày mượn:</label>
@@ -151,6 +194,25 @@
         </div>
     }
 </div>
+<script>
+    window.setupClickOutside = function (dotNetHelper) {
+        document.addEventListener('click', function (e) {
+            const dropdowns = document.querySelectorAll('.search-combobox');
+            let clickedOutside = true;
+
+            // Kiểm tra xem có click vào dropdown nào không
+            dropdowns.forEach(dropdown => {
+                if (dropdown.contains(e.target)) {
+                    clickedOutside = false;
+                }
+            });
+
+            if (clickedOutside) {
+                dotNetHelper.invokeMethodAsync('CloseSearchDropdown');
+            }
+        });
+    };
+</script>
 
 @code {
     private List<ThietBiModel>? AvailableDevices;
@@ -163,6 +225,10 @@
     private bool isLoggedIn = false;
     private NguoiDungModel user = new NguoiDungModel();
     private bool firstRender = true;
+    // Search combobox variables
+    private bool isDropdownOpen = false;
+    private string searchInput = "";
+    private List<ThietBiModel> filteredDevices = new();
 
     // Date and Time handling
     private DateTime dateTime = DateTime.Now;
@@ -175,7 +241,9 @@
         {
             this.firstRender = false;
             await CheckLoginStatus();
-            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+            var objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setupClickOutside", objRef);
+            StateHasChanged(); 
         }
     }
 
@@ -233,20 +301,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Load available devices (you'll need to implement this method in DeviceService)
         AvailableDevices = await DeviceService.GetAvailableDevices();
         BookingModel.TrangThai = "Đang mượn";
+        filteredDevices = AvailableDevices?.ToList() ?? new();
+
     }
 
     private async Task PrepareBooking()
     {
         try
         {
-            // Reset error states
             deviceSelectionError = false;
             errorMessage = null;
 
-            // Check if a device is selected
             if (BookingModel.MaThietBi<=0)
             {
                 deviceSelectionError = true;
@@ -254,10 +321,8 @@
                 return;
             }
 
-            // Find the selected device details
             SelectedDevice = AvailableDevices?.FirstOrDefault(d => d.MaThietBi == BookingModel.MaThietBi);
 
-            // Set the booking times
             BookingModel.ThoiGianMuon = dateTime.Date + StartTime;
             BookingModel.ThoiGianTra = dateTime.Date + EndTime;
             BookingModel.MaNguoiDung = user.MaNguoiDung;
@@ -296,25 +361,18 @@
     {
         try
         {
-            // Save the booking to database
-            // You'll need to implement SaveDeviceBooking in DeviceService
+
             var result = await DeviceService.SaveDeviceBooking(BookingModel);
 
-            // For now, we'll simulate a successful booking
-            // bool result = true;
 
             if (result)
             {
-                // Close the confirmation dialog
                 showConfirmation = false;
 
-                // Small delay for better UX
                 await Task.Delay(300);
 
-                // Show success message
                 isSubmitted = true;
 
-                // Optional: Set a timer to automatically redirect after a few seconds
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(5000); // 5 seconds
@@ -339,10 +397,88 @@
 
     private async Task RedirectToBookingPage()
     {
-        // Optional: Add a small delay for better UX
         await Task.Delay(500);
 
-        // Navigate to the booking page
         NavigationManager.NavigateTo("/booking");
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Update input text if a device is already selected
+            if (SelectedDevice != null)
+            {
+                searchInput = SelectedDevice.TenThietBi;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void HandleInputFocus()
+    {
+        isDropdownOpen = true;
+
+        if (SelectedDevice != null)
+        {
+            string currentDeviceName = searchInput;
+
+            SelectedDevice = null;
+            BookingModel.MaThietBi = 0;
+
+            searchInput = currentDeviceName;
+
+            FilterDevices();
+        }
+    }
+
+    private void ToggleDropdown()
+    {
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    private void FilterDevices()
+    {
+        var searchTerm = searchInput?.ToLower() ?? "";
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredDevices = AvailableDevices?.ToList() ?? new();
+        }
+        else
+        {
+            filteredDevices = AvailableDevices?
+                .Where(d => d.TenThietBi.ToLower().Contains(searchTerm))
+                .ToList() ?? new();
+        }
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            isDropdownOpen = false;
+        }
+        else
+        {
+            FilterDevices();
+        }
+    }
+
+    private void SelectDevice(ThietBiModel device)
+    {
+        BookingModel.MaThietBi = device.MaThietBi;
+        SelectedDevice = device;
+        searchInput = device.TenThietBi;
+        isDropdownOpen = false;
+    }
+
+    [JSInvokable]
+    public void CloseSearchDropdown()
+    {
+        if (isDropdownOpen)
+        {
+            isDropdownOpen = false;
+            StateHasChanged();
+        }
     }
 }

@@ -145,3 +145,107 @@ input[type="time"] {
     color: #28a745;
     font-weight: bold;
 }
+
+.search-combobox {
+    position: relative;
+    width: 100%;
+}
+
+.search-combobox-input-container {
+    position: relative;
+    display: flex;
+}
+
+.search-combobox-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.search-combobox-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    margin-top: -1px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-combobox-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .search-combobox-item:hover,
+    .search-combobox-item.selected {
+        background-color: #f8f9fa;
+    }
+
+.search-combobox-no-results {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 12px;
+}
+
+.device-name {
+    font-weight: 500;
+}
+
+.device-price {
+    color: #495057;
+}
+
+.selected-device-info {
+    margin: 15px 0;
+    padding: 12px 15px;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+.selected-device {
+    display: flex;
+    flex-direction: column;
+}
+
+.device-header {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 5px;
+}
+
+.device-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.no-device-selected {
+    display: flex;
+    align-items: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
+    .no-device-selected i {
+        margin-right: 8px;
+        color: #ffc107;
+    }

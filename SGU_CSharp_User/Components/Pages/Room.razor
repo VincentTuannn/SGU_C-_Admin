@@ -6,7 +6,10 @@
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 @inject IJSRuntime JSRuntime
+@using Blazored.Typeahead
+
 @using Microsoft.JSInterop
+
 
 
 
@@ -24,21 +27,72 @@
         <DataAnnotationsValidator />
         <ValidationSummary class="text-danger mb-3" />
 
-        <!-- Select Room -->
+        <!-- Search Combobox Room -->
         <div class="form-group">
             <label for="room">Tên phòng:</label>
-            <InputSelect id="room" @bind-Value="BookingModel.MaPhong" class="form-control">
-                <option value="">-- Chọn phòng --</option>
-                @if (AvailableRooms != null)
+            <div class="search-combobox">
+                <div class="search-combobox-input-container">
+                    <input id="roomSearchInput"
+                           type="text"
+                           class="form-control"
+                           placeholder="Nhập để tìm phòng..."
+                           autocomplete="off"
+                           @bind="searchInput"
+                           @bind:event="oninput"
+                           @onfocus="HandleInputFocus"
+                           @onkeyup="HandleKeyUp" />
+                    <button class="search-combobox-toggle" type="button" @onclick="ToggleDropdown">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </button>
+                </div>
+
+                @if (isDropdownOpen)
                 {
-                    @foreach (var room in AvailableRooms)
-                    {
-                        <option value="@room.MaPhong">@room.TenPhong - @room.GiaMuon</option>
-                    }
+                    <div class="search-combobox-dropdown">
+                        @if (!filteredRooms.Any())
+                        {
+                            <div class="search-combobox-item search-combobox-no-results">
+                                Không tìm thấy phòng
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var room in filteredRooms)
+                            {
+                                <div 
+                                class="search-combobox-item @(room.MaPhong == BookingModel.MaPhong ? "selected" : "")"
+                                @onclick="() => SelectRoom(room)">
+                                    <span class="room-name">@room.TenPhong</span>
+                                    <span class="room-price">@room.GiaMuon.ToString("#,##0") đ</span>
+                                </div>
+                            }
+                        }
+                    </div>
                 }
-            </InputSelect>
+            </div>
             <ValidationMessage For="@(() => BookingModel.MaPhong)" class="text-danger" />
         </div>
+
+        <!-- Room select -->
+        <div class="selected-room-info">
+            @if (SelectedRoom != null)
+            {
+                <div class="selected-room">
+                    <div class="room-header">Phòng đã chọn</div>
+                    <div class="room-details">
+                        <div class="room-name">@SelectedRoom.TenPhong</div>
+                        <div class="room-price">@SelectedRoom.GiaMuon.ToString("#,##0") đ/giờ</div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="no-room-selected">
+                    <i class="bi bi-info-circle-fill"></i> Vui lòng chọn phòng
+                </div>
+            }
+        </div>
+
 
         <!-- Booking Date -->
         <div class="form-group">
@@ -158,6 +212,24 @@
     }
 
 </div>
+<script>
+    window.setupClickOutside = function (dotNetHelper) {
+    document.addEventListener('click', function (e) {
+    const dropdowns = document.querySelectorAll('.search-combobox');
+    let clickedOutside = true;
+
+    dropdowns.forEach(dropdown => {
+    if (dropdown.contains(e.target)) {
+    clickedOutside = false;
+    }
+    });
+
+    if (clickedOutside) {
+    dotNetHelper.invokeMethodAsync('CloseSearchDropdown');
+    }
+    });
+    };
+</script>
 
 @code {
     private List<PhongModel>? AvailableRooms;
@@ -182,7 +254,10 @@
         {
             this.firstRender = false;
             await CheckLoginStatus();
-            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+            var objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("setupClickOutside", objRef);
+
+            StateHasChanged(); 
         }
     }
     private async Task CheckLoginStatus()
@@ -197,17 +272,14 @@
             {
                 isLoggedIn = true;
 
-                // Deserialize user data from JSON
                 var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
 
-                // Check if user data is valid
                 if (userInfo == null)
                 {
                     NavigationManager.NavigateTo("/login", true);
                     return;
                 }
 
-                // Populate profile model from user data
                 user.MaNguoiDung = userInfo.MaNguoiDung;
                 user.Email = userInfo.Email;
                 user.HoVaTen = userInfo.HoVaTen;
@@ -215,7 +287,6 @@
                 user.DiaChi = userInfo.DiaChi ?? string.Empty;
                 user.GioiTinh = userInfo.GioiTinh;
 
-                // Parse date from string representation in localStorage
                 if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
                 {
                     user.NgaySinh = ngaySinh;
@@ -223,14 +294,12 @@
             }
             else
             {
-                // No user data found, redirect to login
                 isLoggedIn = false;
                 NavigationManager.NavigateTo("/login", true);
             }
         }
         catch (Exception ex)
         {
-            // Error handling
             errorMessage = $"Lỗi: {ex.Message}";
             Console.WriteLine($"Error loading user profile: {ex.Message}");
             NavigationManager.NavigateTo("/login", true);
@@ -240,43 +309,39 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Load available rooms
         AvailableRooms = await RoomService.GetEmptyRoom();
         BookingModel.TrangThai = "Đang mượn";
+        filteredRooms = AvailableRooms?.ToList() ?? new();
+
     }
 
     private async Task PrepareBooking()
     {
         try
         {
-            // Reset error states
             roomSelectionError = false;
             errorMessage = null;
 
-            // Check if a room is selected
             if (BookingModel.MaPhong <= 0)
             {
                 roomSelectionError = true;
                 errorMessage = "Vui lòng chọn phòng trước khi đặt.";
                 return;
             }
-            // Find the selected room details
             SelectedRoom = AvailableRooms?.FirstOrDefault(r => r.MaPhong == BookingModel.MaPhong);
-            // Set the booking times
             BookingModel.ThoiGianMuon = dateTime.Date + StartTime;
             BookingModel.ThoiGianTra = dateTime.Date + EndTime;
             BookingModel.MaNguoiDung = user.MaNguoiDung;
             if (SelectedRoom != null)
-                {
+            {
 
-                    BookingModel.Phong= SelectedRoom;
-                    BookingModel.TongTien = CalculateRoomCost(SelectedRoom, StartTime, EndTime);
-                    showConfirmation = true;
-                }
+                BookingModel.Phong= SelectedRoom;
+                BookingModel.TongTien = CalculateRoomCost(SelectedRoom, StartTime, EndTime);
+                showConfirmation = true;
+            }
         }
         catch (Exception ex)
         {
-            // Handle any errors
             Console.WriteLine($"Error in HandleSubmit: {ex.Message}");
         }
     }
@@ -294,21 +359,16 @@
     {
         try
         {
-            // Save the booking to database
             var result = await RoomService.SaveBooking(BookingModel);
 
             if (result)
             {
-                // Close the confirmation dialog
                 showConfirmation = false;
 
-                // Small delay for better UX
                 await Task.Delay(300);
 
-                // Show success message
                 isSubmitted = true;
 
-                // Optional: Set a timer to automatically redirect after a few seconds
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(5000); // 5 seconds
@@ -327,16 +387,130 @@
         catch (Exception ex)
         {
             Console.WriteLine($"Error in ConfirmBooking: {ex.Message}");
-            // You might want to show an error message to the user here
         }
     }
     private async Task RedirectToBookingPage()
     {
-        // Optional: Add a small delay for better UX
         await Task.Delay(500);
 
-        // Navigate to the booking page
         NavigationManager.NavigateTo("/booking");
     }
+    private List<PhongModel> filteredRooms = new();
+
+    protected override void OnInitialized()
+    {
+        filteredRooms = AvailableRooms?.ToList() ?? new();
+    }
+    private void HandleInputFocus()
+    {
+        isDropdownOpen = true;
+
+        if (SelectedRoom != null)
+        {
+            string currentRoomName = searchInput;
+
+            SelectedRoom = null;
+            BookingModel.MaPhong = 0;
+
+            searchInput = currentRoomName;
+
+            FilterRooms();
+        }
+    }
+
+
+    private void FilterRooms(ChangeEventArgs e)
+    {
+        var searchTerm = e.Value?.ToString()?.ToLower() ?? "";
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredRooms = AvailableRooms?.ToList() ?? new();
+        }
+        else
+        {
+            filteredRooms = AvailableRooms?
+                .Where(r => r.TenPhong.ToLower().Contains(searchTerm))
+                .ToList() ?? new();
+        }
+    }
+
+    private void OnRoomChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int roomId))
+        {
+            BookingModel.MaPhong = roomId;
+            SelectedRoom = AvailableRooms?.FirstOrDefault(r => r.MaPhong == roomId);
+        }
+    }
+    private bool isDropdownOpen = false;
+    private string searchInput = "";
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (SelectedRoom != null)
+            {
+                searchInput = SelectedRoom.TenPhong;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private void ToggleDropdown()
+    {
+        isDropdownOpen = !isDropdownOpen;
+    }
+
+    private void FilterRooms()
+    {
+        var searchTerm = searchInput?.ToLower() ?? "";
+
+        if (string.IsNullOrWhiteSpace(searchTerm))
+        {
+            filteredRooms = AvailableRooms?.ToList() ?? new();
+        }
+        else
+        {
+            filteredRooms = AvailableRooms?
+                .Where(r => r.TenPhong.ToLower().Contains(searchTerm))
+                .ToList() ?? new();
+        }
+    }
+
+    private void SelectRoom(PhongModel room)
+    {
+        BookingModel.MaPhong = room.MaPhong;
+        SelectedRoom = room;
+        searchInput = room.TenPhong;
+        isDropdownOpen = false;
+    }
+
+    private void HandleKeyUp(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            isDropdownOpen = false;
+        }
+        else
+        {
+            FilterRooms();
+        }
+    }
+
+
+    [JSInvokable]
+    public void CloseSearchDropdown()
+    {
+        if (isDropdownOpen)
+        {
+            isDropdownOpen = false;
+            StateHasChanged();
+        }
+    }
+
+
 
 }

@@ -53,10 +53,7 @@ namespace SGU_CSharp_User.Service
             {
                 // Retrieve devices that are available (not currently borrowed)
                 var availableDevices = await _context.ThietBiModels
-                    .Where(d => !_context.PhieuMuonThietBiModels
-                        .Where(p => p.TrangThai == "Có sẵn")
-                        .Select(p => p.MaThietBi)
-                        .Contains(d.MaThietBi))
+                    .Where(p => p.TrangThai.Equals("Có sẵn"))
                     .ToListAsync();
 
                 return availableDevices;
