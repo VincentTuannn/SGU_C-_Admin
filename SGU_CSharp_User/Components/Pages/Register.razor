@@ -2,7 +2,13 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Threading.Tasks
+@using SGU_CSharp_User.Model
+@using SGU_CSharp_User.Service
 @inject NavigationManager NavigationManager
+@inject NguoiDungService NguoiDungService
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
 <PageTitle>Đăng ký</PageTitle>
 
 <div class="container mt-5">
@@ -35,11 +41,22 @@
                             <InputText id="email" @bind-Value="registerModel.Email" class="form-control" />
                             <ValidationMessage For="@(() => registerModel.Email)" class="text-danger" />
                         </div>
-
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Số điện thoại:</label>
-                            <InputText id="phone" @bind-Value="registerModel.PhoneNumber" class="form-control" />
-                            <ValidationMessage For="@(() => registerModel.PhoneNumber)" class="text-danger" />
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Số điện thoại:</label>
+                                <InputText id="phone" @bind-Value="registerModel.PhoneNumber" class="form-control" />
+                                <ValidationMessage For="@(() => registerModel.PhoneNumber)" class="text-danger" />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="gender" class="form-label">Giới tính:</label>
+                                <InputSelect id="gender" @bind-Value="registerModel.Gender" class="form-control">
+                                    <option value="">Chọn giới tính</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                    <option value="Khác">Khác</option>
+                                </InputSelect>
+                                <ValidationMessage For="@(() => registerModel.Gender)" class="text-danger" />
+                            </div>
                         </div>
 
                         <div class="row">
@@ -47,14 +64,14 @@
                                 <label for="password" class="form-label">Mật khẩu:</label>
                                 <div class="input-group">
                                     <InputText type="@(showPassword ? "text" : "password")" id="password" 
-                                        @bind-Value="registerModel.Password" class="form-control" />
+                                    @bind-Value="registerModel.Password" class="form-control" />
                                 </div>
                                 <ValidationMessage For="@(() => registerModel.Password)" class="text-danger" />
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="confirmPassword" class="form-label">Xác nhận mật khẩu:</label>
                                 <InputText type="@(showPassword ? "text" : "password")" id="confirmPassword" 
-                                    @bind-Value="registerModel.ConfirmPassword" class="form-control" />
+                                @bind-Value="registerModel.ConfirmPassword" class="form-control" />
                                 <ValidationMessage For="@(() => registerModel.ConfirmPassword)" class="text-danger" />
                             </div>
                         </div>
@@ -128,13 +145,69 @@
 
         try
         {
-            await Task.Delay(1000);
+            // Check if the email is already in use
+            var existingUser = NguoiDungService.login(registerModel.Email, "");
+            if (existingUser != null)
+            {
+                errorMessage = "Email này đã được sử dụng. Vui lòng chọn email khác.";
+                isLoading = false;
+                return;
+            }
 
-            // TODO: Replace with your actual registration logic
-            // This is where you'll implement your controller logic later
+            // Create a new user object
+            var newUser = new NguoiDungModel
+                {
+                    Email = registerModel.Email,
+                    MatKhau = registerModel.Password,
+                    HoVaTen = $"{registerModel.FirstName} {registerModel.LastName}",
+                    NgaySinh = registerModel.DateOfBirth,
+                    DiaChi = registerModel.Address,
+                    SoDienThoai = registerModel.PhoneNumber,
+                    GioiTinh = registerModel.Gender, 
+                    MaQuyen = 2, 
+                    TrangThai = "Hoạt động"
+                };
 
-            // For now, just redirect to a success page or home
-            NavigationManager.NavigateTo("/registration-success");
+            bool registrationResult = await NguoiDungService.Register(newUser);
+
+            if (registrationResult)
+            {
+
+                var user = NguoiDungService.login(registerModel.Email, registerModel.Password);
+
+                if (user != null)
+                {
+                    // Prepare user data for localStorage (similar to login process)
+                    var userData = new
+                    {
+                        user.MaNguoiDung,
+                        user.Email,
+                        user.HoVaTen,
+                        user.MaQuyen,
+                        user.GioiTinh,
+                        user.SoDienThoai,
+                        user.DiaChi,
+                        user.TrangThai,
+                        NgaySinh = user.NgaySinh.ToString("yyyy-MM-dd")
+                    };
+
+                    // Convert to JSON and store in localStorage
+                    var userJson = System.Text.Json.JsonSerializer.Serialize(userData);
+                    await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userData", userJson);
+
+                    // Redirect to home page
+                    NavigationManager.NavigateTo("/", true);
+                }
+                else
+                {
+                    // If auto-login fails, redirect to login page with a success message
+                    NavigationManager.NavigateTo("/login?registered=true", true);
+                }
+            }
+            else
+            {
+                errorMessage = "Đăng ký không thành công. Vui lòng thử lại sau.";
+            }
         }
         catch (Exception ex)
         {
@@ -145,6 +218,7 @@
             isLoading = false;
         }
     }
+
 
     public class RegisterModel
     {
@@ -159,6 +233,9 @@
         [Required(ErrorMessage = "Email là bắt buộc")]
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Giới tính là bắt buộc")]
+        public string Gender { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Số điện thoại là bắt buộc")]
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ")]

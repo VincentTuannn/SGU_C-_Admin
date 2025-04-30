@@ -40,5 +40,6 @@ namespace SGU_CSharp_User.Model
         [Required(ErrorMessage = "Trạng thái là bắt buộc")]
         [RegularExpression("Hoạt động|Không hoạt động", ErrorMessage = "Trạng thái phải là 'Hoạt động' hoặc 'Không hoạt động'")]
         public string TrangThai { get; set; } = "Hoạt động";
+
     }
 }

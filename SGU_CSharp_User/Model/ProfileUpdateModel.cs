@@ -28,10 +28,14 @@ namespace SGU_CSharp_User.Model
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Số điện thoại phải có đúng 10 chữ số")]
         public string SoDienThoai { get; set; } = string.Empty;
         
-        [StringLength(100, ErrorMessage = "Mật khẩu mới phải có ít nhất {2} ký tự", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "Mật khẩu phải có ít nhất {2} ký tự", MinimumLength = 6)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$",
+            ErrorMessage = "Mật khẩu phải có ít nhất 1 ký tự viết hoa, 1 ký tự viết thường, 1 chữ số và 1 ký tự đặc biệt")]
         public string? NewPassword { get; set; }
         
         [Compare("NewPassword", ErrorMessage = "Mật khẩu xác nhận không khớp")]
         public string? ConfirmPassword { get; set; }
+
+        public string? CurrentPassword { get; set; }
     }
 }

@@ -1,77 +1,348 @@
 ﻿@page "/booking/device"
-<PageTitle>Đặt thiết bị</PageTitle>
+@using SGU_CSharp_User.Model
+@using SGU_CSharp_User.Service
+@using SGU_CSharp_User.Components.Shared
+@inject DeviceService DeviceService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@using Microsoft.JSInterop
 
+<PageTitle>Đặt thiết bị</PageTitle>
 
 <div class="container">
     <h1>Đặt mượn thiết bị</h1>
 
-    <form method="post" class="form">
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @errorMessage
+        </div>
+    }
+
+    <EditForm Model="BookingModel" OnValidSubmit="PrepareBooking">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger mb-3" />
+
         <div class="form-group">
             <label for="device">Chọn thiết bị:</label>
-            <select id="device" name="device" required>
+            <InputSelect id="device" @bind-Value="BookingModel.MaThietBi" class="form-control">
                 <option value="">-- Chọn thiết bị --</option>
-                <option value="Projector">Máy chiếu</option>
-                <option value="Laptop">Laptop</option>
-                <option value="Microphone">Microphone</option>
-                <option value="Speaker">Loa</option>
-            </select>
+                @if (AvailableDevices != null)
+                {
+                    @foreach (var device in AvailableDevices)
+                    {
+                        <option value="@device.MaThietBi">@device.TenThietBi - @device.GiaMuon</option>
+                    }
+                }
+                else
+                {
+                    <option value="Projector">Máy chiếu</option>
+                    <option value="Laptop">Laptop</option>
+                    <option value="Microphone">Microphone</option>
+                    <option value="Speaker">Loa</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => BookingModel.MaThietBi)" class="text-danger" />
         </div>
 
         <div class="form-group">
             <label for="borrowDate">Ngày mượn:</label>
-            <input type="date" id="borrowDate" name="borrowDate" required />
+            <InputDate id="borrowDate" @bind-Value="dateTime" class="form-control" />
+            <ValidationMessage For="@(() => BookingModel.ThoiGianMuon)" class="text-danger" />
         </div>
 
         <div class="form-group time">
             <div>
                 <label for="startTime">Giờ bắt đầu:</label>
-                <input type="time" id="startTime" name="startTime" required />
+                <TimePickerComponent @bind-Value="StartTime"
+                MinTime="new TimeSpan(7, 0, 0)"
+                MaxTime="new TimeSpan(22, 0, 0)" />
+                <ValidationMessage For="@(() => StartTime)" class="text-danger" />
             </div>
             <div>
                 <label for="endTime">Giờ kết thúc:</label>
-                <input type="time" id="endTime" name="endTime" required />
+                <TimePickerComponent @bind-Value="EndTime"
+                MinTime="new TimeSpan(7, 0, 0)"
+                MaxTime="new TimeSpan(22, 0, 0)" />
+                <ValidationMessage For="@(() => EndTime)" class="text-danger" />
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="purpose">Mục đích sử dụng:</label>
-            <textarea id="purpose" name="purpose" rows="3" required></textarea>
-        </div>
-
         <div class="form-group center">
-            <button type="submit" class="submit-button">Mượn thiết bị</button>
+            <button type="submit" class="btn btn-primary">Mượn thiết bị</button>
         </div>
-    </form>
+    </EditForm>
 
+    <!-- Confirmation Message -->
     @if (isSubmitted)
     {
-        <div class="confirmation-message">
-            <h3>Đặt mượn thiết bị thành công!</h3>
-            <p>Thiết bị: @Device</p>
-            <p>Ngày mượn: @BorrowDate.ToString("dd/MM/yyyy")</p>
-            <p>Giờ mượn: @StartTime.ToString("HH:mm") - @EndTime.ToString("HH:mm")</p>
-            <p>Mục đích: @Purpose</p>
+        <div class="modal-backdrop show"></div>
+        <div class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="successModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="successModalTitle">Đặt mượn thiết bị thành công!</h5>
+                        <button type="button" class="btn-close bg-white" aria-label="Close" @onclick="RedirectToBookingPage"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <strong>Thiết bị:</strong>
+                                <span>@SelectedDevice?.TenThietBi</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Ngày:</strong>
+                                <span>@BookingModel.ThoiGianMuon.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Thời gian:</strong>
+                                <span>@StartTime.ToString(@"hh\:mm") - @EndTime.ToString(@"hh\:mm")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick="RedirectToBookingPage">
+                            Xem danh sách mượn thiết bị
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Confirmation Dialog -->
+    @if (showConfirmation)
+    {
+        <div class="modal-backdrop show"></div>
+        <div class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Xác nhận mượn thiết bị</h5>
+                        <button type="button" class="btn-close" aria-label="Close" @onclick="CloseConfirmation"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <strong>Thiết bị:</strong>
+                                <span>@SelectedDevice?.TenThietBi</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Ngày mượn:</strong>
+                                <span>@dateTime.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Thời gian:</strong>
+                                <span>@StartTime.ToString(@"hh\:mm") - @EndTime.ToString(@"hh\:mm")</span>
+                            </div>
+                            <div class="detail-row total">
+                                <strong>Tổng tiền:</strong>
+                                <span class="price">@BookingModel.TongTien.ToString("#,##0") đ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseConfirmation">Hủy</button>
+                        <button type="button" class="btn btn-primary" @onclick="ConfirmBooking">Xác nhận</button>
+                    </div>
+                </div>
+            </div>
         </div>
     }
 </div>
 
 @code {
-    // [BindProperty]
-    public string Device { get; set; }
-    // [BindProperty]
-    public DateTime BorrowDate { get; set; }
-    // [BindProperty]
-    public TimeSpan StartTime { get; set; }
-    // [BindProperty]
-    public TimeSpan EndTime { get; set; }
-    // [BindProperty]
-    public string Purpose { get; set; }
-
+    private List<ThietBiModel>? AvailableDevices;
+    private ThietBiModel? SelectedDevice;
+    private PhieuMuonThietBiModel BookingModel = new();
     private bool isSubmitted = false;
+    private bool showConfirmation = false;
+    private bool deviceSelectionError = false;
+    private string? errorMessage;
+    private bool isLoggedIn = false;
+    private NguoiDungModel user = new NguoiDungModel();
+    private bool firstRender = true;
 
-    public void OnPost()
+    // Date and Time handling
+    private DateTime dateTime = DateTime.Now;
+    private TimeSpan StartTime { get; set; } = new TimeSpan(8, 0, 0); // 8:00 AM
+    private TimeSpan EndTime { get; set; } = new TimeSpan(17, 0, 0); // 5:00 PM
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
- 
-        isSubmitted = true;
+        if (firstRender)
+        {
+            this.firstRender = false;
+            await CheckLoginStatus();
+            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+        }
+    }
+
+    private async Task CheckLoginStatus()
+    {
+        try
+        {
+            var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
+
+            Console.WriteLine(userData);
+
+            if (!string.IsNullOrEmpty(userData))
+            {
+                isLoggedIn = true;
+
+                // Deserialize user data from JSON
+                var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
+
+                // Check if user data is valid
+                if (userInfo == null)
+                {
+                    NavigationManager.NavigateTo("/login", true);
+                    return;
+                }
+
+                // Populate profile model from user data
+                user.MaNguoiDung = userInfo.MaNguoiDung;
+                user.Email = userInfo.Email;
+                user.HoVaTen = userInfo.HoVaTen;
+                user.SoDienThoai = userInfo.SoDienThoai ?? string.Empty;
+                user.DiaChi = userInfo.DiaChi ?? string.Empty;
+                user.GioiTinh = userInfo.GioiTinh;
+
+                // Parse date from string representation in localStorage
+                if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
+                {
+                    user.NgaySinh = ngaySinh;
+                }
+            }
+            else
+            {
+                // No user data found, redirect to login
+                isLoggedIn = false;
+                NavigationManager.NavigateTo("/login", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Error handling
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error loading user profile: {ex.Message}");
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load available devices (you'll need to implement this method in DeviceService)
+        AvailableDevices = await DeviceService.GetAvailableDevices();
+        BookingModel.TrangThai = "Đang mượn";
+    }
+
+    private async Task PrepareBooking()
+    {
+        try
+        {
+            // Reset error states
+            deviceSelectionError = false;
+            errorMessage = null;
+
+            // Check if a device is selected
+            if (BookingModel.MaThietBi<=0)
+            {
+                deviceSelectionError = true;
+                errorMessage = "Vui lòng chọn thiết bị trước khi mượn.";
+                return;
+            }
+
+            // Find the selected device details
+            SelectedDevice = AvailableDevices?.FirstOrDefault(d => d.MaThietBi == BookingModel.MaThietBi);
+
+            // Set the booking times
+            BookingModel.ThoiGianMuon = dateTime.Date + StartTime;
+            BookingModel.ThoiGianTra = dateTime.Date + EndTime;
+            BookingModel.MaNguoiDung = user.MaNguoiDung;
+
+            if (SelectedDevice != null)
+            {
+                BookingModel.ThietBi = SelectedDevice;
+                BookingModel.TongTien = SelectedDevice.GiaMuon;
+                showConfirmation = true;
+            }
+            else
+            {
+                // If devices are not loaded from the database, create a temporary device for the confirmation
+                SelectedDevice = new ThietBiModel
+                    {
+                        MaThietBi = BookingModel.MaThietBi,
+                        TenThietBi = BookingModel.ThietBi.TenThietBi // Use the selected value as the name
+                    };
+                showConfirmation = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any errors
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error in PrepareBooking: {ex.Message}");
+        }
+    }
+
+    private void CloseConfirmation()
+    {
+        showConfirmation = false;
+    }
+
+    private async Task ConfirmBooking()
+    {
+        try
+        {
+            // Save the booking to database
+            // You'll need to implement SaveDeviceBooking in DeviceService
+            var result = await DeviceService.SaveDeviceBooking(BookingModel);
+
+            // For now, we'll simulate a successful booking
+            // bool result = true;
+
+            if (result)
+            {
+                // Close the confirmation dialog
+                showConfirmation = false;
+
+                // Small delay for better UX
+                await Task.Delay(300);
+
+                // Show success message
+                isSubmitted = true;
+
+                // Optional: Set a timer to automatically redirect after a few seconds
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(5000); // 5 seconds
+                    await InvokeAsync(() =>
+                    {
+                        NavigationManager.NavigateTo("/booking");
+                        StateHasChanged();
+                    });
+                });
+            }
+            else
+            {
+                errorMessage = "Không thể mượn thiết bị. Vui lòng thử lại sau.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error in ConfirmBooking: {ex.Message}");
+        }
+    }
+
+    private async Task RedirectToBookingPage()
+    {
+        // Optional: Add a small delay for better UX
+        await Task.Delay(500);
+
+        // Navigate to the booking page
+        NavigationManager.NavigateTo("/booking");
     }
 }

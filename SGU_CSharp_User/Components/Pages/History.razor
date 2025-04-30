@@ -1,95 +1,537 @@
 ﻿@page "/history"
+@using SGU_CSharp_User.Model
+@using SGU_CSharp_User.Service
+@using Microsoft.JSInterop
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject DeviceService DeviceService
+@inject RoomService RoomService
+@inject ViolationService ViolationService
+
+@rendermode InteractiveServer
 <PageTitle>Lịch sử hoạt động</PageTitle>
 
-<h3>Lịch sử hoạt động</h3>
-<table class="custom-table">
-    <thead>
-        <tr>
-            <th>Thiết bị</th>
-            <th>Ngày mượn</th>
-            <th>Ngày trả</th>
-            <th>Trạng thái</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in activityHistory)
-        {
-            <tr>
-                <td>@item.Device</td>
-                <td>@item.BorrowDate.ToString("dd/MM/yyyy")</td>
-                <td>@item.ReturnDate?.ToString("dd/MM/yyyy")</td>
-                <td class="@GetStatusClass(item.Status)">@item.Status</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container">
+    <h1>Lịch sử hoạt động</h1>
 
-<h3>Danh sách vi phạm</h3>
-<table class="custom-table">
-    <thead>
-        <tr>
-            <th>Mã vi phạm</th>
-            <th>Thiết bị/Phòng</th>
-            <th>Nội dung vi phạm</th>
-            <th>Ngày vi phạm</th>
-            <th>Trạng thái</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in violations)
+    <div class="section">
+        <h2>Lịch sử mượn thiết bị</h2>
+        @if (returnedDevices == null || returnedDevices.Count == 0)
         {
-            <tr>
-                <td>@item.Code</td>
-                <td>@item.DeviceRoom</td>
-                <td>@item.Content</td>
-                <td>@item.Date.ToString("dd/MM/yyyy")</td>
-                <td class="@GetStatusClass(item.Status)">@item.Status</td>
-            </tr>
+            <div class="empty-state">
+                <i class="bi bi-laptop"></i>
+                <p>Không có lịch sử mượn thiết bị</p>
+            </div>
         }
-    </tbody>
-</table>
+        else
+        {
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Thiết bị</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày trả</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var device in GetPaginatedDevices())
+                    {
+                        <tr>
+                            <td>@device.ThietBi?.TenThietBi</td>
+                            <td>@device.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td>@device.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td class="@GetStatusClass(device.TrangThai)">@device.TrangThai</td>
+                            <td>@device.TongTien.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-<div class="violation-status-box">
-    <strong>Tình trạng vi phạm</strong>
-    <p>Bạn đã vi phạm @violations.Count lần. Nếu vi phạm đến lần thứ 7, tài khoản sẽ bị khóa.</p>
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Hiển thị @((deviceCurrentPage - 1) * devicePageSize + 1) - @(Math.Min(deviceCurrentPage * devicePageSize, returnedDevices.Count)) trên @returnedDevices.Count mục
+                </div>
+                <div class="pagination">
+                    <button class="btn btn-sm @(deviceCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
+                            disabled="@(deviceCurrentPage == 1)"
+                            @onclick="() => ChangeDevicePage(deviceCurrentPage - 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    @{
+                        var totalDevicePages = GetTotalDevicePages();
+                        var startPage = Math.Max(1, deviceCurrentPage - 2);
+                        var endPage = Math.Min(totalDevicePages, startPage + 4);
+                        startPage = Math.Max(1, endPage - 4);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeDevicePage(1)">1</button>
+                        if (startPage > 2)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        var pageNumber = i;
+                        <button class="btn btn-sm @(deviceCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
+                                @onclick="() => ChangeDevicePage(pageNumber)">
+                            @pageNumber
+                        </button>
+                    }
+
+                    @if (endPage < totalDevicePages)
+                    {
+                        if (endPage < totalDevicePages - 1)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeDevicePage(totalDevicePages)">
+                            @totalDevicePages
+                        </button>
+                    }
+
+                    <button class="btn btn-sm @(deviceCurrentPage == totalDevicePages ? "btn-secondary" : "btn-primary")"
+                            disabled="@(deviceCurrentPage == totalDevicePages)"
+                            @onclick="() => ChangeDevicePage(deviceCurrentPage + 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size-selector">
+                    <span>Hiển thị</span>
+                    <select @bind="devicePageSize" class="form-select form-select-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>mục / trang</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="section">
+        <h2>Lịch sử mượn phòng</h2>
+        @if (returnedRooms == null || returnedRooms.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="bi bi-buildings"></i>
+                <p>Không có lịch sử mượn phòng</p>
+            </div>
+        }
+        else
+        {
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Tên phòng</th>
+                        <th>Thời gian mượn</th>
+                        <th>Thời gian trả</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var room in GetPaginatedRooms())
+                    {
+                        <tr>
+                            <td>@room.Phong?.TenPhong</td>
+                            <td>@room.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td>@room.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td class="@GetStatusClass(room.TrangThai)">@room.TrangThai</td>
+                            <td>@room.TongTien.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Hiển thị @((roomCurrentPage - 1) * roomPageSize + 1) - @(Math.Min(roomCurrentPage * roomPageSize, returnedRooms.Count)) trên @returnedRooms.Count mục
+                </div>
+                <div class="pagination">
+                    <button class="btn btn-sm @(roomCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
+                            disabled="@(roomCurrentPage == 1)"
+                            @onclick="() => ChangeRoomPage(roomCurrentPage - 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    @{
+                        var totalRoomPages = GetTotalRoomPages();
+                        var startPage = Math.Max(1, roomCurrentPage - 2);
+                        var endPage = Math.Min(totalRoomPages, startPage + 4);
+                        startPage = Math.Max(1, endPage - 4);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeRoomPage(1)">1</button>
+                        if (startPage > 2)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        var pageNumber = i;
+                        <button class="btn btn-sm @(roomCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
+                                @onclick="() => ChangeRoomPage(pageNumber)">
+                            @pageNumber
+                        </button>
+                    }
+
+                    @if (endPage < totalRoomPages)
+                    {
+                        if (endPage < totalRoomPages - 1)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeRoomPage(totalRoomPages)">
+                            @totalRoomPages
+                        </button>
+                    }
+
+                    <button class="btn btn-sm @(roomCurrentPage == totalRoomPages ? "btn-secondary" : "btn-primary")"
+                            disabled="@(roomCurrentPage == totalRoomPages)"
+                            @onclick="() => ChangeRoomPage(roomCurrentPage + 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size-selector">
+                    <span>Hiển thị</span>
+                    <select @bind="roomPageSize" class="form-select form-select-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>mục / trang</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="section">
+        <h2>Danh sách vi phạm</h2>
+        @if (violations == null || violations.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="bi bi-shield-check"></i>
+                <p>Bạn không có vi phạm nào</p>
+                <span class="text-success">Hãy tiếp tục giữ gìn uy tín của bạn!</span>
+            </div>
+        }
+        else
+        {
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Mã vi phạm</th>
+                        <th>Nội dung</th>
+                        <th>Thiết bị</th>
+                        <th>Phòng</th>
+                        <th>Loại vi phạm</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var violation in GetPaginatedViolations())
+                    {
+                        <tr>
+                            <td>VP@(violation.MaViPham.ToString("D3"))</td>
+                            <td>@violation.NoiDungViPham</td>
+                            <td>@(violation.ThietBi?.TenThietBi ?? "Không liên quan")</td>
+                            <td>@(violation.Phong?.TenPhong ?? "Không liên quan")</td>
+                            <td>@(violation.LoaiViPham)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Hiển thị @((violationCurrentPage - 1) * violationPageSize + 1) - @(Math.Min(violationCurrentPage * violationPageSize, violations.Count)) trên @violations.Count mục
+                </div>
+                <div class="pagination">
+                    <button class="btn btn-sm @(violationCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
+                            disabled="@(violationCurrentPage == 1)"
+                            @onclick="() => ChangeViolationPage(violationCurrentPage - 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    @{
+                        var totalViolationPages = GetTotalViolationPages();
+                        var startPage = Math.Max(1, violationCurrentPage - 2);
+                        var endPage = Math.Min(totalViolationPages, startPage + 4);
+                        startPage = Math.Max(1, endPage - 4);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeViolationPage(1)">1</button>
+                        if (startPage > 2)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        var pageNumber = i;
+                        <button class="btn btn-sm @(violationCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
+                                @onclick="() => ChangeViolationPage(pageNumber)">
+                            @pageNumber
+                        </button>
+                    }
+
+                    @if (endPage < totalViolationPages)
+                    {
+                        if (endPage < totalViolationPages - 1)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeViolationPage(totalViolationPages)">
+                            @totalViolationPages
+                        </button>
+                    }
+
+                    <button class="btn btn-sm @(violationCurrentPage == totalViolationPages ? "btn-secondary" : "btn-primary")"
+                            disabled="@(violationCurrentPage == totalViolationPages)"
+                            @onclick="() => ChangeViolationPage(violationCurrentPage + 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size-selector">
+                    <span>Hiển thị</span>
+                    <select @bind="violationPageSize" class="form-select form-select-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>mục / trang</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="violation-status-box">
+        <div class="violation-header">
+            <i class="bi bi-exclamation-triangle-fill violation-icon"></i>
+            <h3>Tình trạng vi phạm</h3>
+        </div>
+
+        <div class="violation-progress">
+            <div class="progress">
+                <div class="progress-bar @GetViolationProgressBarClass()"
+                     role="progressbar"
+                     style="width: @(Math.Min(100, (violations?.Count ?? 0) * 100 / 7))%;"
+                     aria-valuenow="@(violations?.Count ?? 0)"
+                     aria-valuemin="0"
+                     aria-valuemax="7">
+                    @(violations?.Count ?? 0)/7
+                </div>
+            </div>
+        </div>
+
+        <div class="violation-message @GetViolationBoxClass()">
+            @if (violations == null || violations.Count == 0)
+            {
+                <p><i class="bi bi-check-circle-fill me-2"></i>Bạn không có vi phạm nào. Hãy tiếp tục giữ gìn uy tín của mình!</p>
+            }
+            else if (violations.Count < 3)
+            {
+                <p><i class="bi bi-info-circle-fill me-2"></i>Bạn đã vi phạm <strong>@violations.Count</strong> lần. Vi phạm của bạn vẫn ở mức thấp.</p>
+            }
+            else if (violations.Count < 5)
+            {
+                <p><i class="bi bi-exclamation-circle me-2"></i>Bạn đã vi phạm <strong>@violations.Count</strong> lần. Hãy cẩn thận để không bị khóa tài khoản.</p>
+            }
+            else if (violations.Count < 7)
+            {
+                <p>
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <strong>Cảnh báo:</strong> Bạn đã vi phạm <strong>@violations.Count</strong> lần. Sắp đến giới hạn vi phạm!
+                </p>
+            }
+            else
+            {
+                <p>
+                    <i class="bi bi-x-octagon-fill me-2"></i>
+                    <strong>Nghiêm trọng:</strong> Bạn đã vi phạm <strong>@violations.Count</strong> lần, đã đạt hoặc vượt giới hạn 7 lần vi phạm.
+                    Tài khoản của bạn có thể bị hạn chế hoặc tạm khóa.
+                </p>
+            }
+        </div>
+
+        <div class="violation-note">
+            <i class="bi bi-info-square-fill me-2"></i>
+            <span><strong>Lưu ý:</strong> Nếu vi phạm đạt đến 7 lần, tài khoản sẽ bị khóa và bạn cần liên hệ với quản lý để xử lý.</span>
+        </div>
+    </div>
+
 </div>
 
-
 @code {
-    private List<Activity> activityHistory = new()
-    {
-        new Activity { Device = "Laptop Dell", BorrowDate = new DateTime(2025, 3, 10), ReturnDate = new DateTime(2025, 3, 12), Status = "Đã trả" }
-    };
+    private List<PhieuMuonThietBiModel>? returnedDevices;
+    private List<PhieuMuonPhongModel>? returnedRooms;
+    private List<ViPhamModel>? violations;
+    private int? userId;
+    private bool firstRender = true;
 
-    private List<Violation> violations = new()
-    {
-        new Violation { Code = "VP001", DeviceRoom = "Laptop Dell / Phòng 101", Content = "Trả muộn", Date = new DateTime(2025, 3, 15), Status = "Chưa thanh toán" },
-        new Violation { Code = "VP002", DeviceRoom = "Máy chiếu / Phòng 102", Content = "Làm hỏng thiết bị", Date = new DateTime(2025, 3, 16), Status = "Đã thanh toán" },
-        new Violation { Code = "VP003", DeviceRoom = "Loa / Phòng 103", Content = "Không trả thiết bị", Date = new DateTime(2025, 3, 17), Status = "Chưa thanh toán" }
-    };
+    // Pagination parameters
+    private int devicePageSize = 5;
+    private int deviceCurrentPage = 1;
+    private int roomPageSize = 5;
+    private int roomCurrentPage = 1;
+    private int violationPageSize = 5;
+    private int violationCurrentPage = 1;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            this.firstRender = false;
+            await CheckLoginStatus();
+            if (userId.HasValue)
+            {
+                await LoadHistoryData();
+            }
+            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+        }
+    }
+
+    private async Task CheckLoginStatus()
+    {
+        try
+        {
+            var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
+            if (string.IsNullOrEmpty(userData))
+            {
+                NavigationManager.NavigateTo("/login", true);
+                return;
+            }
+
+            var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
+            if (userInfo != null)
+            {
+                userId = userInfo.MaNguoiDung;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/login", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error checking login status: {ex.Message}");
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+    private string GetViolationBoxClass()
+    {
+        if (violations == null || violations.Count == 0)
+            return "status-safe";
+        else if (violations.Count < 3)
+            return "status-safe";
+        else if (violations.Count < 5)
+            return "status-warning";
+        else if (violations.Count < 7)
+            return "status-danger";
+        else
+            return "status-critical";
+    }
+
+    private string GetViolationProgressBarClass()
+    {
+        if (violations == null || violations.Count == 0)
+            return "progress-bar-safe";
+        else if (violations.Count < 3)
+            return "progress-bar-safe";
+        else if (violations.Count < 5)
+            return "progress-bar-warning";
+        else if (violations.Count < 7)
+            return "progress-bar-danger";
+        else
+            return "progress-bar-critical";
+    }
+
+
+    private async Task LoadHistoryData()
+    {
+        try
+        {
+            // Load returned devices (with status "Đã trả")
+            returnedDevices = await DeviceService.GetUserReturnedDevices(userId.Value);
+
+            // Load returned rooms (with status "Đã trả")
+            returnedRooms = await RoomService.GetUserReturnedRooms(userId.Value);
+
+            // Load all user violations
+            violations = await ViolationService.GetUserViolations(userId.Value);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading history data: {ex.Message}");
+        }
+    }
+
+    // Get paginated data
+    private IEnumerable<PhieuMuonThietBiModel> GetPaginatedDevices()
+    {
+        if (returnedDevices == null) return new List<PhieuMuonThietBiModel>();
+        return returnedDevices
+            .Skip((deviceCurrentPage - 1) * devicePageSize)
+            .Take(devicePageSize);
+    }
+
+    private IEnumerable<PhieuMuonPhongModel> GetPaginatedRooms()
+    {
+        if (returnedRooms == null) return new List<PhieuMuonPhongModel>();
+        return returnedRooms
+            .Skip((roomCurrentPage - 1) * roomPageSize)
+            .Take(roomPageSize);
+    }
+
+    private IEnumerable<ViPhamModel> GetPaginatedViolations()
+    {
+        if (violations == null) return new List<ViPhamModel>();
+        return violations
+            .Skip((violationCurrentPage - 1) * violationPageSize)
+            .Take(violationPageSize);
+    }
+
+    // Calculate total pages
+    private int GetTotalDevicePages() => returnedDevices == null ? 0 : (int)Math.Ceiling(returnedDevices.Count / (double)devicePageSize);
+    private int GetTotalRoomPages() => returnedRooms == null ? 0 : (int)Math.Ceiling(returnedRooms.Count / (double)roomPageSize);
+    private int GetTotalViolationPages() => violations == null ? 0 : (int)Math.Ceiling(violations.Count / (double)violationPageSize);
+
+    // Page navigation
+    private void ChangeDevicePage(int page)
+    {
+        deviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalDevicePages()));
+    }
+
+    private void ChangeRoomPage(int page)
+    {
+        roomCurrentPage = Math.Max(1, Math.Min(page, GetTotalRoomPages()));
+    }
+
+    private void ChangeViolationPage(int page)
+    {
+        violationCurrentPage = Math.Max(1, Math.Min(page, GetTotalViolationPages()));
+    }
+
+    // Status class helpers
     private string GetStatusClass(string status) => status switch
     {
         "Đã trả" => "status-success",
-        "Đã thanh toán" => "status-success",
-        "Chưa thanh toán" => "status-danger",
         _ => ""
     };
-
-    class Activity
-    {
-        public string Device { get; set; }
-        public DateTime BorrowDate { get; set; }
-        public DateTime? ReturnDate { get; set; }
-        public string Status { get; set; }
-    }
-
-    class Violation
-    {
-        public string Code { get; set; }
-        public string DeviceRoom { get; set; }
-        public string Content { get; set; }
-        public DateTime Date { get; set; }
-        public string Status { get; set; }
-    }
 }

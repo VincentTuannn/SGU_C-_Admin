@@ -1,0 +1,32 @@
+﻿.time-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.time-select {
+    padding: 0.375rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: white;
+    cursor: pointer;
+}
+
+    .time-select:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    .time-select.period {
+        width: 70px;
+    }
+
+.time-separator {
+    font-weight: bold;
+    padding: 0 0.25rem;
+}
+
+select.time-select {
+    width: 65px;
+}

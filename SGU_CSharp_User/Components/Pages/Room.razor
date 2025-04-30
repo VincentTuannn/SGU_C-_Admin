@@ -1,75 +1,342 @@
 ﻿@page "/booking/room"
-@* @model BookingModel *@
+@using SGU_CSharp_User.Model
+@using SGU_CSharp_User.Service
+@using SGU_CSharp_User.Components.Shared
+@inject RoomService RoomService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+@inject IJSRuntime JSRuntime
+@using Microsoft.JSInterop
+
+
+
 <PageTitle>Đặt phòng</PageTitle>
 
 <div class="container">
     <h1>Đặt phòng</h1>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @errorMessage
+        </div>
+    }
+    <EditForm Model="BookingModel" OnValidSubmit="PrepareBooking">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="text-danger mb-3" />
 
-    <form method="post" class="form">
+        <!-- Select Room -->
         <div class="form-group">
             <label for="room">Tên phòng:</label>
-            <select id="room" name="room" required>
+            <InputSelect id="room" @bind-Value="BookingModel.MaPhong" class="form-control">
                 <option value="">-- Chọn phòng --</option>
-                <option value="A101">Phòng A101</option>
-                <option value="B202">Phòng B202</option>
-                <option value="C303">Phòng C303</option>
-            </select>
+                @if (AvailableRooms != null)
+                {
+                    @foreach (var room in AvailableRooms)
+                    {
+                        <option value="@room.MaPhong">@room.TenPhong - @room.GiaMuon</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => BookingModel.MaPhong)" class="text-danger" />
         </div>
 
+        <!-- Booking Date -->
         <div class="form-group">
-            <label for="date">Ngày đặt:</label>
-            <input type="date" id="date" name="date" required />
+            <label for="bookingDate">Ngày đặt:</label>
+            <InputDate id="bookingDate" @bind-Value="dateTime" class="form-control" />
+            <ValidationMessage For="@(() => BookingModel.ThoiGianMuon)" class="text-danger" />
         </div>
 
+        <!-- Replace the existing time inputs with: -->
         <div class="form-group time">
             <div>
                 <label for="startTime">Giờ bắt đầu:</label>
-                <input type="time" id="startTime" name="startTime" required />
+                <TimePickerComponent @bind-Value="StartTime" 
+                MinTime="new TimeSpan(7, 0, 0)"
+                MaxTime="new TimeSpan(22, 0, 0)" />
+                <ValidationMessage For="@(() => StartTime)" class="text-danger" />
             </div>
             <div>
                 <label for="endTime">Giờ kết thúc:</label>
-                <input type="time" id="endTime" name="endTime" required />
+                <TimePickerComponent @bind-Value="EndTime"
+                MinTime="new TimeSpan(7, 0, 0)"
+                MaxTime="new TimeSpan(22, 0, 0)" />
+                <ValidationMessage For="@(() => EndTime)" class="text-danger" />
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="purpose">Mục đích sử dụng:</label>
-            <textarea id="purpose" name="purpose" rows="3" required></textarea>
-        </div>
 
+        <!-- Submit Button -->
         <div class="form-group center">
-            <button type="submit" class="submit-button">Đặt phòng</button>
+            <button type="submit" class="btn btn-primary">Đặt phòng</button>
         </div>
-    </form>
+    </EditForm>
 
+    <!-- Confirmation Message -->
     @if (isSubmitted)
     {
-        <div class="confirmation-message">
-            <h3>Đặt phòng thành công!</h3>
-            <p>Phòng: @room</p>
-            <p>Ngày: @Date.ToString("dd/MM/yyyy")</p>
-            <p>Giờ: @StartTime.ToString("HH:mm") - @EndTime.ToString("HH:mm")</p>
-            <p>Mục đích: @Purpose</p>
+        <div class="modal-backdrop show"></div>
+        <div class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="successModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title" id="successModalTitle">Đặt phòng thành công!</h5>
+                        <button type="button" class="btn-close bg-white" aria-label="Close" @onclick="RedirectToBookingPage"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <strong>Phòng:</strong>
+                                <span>@SelectedRoom?.TenPhong</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Ngày:</strong>
+                                <span>@BookingModel.ThoiGianMuon.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Thời gian:</strong>
+                                <span>@StartTime.ToString(@"hh\:mm") - @EndTime.ToString(@"hh\:mm")</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @onclick="RedirectToBookingPage">
+                            Xem danh sách đặt phòng
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     }
+
+    <!-- Add this at the end of the container div but before closing it -->
+    @if (showConfirmation)
+    {
+        <div class="modal-backdrop show"></div>
+        <div class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Xác nhận đặt phòng</h5>
+                        <button type="button" class="btn-close" aria-label="Close" @onclick="CloseConfirmation"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="booking-details">
+                            <div class="detail-row">
+                                <strong>Phòng:</strong>
+                                <span>@SelectedRoom?.TenPhong</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Loại phòng:</strong>
+                                <span>@SelectedRoom?.LoaiPhong</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Ngày đặt:</strong>
+                                <span>@dateTime.ToString("dd/MM/yyyy")</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Thời gian:</strong>
+                                <span>@StartTime.ToString(@"hh\:mm") - @EndTime.ToString(@"hh\:mm")</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Thời lượng:</strong>
+                                <span>@((EndTime - StartTime).TotalHours) giờ</span>
+                            </div>
+                            <div class="detail-row total">
+                                <strong>Tổng tiền:</strong>
+                                <span class="price">@BookingModel.TongTien.ToString("#,##0") đ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @onclick="CloseConfirmation">Hủy</button>
+                        <button type="button" class="btn btn-primary" @onclick="ConfirmBooking">Xác nhận</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
 </div>
 
 @code {
-    // [BindProperty]
-    public string room { get; set; }
-    // [BindProperty]
-    public DateTime Date { get; set; }
-    // [BindProperty]
-    public TimeSpan StartTime { get; set; }
-    // [BindProperty]
-    public TimeSpan EndTime { get; set; }
-    // [BindProperty]
-    public string Purpose { get; set; }
-
+    private List<PhongModel>? AvailableRooms;
+    private PhongModel? SelectedRoom;
+    private PhieuMuonPhongModel BookingModel = new();
     private bool isSubmitted = false;
+    private bool showConfirmation = false;
+    private bool roomSelectionError = false;
+    private string? errorMessage;
+    private bool isLoggedIn = false;
+    private NguoiDungModel user = new NguoiDungModel();
+    private bool firstRender = true;
 
-    public void OnPost()
+    // Date and Time handling
+    private DateTime dateTime = DateTime.Now;
+    private TimeSpan StartTime { get; set; } = new TimeSpan(8, 0, 0); // 8:00 AM
+    private TimeSpan EndTime { get; set; } = new TimeSpan(17, 0, 0); // 5:00 PM
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        isSubmitted = true;
+        if (firstRender)
+        {
+            this.firstRender = false;
+            await CheckLoginStatus();
+            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+        }
     }
+    private async Task CheckLoginStatus()
+    {
+        try
+        {
+            var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
+
+            Console.WriteLine(userData);
+
+            if (!string.IsNullOrEmpty(userData))
+            {
+                isLoggedIn = true;
+
+                // Deserialize user data from JSON
+                var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
+
+                // Check if user data is valid
+                if (userInfo == null)
+                {
+                    NavigationManager.NavigateTo("/login", true);
+                    return;
+                }
+
+                // Populate profile model from user data
+                user.MaNguoiDung = userInfo.MaNguoiDung;
+                user.Email = userInfo.Email;
+                user.HoVaTen = userInfo.HoVaTen;
+                user.SoDienThoai = userInfo.SoDienThoai ?? string.Empty;
+                user.DiaChi = userInfo.DiaChi ?? string.Empty;
+                user.GioiTinh = userInfo.GioiTinh;
+
+                // Parse date from string representation in localStorage
+                if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
+                {
+                    user.NgaySinh = ngaySinh;
+                }
+            }
+            else
+            {
+                // No user data found, redirect to login
+                isLoggedIn = false;
+                NavigationManager.NavigateTo("/login", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Error handling
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error loading user profile: {ex.Message}");
+            NavigationManager.NavigateTo("/login", true);
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load available rooms
+        AvailableRooms = await RoomService.GetEmptyRoom();
+        BookingModel.TrangThai = "Đang mượn";
+    }
+
+    private async Task PrepareBooking()
+    {
+        try
+        {
+            // Reset error states
+            roomSelectionError = false;
+            errorMessage = null;
+
+            // Check if a room is selected
+            if (BookingModel.MaPhong <= 0)
+            {
+                roomSelectionError = true;
+                errorMessage = "Vui lòng chọn phòng trước khi đặt.";
+                return;
+            }
+            // Find the selected room details
+            SelectedRoom = AvailableRooms?.FirstOrDefault(r => r.MaPhong == BookingModel.MaPhong);
+            // Set the booking times
+            BookingModel.ThoiGianMuon = dateTime.Date + StartTime;
+            BookingModel.ThoiGianTra = dateTime.Date + EndTime;
+            BookingModel.MaNguoiDung = user.MaNguoiDung;
+            if (SelectedRoom != null)
+                {
+
+                    BookingModel.Phong= SelectedRoom;
+                    BookingModel.TongTien = CalculateRoomCost(SelectedRoom, StartTime, EndTime);
+                    showConfirmation = true;
+                }
+        }
+        catch (Exception ex)
+        {
+            // Handle any errors
+            Console.WriteLine($"Error in HandleSubmit: {ex.Message}");
+        }
+    }
+
+    private decimal CalculateRoomCost(PhongModel room, TimeSpan startTime, TimeSpan endTime)
+    {
+        var duration = (endTime - startTime).TotalHours;
+        return (decimal)duration * room.GiaMuon;
+    }
+    private void CloseConfirmation()
+    {
+        showConfirmation = false;
+    }
+    private async Task ConfirmBooking()
+    {
+        try
+        {
+            // Save the booking to database
+            var result = await RoomService.SaveBooking(BookingModel);
+
+            if (result)
+            {
+                // Close the confirmation dialog
+                showConfirmation = false;
+
+                // Small delay for better UX
+                await Task.Delay(300);
+
+                // Show success message
+                isSubmitted = true;
+
+                // Optional: Set a timer to automatically redirect after a few seconds
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(5000); // 5 seconds
+                    await InvokeAsync(() =>
+                    {
+                        NavigationManager.NavigateTo("/booking");
+                        StateHasChanged();
+                    });
+                });
+            }
+            else
+            {
+                errorMessage = "Không thể đặt phòng. Vui lòng thử lại sau.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in ConfirmBooking: {ex.Message}");
+            // You might want to show an error message to the user here
+        }
+    }
+    private async Task RedirectToBookingPage()
+    {
+        // Optional: Add a small delay for better UX
+        await Task.Delay(500);
+
+        // Navigate to the booking page
+        NavigationManager.NavigateTo("/booking");
+    }
+
 }
