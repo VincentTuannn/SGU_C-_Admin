@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
+            importExcel = new Button();
+            btn_delete = new Button();
+            btn_fix = new Button();
+            Btn_Add = new Button();
             dataGridView1 = new DataGridView();
             Input_Search = new TextBox();
             label2 = new Label();
@@ -43,6 +47,10 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(importExcel);
+            panel2.Controls.Add(btn_delete);
+            panel2.Controls.Add(btn_fix);
+            panel2.Controls.Add(Btn_Add);
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
@@ -50,6 +58,54 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 359);
             panel2.TabIndex = 7;
+            // 
+            // importExcel
+            // 
+            importExcel.BackColor = Color.MediumSeaGreen;
+            importExcel.Cursor = Cursors.Hand;
+            importExcel.ForeColor = Color.White;
+            importExcel.Location = new Point(946, 58);
+            importExcel.Name = "importExcel";
+            importExcel.Size = new Size(131, 35);
+            importExcel.TabIndex = 10;
+            importExcel.Text = "Import Excel";
+            importExcel.UseVisualStyleBackColor = false;
+            importExcel.Click += importExcel_Click;
+            // 
+            // btn_delete
+            // 
+            btn_delete.Cursor = Cursors.Hand;
+            btn_delete.Location = new Point(988, 248);
+            btn_delete.Name = "btn_delete";
+            btn_delete.Size = new Size(86, 35);
+            btn_delete.TabIndex = 9;
+            btn_delete.Text = "Xóa";
+            btn_delete.UseVisualStyleBackColor = true;
+            btn_delete.Click += btn_delete_Click;
+            // 
+            // btn_fix
+            // 
+            btn_fix.Cursor = Cursors.Hand;
+            btn_fix.Location = new Point(988, 140);
+            btn_fix.Name = "btn_fix";
+            btn_fix.Size = new Size(86, 35);
+            btn_fix.TabIndex = 8;
+            btn_fix.Text = "Sửa";
+            btn_fix.UseVisualStyleBackColor = true;
+            btn_fix.Click += btn_fix_Click;
+            // 
+            // Btn_Add
+            // 
+            Btn_Add.BackColor = Color.Black;
+            Btn_Add.Cursor = Cursors.Hand;
+            Btn_Add.ForeColor = Color.White;
+            Btn_Add.Location = new Point(809, 58);
+            Btn_Add.Name = "Btn_Add";
+            Btn_Add.Size = new Size(131, 35);
+            Btn_Add.TabIndex = 7;
+            Btn_Add.Text = "Thêm tài khoản";
+            Btn_Add.UseVisualStyleBackColor = false;
+            Btn_Add.Click += Btn_Add_Click;
             // 
             // dataGridView1
             // 
@@ -153,5 +209,9 @@
         private Label label1;
         private Button Btn_Back;
         private Panel panel1;
+        private Button importExcel;
+        private Button btn_delete;
+        private Button btn_fix;
+        private Button Btn_Add;
     }
 }
