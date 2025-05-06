@@ -111,9 +111,10 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO nguoidung (Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai) " +
-                              "VALUES (@Email, @MatKhau, @HoVaTen, @NgaySinh, @DiaChi, @GioiTinh, @SoDienThoai, @TrangThai)";
+                string query = "INSERT INTO nguoidung (MaQuyen, Email, MatKhau, HoVaTen, NgaySinh, DiaChi, GioiTinh, SoDienThoai, TrangThai) " +
+                              "VALUES (@MaQuyen, @Email, @MatKhau, @HoVaTen, @NgaySinh, @DiaChi, @GioiTinh, @SoDienThoai, @TrangThai)";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaQuyen", nguoiDung.MaQuyen);
                 cmd.Parameters.AddWithValue("@Email", nguoiDung.Email);
                 cmd.Parameters.AddWithValue("@MatKhau", nguoiDung.MatKhau);
                 cmd.Parameters.AddWithValue("@HoVaTen", nguoiDung.HoVaTen);
@@ -155,10 +156,7 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "UPDATE nguoidung SET TrangThai = " +
-                              "CASE WHEN TrangThai = N'Hoạt động' THEN N'Không hoạt động' " +
-                              "ELSE N'Hoạt động' END " +
-                              "WHERE MaNguoiDung = @MaNguoiDung";
+                string query = "DELETE FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
                 conn.Open();
