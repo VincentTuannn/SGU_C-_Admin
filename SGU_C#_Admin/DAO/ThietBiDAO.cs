@@ -135,12 +135,50 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM thietbi WHERE MaThietBi = @MaThietBi";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
                 conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                // Bắt đầu một giao dịch để đảm bảo tính toàn vẹn dữ liệu
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Xóa các bản ghi liên quan trong bảng vpham trước
+                        string deleteVPhamQuery = "DELETE FROM vipham WHERE MaThietBi = @MaThietBi";
+                        using (SqlCommand cmdVPham = new SqlCommand(deleteVPhamQuery, conn, transaction))
+                        {
+                            cmdVPham.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                            cmdVPham.ExecuteNonQuery();
+                        }
+
+                        // Xóa các bản ghi liên quan trong bảng phieumuonthietbi
+                        string deletePhieuMuonQuery = "DELETE FROM phieumuonthietbi WHERE MaThietBi = @MaThietBi";
+                        using (SqlCommand cmdPhieuMuon = new SqlCommand(deletePhieuMuonQuery, conn, transaction))
+                        {
+                            cmdPhieuMuon.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                            cmdPhieuMuon.ExecuteNonQuery();
+                        }
+
+                        // Sau đó xóa thiết bị từ bảng thietbi
+                        string deleteThietBiQuery = "DELETE FROM thietbi WHERE MaThietBi = @MaThietBi";
+                        using (SqlCommand cmdThietBi = new SqlCommand(deleteThietBiQuery, conn, transaction))
+                        {
+                            cmdThietBi.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                            cmdThietBi.ExecuteNonQuery();
+                        }
+
+                        // Nếu mọi thứ thành công, commit giao dịch
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Nếu có lỗi, rollback giao dịch
+                        transaction.Rollback();
+                        throw new Exception("Lỗi khi xóa thiết bị: " + ex.Message);
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
+                }
             }
         }
 
