@@ -69,5 +69,19 @@ namespace SGU_C__User.BUS
         {
             checkInDAO.DeleteCheckIn(maCheckIn);
         }
+
+        public int GetCheckInCountsByDate()
+        {
+            try
+            {
+                List<CheckInDTO> checkIns = checkInDAO.GetCheckInCountsByDate();
+                // Tính tổng số check-in từ danh sách
+                return checkIns.Count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy số lượng check-in theo ngày: " + ex.Message);
+            }
+        }
     }
 }

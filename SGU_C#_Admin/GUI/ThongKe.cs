@@ -17,6 +17,7 @@ namespace SGU_C__User.GUI
     {
         private ThietBiBUS thietBiBus = new ThietBiBUS();
         private PhongBUS PhongBUS = new PhongBUS();
+        private CheckInBUS checkInBUS = new CheckInBUS();
         public ThongKe()
         {
             InitializeComponent();
@@ -58,10 +59,12 @@ namespace SGU_C__User.GUI
                 // Lấy dữ liệu từ DAO
                 int soPhongMuon = PhongBUS.CountPhongMuon();
                 int soThietBiMuon = thietBiBus.CountSoLuong();
+                int soCheckIn = checkInBUS.GetCheckInCountsByDate();
 
                 // Thêm dữ liệu vào Series
                 series.Points.AddXY("Phòng mượn", soPhongMuon);
                 series.Points.AddXY("Thiết bị mượn", soThietBiMuon);
+                series.Points.AddXY("Số lượng thành viên vào khu vực học tập", soCheckIn);
 
                 // Đặt tiêu đề cho chart
                 chart.Titles.Add("Thống kê số lượng mượn phòng và thiết bị");
@@ -70,8 +73,9 @@ namespace SGU_C__User.GUI
                 series.IsValueShownAsLabel = true; // Hiển thị giá trị trên cột
                 series.Points[0].Color = System.Drawing.Color.Blue; // Màu cho "Phòng mượn"
                 series.Points[1].Color = System.Drawing.Color.Green; // Màu cho "Thiết bị mượn"
-                chart.ChartAreas[0].AxisX.Title = "Danh mục";
-                chart.ChartAreas[0].AxisY.Title = "Số lượng mượn";
+                series.Points[2].Color = System.Drawing.Color.Red; // Màu cho "Số lượng thành viên vào khu học tập"
+                chart.ChartAreas[0].AxisX.Title = "Danh mục thống kê";
+                chart.ChartAreas[0].AxisY.Title = "Số lượng";
             }
             catch (Exception ex)
             {

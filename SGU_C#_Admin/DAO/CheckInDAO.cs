@@ -114,5 +114,44 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public List<CheckInDTO> GetCheckInCountsByDate()
+        {
+            List<CheckInDTO> checkInList = new List<CheckInDTO>();
+            string query = "SELECT MaCheckin, MaNguoiDung, ThoiGianVao, ThoiGianRa, TrangThai " +
+                          "FROM checkin WHERE TrangThai = 'Checked In' " +
+                          "ORDER BY CONVERT(date, ThoiGianVao)";
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                CheckInDTO checkIn = new CheckInDTO
+                                {
+                                    MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
+                                    MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
+                                    ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
+                                    ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
+                                    TrangThai = reader["TrangThai"].ToString()
+                                };
+                                checkInList.Add(checkIn);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Lỗi khi lấy danh sách check-in: " + ex.Message);
+                    }
+                }
+            }
+            return checkInList;
+        }
     }
 }
