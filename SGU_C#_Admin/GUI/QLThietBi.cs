@@ -43,10 +43,8 @@ namespace SGU_C__User
 
         private void Btn_Back_Click(object sender, EventArgs e)
         {
-            if (this.Owner != null)
-            {
-                this.Owner.Show();
-            }
+            TrangChu_Admin mainForm = new TrangChu_Admin();
+            mainForm.Show();
             this.Close();
         }
 

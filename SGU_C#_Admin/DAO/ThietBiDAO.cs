@@ -217,5 +217,89 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public bool IsDeviceExistForOther(string tenThietBi, int maThietBi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM thietbi WHERE TenThietBi = @TenThietBi AND MaThietBi != @MaThietBi";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TenThietBi", tenThietBi);
+                cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> DeleteDevicesByType(string loaiThietBi)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                using (SqlTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Xóa các bản ghi liên quan trong bảng vipham
+                        string deleteVPhamQuery = "DELETE FROM vipham WHERE MaThietBi IN (SELECT MaThietBi FROM thietbi WHERE LoaiThietBi = @LoaiThietBi)";
+                        using (SqlCommand cmdVPham = new SqlCommand(deleteVPhamQuery, conn, transaction))
+                        {
+                            cmdVPham.Parameters.AddWithValue("@LoaiThietBi", loaiThietBi);
+                            await cmdVPham.ExecuteNonQueryAsync();
+                        }
+
+                        // Xóa các bản ghi liên quan trong bảng phieumuonthietbi
+                        string deletePhieuMuonQuery = "DELETE FROM phieumuonthietbi WHERE MaThietBi IN (SELECT MaThietBi FROM thietbi WHERE LoaiThietBi = @LoaiThietBi)";
+                        using (SqlCommand cmdPhieuMuon = new SqlCommand(deletePhieuMuonQuery, conn, transaction))
+                        {
+                            cmdPhieuMuon.Parameters.AddWithValue("@LoaiThietBi", loaiThietBi);
+                            await cmdPhieuMuon.ExecuteNonQueryAsync();
+                        }
+
+                        // Xóa thiết bị từ bảng thietbi
+                        string deleteThietBiQuery = "DELETE FROM thietbi WHERE LoaiThietBi = @LoaiThietBi";
+                        using (SqlCommand cmdThietBi = new SqlCommand(deleteThietBiQuery, conn, transaction))
+                        {
+                            cmdThietBi.Parameters.AddWithValue("@LoaiThietBi", loaiThietBi);
+                            await cmdThietBi.ExecuteNonQueryAsync();
+                        }
+
+                        transaction.Commit();
+                        return (true, "Xóa thiết bị theo loại thành công");
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return (false, "Lỗi khi xóa thiết bị theo loại: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        public void UpdateTrangThai(int maThietBi, string trangThai, DateTime? thoiGianTra = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE thietbi SET TrangThai = @TrangThai";
+                if (thoiGianTra.HasValue)
+                {
+                    query += ", ThoiGianTra = @ThoiGianTra";
+                }
+                query += " WHERE MaThietBi = @MaThietBi";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                cmd.Parameters.AddWithValue("@TrangThai", trangThai);
+                if (thoiGianTra.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@ThoiGianTra", thoiGianTra.Value);
+                }
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 }

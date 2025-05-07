@@ -122,5 +122,31 @@ namespace SGU_C__User.BUS
             }
         }
 
+        public (bool Success, string Message) DeleteDevicesByType(string loaiThietBi)
+        {
+            try
+            {
+                var task = thietBiDAO.DeleteDevicesByType(loaiThietBi);
+                task.Wait();
+                return task.Result;
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi khi xóa thiết bị theo loại: " + ex.Message);
+            }
+        }
+
+        public void UpdateTrangThai(int maThietBi, string trangThai, DateTime? thoiGianTra = null)
+        {
+            thietBiDAO.UpdateTrangThai(maThietBi, trangThai, thoiGianTra);
+        }
+
+        public List<PhieuMuonThietBiDTO> GetThietBiDaDatByNguoiDung(int maNguoiDung)
+        {
+            var phieuMuonThietBiBUS = new PhieuMuonThietBiBUS();
+            return phieuMuonThietBiBUS.GetAllPhieuMuonThietBiByMaNguoiDung(maNguoiDung)
+                .Where(p => p.TrangThai == "Đã đặt").ToList();
+        }
+
     }
 }

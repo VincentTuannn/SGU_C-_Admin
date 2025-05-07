@@ -317,7 +317,7 @@ namespace SGU_C__User.GUI
                         ColorRows();
 
                         // Nút xác nhận mượn
-                        Button btnXacNhan = new Button
+                        Button btnXacNhan2 = new Button
                         {
                             Text = "Xác nhận mượn",
                             Dock = DockStyle.Fill,
@@ -329,7 +329,7 @@ namespace SGU_C__User.GUI
                         // Thêm các control vào table
                         table.Controls.Add(filterPanel, 0, 0);
                         table.Controls.Add(dgv, 0, 1);
-                        table.Controls.Add(btnXacNhan, 0, 2);
+                        table.Controls.Add(btnXacNhan2, 0, 2);
                         listForm.Controls.Add(table);
 
                         // Sự kiện lọc trạng thái
@@ -350,7 +350,7 @@ namespace SGU_C__User.GUI
                         };
 
                         // Sự kiện xác nhận mượn
-                        btnXacNhan.Click += (s, ev) =>
+                        btnXacNhan2.Click += (s, ev) =>
                         {
                             var selectedRows = dgv.Rows.Cast<DataGridViewRow>()
                                 .Where(r => r.Cells["Chon"].Value != null && Convert.ToBoolean(r.Cells["Chon"].Value) == true)

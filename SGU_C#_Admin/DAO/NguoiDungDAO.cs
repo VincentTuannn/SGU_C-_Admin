@@ -131,24 +131,48 @@ namespace SGU_C__User.DAO
 
         public void UpdateNguoiDung(NguoiDungDTO nguoiDung)
         {
+            if (!IsExist(nguoiDung.MaNguoiDung))
+            {
+                throw new Exception("Người dùng không tồn tại!");
+            }
+
+            if (IsEmailExistForOther(nguoiDung.Email, nguoiDung.MaNguoiDung))
+            {
+                throw new Exception("Email đã tồn tại cho người dùng khác!");
+            }
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "UPDATE nguoidung SET Email = @Email, MatKhau = @MatKhau, HoVaTen = @HoVaTen, " +
-                              "NgaySinh = @NgaySinh, DiaChi = @DiaChi, GioiTinh = @GioiTinh, SoDienThoai = @SoDienThoai, TrangThai = @TrangThai " +
-                              "WHERE MaNguoiDung = @MaNguoiDung";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@MaNguoiDung", nguoiDung.MaNguoiDung);
-                cmd.Parameters.AddWithValue("@Email", nguoiDung.Email);
-                cmd.Parameters.AddWithValue("@MatKhau", nguoiDung.MatKhau);
-                cmd.Parameters.AddWithValue("@HoVaTen", nguoiDung.HoVaTen);
-                cmd.Parameters.AddWithValue("@NgaySinh", nguoiDung.NgaySinh);
-                cmd.Parameters.AddWithValue("@DiaChi", nguoiDung.DiaChi);
-                cmd.Parameters.AddWithValue("@GioiTinh", nguoiDung.GioiTinh);
-                cmd.Parameters.AddWithValue("@SoDienThoai", nguoiDung.SoDienThoai);
-                cmd.Parameters.AddWithValue("@TrangThai", nguoiDung.TrangThai);
-                conn.Open();
-                cmd.ExecuteNonQuery();
-                conn.Close();
+                try
+                {
+                    string query = "UPDATE nguoidung SET MaQuyen = @MaQuyen, Email = @Email, MatKhau = @MatKhau, HoVaTen = @HoVaTen, " +
+                                  "NgaySinh = @NgaySinh, DiaChi = @DiaChi, GioiTinh = @GioiTinh, SoDienThoai = @SoDienThoai, TrangThai = @TrangThai " +
+                                  "WHERE MaNguoiDung = @MaNguoiDung";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@MaNguoiDung", nguoiDung.MaNguoiDung);
+                    cmd.Parameters.AddWithValue("@MaQuyen", nguoiDung.MaQuyen);
+                    cmd.Parameters.AddWithValue("@Email", nguoiDung.Email);
+                    cmd.Parameters.AddWithValue("@MatKhau", nguoiDung.MatKhau);
+                    cmd.Parameters.AddWithValue("@HoVaTen", nguoiDung.HoVaTen);
+                    cmd.Parameters.AddWithValue("@NgaySinh", nguoiDung.NgaySinh);
+                    cmd.Parameters.AddWithValue("@DiaChi", nguoiDung.DiaChi);
+                    cmd.Parameters.AddWithValue("@GioiTinh", nguoiDung.GioiTinh);
+                    cmd.Parameters.AddWithValue("@SoDienThoai", nguoiDung.SoDienThoai);
+                    cmd.Parameters.AddWithValue("@TrangThai", nguoiDung.TrangThai);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Lỗi khi cập nhật thông tin người dùng: " + ex.Message);
+                }
+                finally
+                {
+                    if (conn.State == System.Data.ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
             }
         }
 
@@ -206,6 +230,95 @@ namespace SGU_C__User.DAO
                 int count = (int)cmd.ExecuteScalar();
                 conn.Close();
                 return count > 0;
+            }
+        }
+
+        public bool IsExist(int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
+
+        public bool IsEmailExistForOther(string email, int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE Email = @Email AND MaNguoiDung != @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
+
+        public async Task<(bool Success, string Message)> DeleteAccountsByBirthYear(int birthYear)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT MaNguoiDung FROM nguoidung WHERE YEAR(NgaySinh) = @BirthYear";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@BirthYear", birthYear);
+                    conn.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    List<int> userIds = new List<int>();
+                    while (reader.Read())
+                    {
+                        userIds.Add(Convert.ToInt32(reader["MaNguoiDung"]));
+                    }
+                    conn.Close();
+
+                    if (userIds.Count == 0)
+                    {
+                        return (false, "Không tìm thấy tài khoản nào có năm sinh " + birthYear);
+                    }
+
+                    using (SqlConnection deleteConn = new SqlConnection(connectionString))
+                    {
+                        deleteConn.Open();
+                        using (SqlTransaction transaction = deleteConn.BeginTransaction())
+                        {
+                            try
+                            {
+                                foreach (int userId in userIds)
+                                {
+                                    string deleteQuery = "DELETE FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
+                                    using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, deleteConn, transaction))
+                                    {
+                                        deleteCmd.Parameters.AddWithValue("@MaNguoiDung", userId);
+                                        deleteCmd.ExecuteNonQuery();
+                                    }
+                                }
+
+                                transaction.Commit();
+                                return (true, "Đã xóa " + userIds.Count + " tài khoản có năm sinh " + birthYear);
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                Console.WriteLine($"Error deleting accounts by birth year: {ex.Message}");
+                                return (false, "Đã xảy ra lỗi khi xóa tài khoản: " + ex.Message);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting accounts by birth year: {ex.Message}");
+                return (false, "Đã xảy ra lỗi khi xóa tài khoản: " + ex.Message);
             }
         }
     }
