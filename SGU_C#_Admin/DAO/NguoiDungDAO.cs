@@ -210,5 +210,19 @@ namespace SGU_C__User.DAO
                 return count > 0;
             }
         }
+
+        public bool IsExist(int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
     }
 }

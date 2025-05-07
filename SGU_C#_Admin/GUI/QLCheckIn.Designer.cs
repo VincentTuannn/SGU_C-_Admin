@@ -36,6 +36,7 @@
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
+            btnCheckIn = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -46,6 +47,7 @@
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
+            panel2.Controls.Add(btnCheckIn);
             panel2.Location = new Point(59, 116);
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 359);
@@ -123,6 +125,13 @@
             panel1.Size = new Size(1161, 62);
             panel1.TabIndex = 9;
             // 
+            // btnCheckIn
+            // 
+            btnCheckIn.Text = "Check-in";
+            btnCheckIn.Location = new Point(240, 58);
+            btnCheckIn.Size = new Size(100, 27);
+            btnCheckIn.Click += btnCheckIn_Click;
+            // 
             // QLCheckIn
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -152,5 +161,6 @@
         private Label label1;
         private Button Btn_Back;
         private Panel panel1;
+        private Button btnCheckIn;
     }
 }

@@ -83,5 +83,11 @@ namespace SGU_C__User.BUS
                 throw new Exception("Lỗi khi lấy số lượng check-in theo ngày: " + ex.Message);
             }
         }
+
+        public List<CheckInDTO> GetAllCheckInByDate(DateTime date)
+        {
+            var all = GetAllCheckIn();
+            return all.Where(c => c.ThoiGianVao.Date == date.Date).ToList();
+        }
     }
 }

@@ -122,5 +122,34 @@ namespace SGU_C__User.BUS
             }
         }
 
+        public void UpdateTrangThai(int maThietBi, string trangThai, DateTime? thoiGianTra = null)
+        {
+            try
+            {
+                if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(trangThai))
+                {
+                    throw new Exception("Trạng thái không hợp lệ!");
+                }
+                thietBiDAO.UpdateTrangThai(maThietBi, trangThai, thoiGianTra);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi cập nhật trạng thái thiết bị: " + ex.Message);
+            }
+        }
+
+        public List<ThietBiDTO> GetThietBiDaDatByNguoiDung(int maNguoiDung)
+        {
+            // Giả sử bạn có thể lấy tất cả thiết bị và lọc theo MaNguoiDung và trạng thái
+            // Nếu cần truy vấn DB chuẩn hơn, hãy thêm hàm tương ứng ở DAO
+            var allPhieuMuon = new PhieuMuonThietBiBUS().GetAllPhieuMuonThietBiByMaNguoiDung(maNguoiDung);
+            var thietBiIds = allPhieuMuon
+                .Where(p => p.TrangThai == "Đã đặt chỗ")
+                .Select(p => p.MaThietBi)
+                .ToList();
+            var allThietBi = GetAllThietBi();
+            return allThietBi.Where(tb => thietBiIds.Contains(tb.MaThietBi)).ToList();
+        }
+
     }
 }

@@ -54,9 +54,11 @@ namespace SGU_C__User.GUI
 
         private void btn_back_Click(object sender, EventArgs e)
         {
-            TrangChu_Admin mainForm = new TrangChu_Admin();
-            mainForm.Show();
-            this.Close(); // Đóng form hiện tại
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
+            this.Close();
         }
 
         private void Input_Search_TextChanged(object sender, EventArgs e)

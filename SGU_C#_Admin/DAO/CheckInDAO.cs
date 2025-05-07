@@ -28,7 +28,7 @@ namespace SGU_C__User.DAO
                         MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
                         ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
-                        ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
+                        ThoiGianRa = reader["ThoiGianRa"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["ThoiGianRa"]),
                         TrangThai = reader["TrangThai"].ToString()
                     };
                     checkInList.Add(checkIn);
@@ -55,7 +55,7 @@ namespace SGU_C__User.DAO
                         MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
                         ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
-                        ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
+                        ThoiGianRa = reader["ThoiGianRa"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["ThoiGianRa"]),
                         TrangThai = reader["TrangThai"].ToString(),
                     };
                     danhSach.Add(checkIn);
@@ -87,14 +87,10 @@ namespace SGU_C__User.DAO
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "UPDATE checkin SET MaNguoiDung = @MaNguoiDung, " +
-                              "ThoiGianVao = @ThoiGianVao, ThoiGianRa = @ThoiGianRa, " +
-                              "TrangThai = @TrangThai WHERE MaCheckin = @MaCheckin";
+                string query = "UPDATE checkin SET ThoiGianRa = @ThoiGianRa, TrangThai = @TrangThai WHERE MaCheckin = @MaCheckin";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MaCheckin", checkIn.MaCheckin);
-                cmd.Parameters.AddWithValue("@MaNguoiDung", checkIn.MaNguoiDung);
-                cmd.Parameters.AddWithValue("@ThoiGianVao", checkIn.ThoiGianVao);
-                cmd.Parameters.AddWithValue("@ThoiGianRa", checkIn.ThoiGianRa);
+                cmd.Parameters.AddWithValue("@ThoiGianRa", (object)checkIn.ThoiGianRa ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@TrangThai", checkIn.TrangThai);
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -138,7 +134,7 @@ namespace SGU_C__User.DAO
                                     MaCheckin = Convert.ToInt32(reader["MaCheckin"]),
                                     MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
                                     ThoiGianVao = Convert.ToDateTime(reader["ThoiGianVao"]),
-                                    ThoiGianRa = Convert.ToDateTime(reader["ThoiGianRa"]),
+                                    ThoiGianRa = reader["ThoiGianRa"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["ThoiGianRa"]),
                                     TrangThai = reader["TrangThai"].ToString()
                                 };
                                 checkInList.Add(checkIn);
@@ -152,6 +148,22 @@ namespace SGU_C__User.DAO
                 }
             }
             return checkInList;
+        }
+
+        public void AddCheckIn(int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "INSERT INTO checkin (MaNguoiDung, ThoiGianVao, TrangThai) VALUES (@MaNguoiDung, @ThoiGianVao, @TrangThai)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                cmd.Parameters.AddWithValue("@ThoiGianVao", DateTime.Now);
+                cmd.Parameters.AddWithValue("@TrangThai", "Checked In");
+                cmd.Parameters.AddWithValue("@ThoiGianRa", "NAN");
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
         }
     }
 }

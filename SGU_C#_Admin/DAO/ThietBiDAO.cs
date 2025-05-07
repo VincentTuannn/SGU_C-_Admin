@@ -179,5 +179,20 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public void UpdateTrangThai(int maThietBi, string trangThai, DateTime? thoiGianTra = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE thietbi SET TrangThai = @TrangThai, ThoiGianTra = @ThoiGianTra WHERE MaThietBi = @MaThietBi";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                cmd.Parameters.AddWithValue("@TrangThai", trangThai);
+                cmd.Parameters.AddWithValue("@ThoiGianTra", (object)thoiGianTra ?? DBNull.Value);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
     }
 }
