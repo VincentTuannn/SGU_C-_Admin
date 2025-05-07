@@ -295,6 +295,7 @@
             Controls.Add(Btn_Cancel);
             Controls.Add(Btn_Accept);
             Name = "SuaTaiKhoan";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Sửa thông tin tài khoản";
             Load += SuaTaiKhoan_Load;
             panel1.ResumeLayout(false);

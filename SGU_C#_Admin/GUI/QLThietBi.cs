@@ -26,7 +26,7 @@ namespace SGU_C__User
             Input_Search.Leave += TextBox1_Leave;
             LoadDataToGridView(); //Tải lên bảng thiết bị
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; //Chọn 1 thiết bị
-            dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
+            dataGridView1.MultiSelect = true; //Đảm bảo chỉ cho phép chọn 1 dòng
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -40,10 +40,6 @@ namespace SGU_C__User
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Btn_Back_Click(object sender, EventArgs e)
         {
