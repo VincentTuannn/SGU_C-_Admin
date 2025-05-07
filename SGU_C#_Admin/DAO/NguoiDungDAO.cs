@@ -219,6 +219,23 @@ namespace SGU_C__User.DAO
                     return null;
                 }
         }
+
+        public void LockNguoiDung(int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE nguoidung SET TrangThai = " +
+                              "CASE WHEN TrangThai = N'Hoạt động' THEN N'Không hoạt động' " +
+                              "ELSE N'Hoạt động' END " +
+                              "WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
         public bool IsEmailExist(string email)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))

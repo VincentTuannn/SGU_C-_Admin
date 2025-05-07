@@ -140,6 +140,11 @@ namespace SGU_C__User.BUS
             nguoiDungDAO.DeleteNguoiDung(maNguoiDung);
         }
 
+        public void LockNguoiDung(int maNguoiDung)
+        {
+            nguoiDungDAO.LockNguoiDung(maNguoiDung);
+        }
+
         // login
         public NguoiDungDTO DangNhap(string email, string matKhau, int maQuyen)
         {

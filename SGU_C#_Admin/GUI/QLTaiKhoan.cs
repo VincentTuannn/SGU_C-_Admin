@@ -339,6 +339,36 @@ namespace SGU_C__User.GUI
             }
         }
 
-        
+        private void button_Lock_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maNguoiDung = Convert.ToInt32(row.Cells["MaNguoiDung"].Value);
+                string hoVaTen = row.Cells["HoVaTen"].Value.ToString();
+
+                // Xác nhận trước khi xóa
+                DialogResult result = MessageBox.Show($"Bạn có chắc muốn khóa người dùng '{hoVaTen}' không?",
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        nguoiDungBUS.LockNguoiDung(maNguoiDung);
+                        LoadDataToGridView(); // Tải lại dữ liệu sau khi xóa
+                        MessageBox.Show("Khóa người dùng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi khóa người dùng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một người dùng để khóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
     }
 }
