@@ -80,9 +80,11 @@ namespace SGU_C__User.GUI
 
         private void Btn_Back_Click_1(object sender, EventArgs e)
         {
-            TrangChu_Admin mainForm = new TrangChu_Admin();
-            mainForm.Show();
-            this.Close(); // Đóng form hiện tại
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
+            this.Close();
         }
 
         private void btn_fix_Click(object sender, EventArgs e)

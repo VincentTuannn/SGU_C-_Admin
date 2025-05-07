@@ -25,7 +25,7 @@ namespace SGU_C__User.BUS
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi tìm kiếm phòng theo mã người dùng: " + ex.Message);
+                throw new Exception("Lỗi khi tìm kiếm thiết bị theo mã người dùng: " + ex.Message);
             }
         }
 
@@ -37,7 +37,7 @@ namespace SGU_C__User.BUS
             }
             catch (Exception ex)
             {
-                throw new Exception("Lỗi khi tìm kiếm người dùng theo ID: " + ex.Message);
+                throw new Exception("Lỗi khi tìm kiếm phiếu mượn thiết bị theo ID: " + ex.Message);
             }
         }
 
@@ -48,7 +48,7 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Mã người dùng và mã thiết bị phải lớn hơn 0!");
             }
-            if (!new List<string> { "Đang mượn", "Đã trả", "Quá hạn" }.Contains(phieuMuonThietBi.TrangThai))
+            if (!new List<string> { "Đã đặt", "Đang mượn", "Đã trả", "Quá hạn" }.Contains(phieuMuonThietBi.TrangThai))
             {
                 throw new Exception("Trạng thái không hợp lệ!");
             }
@@ -70,7 +70,7 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Mã người dùng và mã thiết bị phải lớn hơn 0!");
             }
-            if (!new List<string> { "Đang mượn", "Đã trả", "Quá hạn" }.Contains(phieuMuonThietBi.TrangThai))
+            if (!new List<string> { "Đã đặt", "Đang mượn", "Đã trả", "Quá hạn" }.Contains(phieuMuonThietBi.TrangThai))
             {
                 throw new Exception("Trạng thái không hợp lệ!");
             }
@@ -83,6 +83,33 @@ namespace SGU_C__User.BUS
                 throw new Exception("Tổng tiền không được âm!");
             }
             phieuMuonThietBiDAO.UpdatePhieuMuonThietBi(phieuMuonThietBi);
+        }
+
+        public void UpdateTrangThaiPhieuMuonThietBi(int maPhieuMuonThietBi, string trangThai)
+        {
+            try
+            {
+                // Kiểm tra trạng thái hợp lệ
+                if (!new List<string> { "Đã đặt", "Đang mượn", "Đã trả", "Quá hạn" }.Contains(trangThai))
+                {
+                    throw new Exception("Trạng thái không hợp lệ!");
+                }
+
+                // Lấy thông tin phiếu mượn hiện tại
+                var phieuMuon = GetAllPhieuMuonThietBiByMaPhieuMuonThietBi(maPhieuMuonThietBi).FirstOrDefault();
+                if (phieuMuon == null)
+                {
+                    throw new Exception("Không tìm thấy phiếu mượn thiết bị!");
+                }
+
+                // Cập nhật trạng thái
+                phieuMuon.TrangThai = trangThai;
+                phieuMuonThietBiDAO.UpdatePhieuMuonThietBi(phieuMuon);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi cập nhật trạng thái phiếu mượn thiết bị: " + ex.Message);
+            }
         }
 
         public void DeletePhieuMuonThietBi(int maPhieuMuonThietBi)

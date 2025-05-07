@@ -200,5 +200,19 @@ namespace SGU_C__User.DAO
                 throw new Exception("Lỗi khi lấy tổng số vi phạm từ cơ sở dữ liệu: " + ex.Message);
             }
         }
+
+        public bool IsViPham(int maNguoiDung)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM vipham WHERE MaNguoiDung = @MaNguoiDung";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@MaNguoiDung", maNguoiDung);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count > 0;
+            }
+        }
     }
 }

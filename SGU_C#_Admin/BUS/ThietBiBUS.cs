@@ -122,19 +122,5 @@ namespace SGU_C__User.BUS
             }
         }
 
-        public (bool Success, string Message) DeleteDevicesByType(string loaiThietBi)
-        {
-            try
-            {
-                var task = thietBiDAO.DeleteDevicesByType(loaiThietBi);
-                task.Wait();
-                return task.Result;
-            }
-            catch (Exception ex)
-            {
-                return (false, "Lỗi khi xóa thiết bị theo loại: " + ex.Message);
-            }
-        }
-
     }
 }

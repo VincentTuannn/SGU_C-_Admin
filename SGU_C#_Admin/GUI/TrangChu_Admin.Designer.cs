@@ -1,5 +1,4 @@
-﻿
-namespace SGU_C__User
+﻿namespace SGU_C__User
 {
     partial class TrangChu_Admin
     {
@@ -296,7 +295,6 @@ namespace SGU_C__User
             Name = "TrangChu_Admin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trang chủ";
-            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);

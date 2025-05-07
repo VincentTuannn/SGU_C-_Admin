@@ -43,9 +43,11 @@ namespace SGU_C__User
 
         private void Btn_Back_Click(object sender, EventArgs e)
         {
-            TrangChu_Admin mainForm = new TrangChu_Admin();
-            mainForm.Show();
-            this.Close(); // Đóng form hiện tại
+            if (this.Owner != null)
+            {
+                this.Owner.Show();
+            }
+            this.Close();
         }
 
         private void Btn_Add_Click(object sender, EventArgs e)
@@ -61,19 +63,17 @@ namespace SGU_C__User
 
         }
 
-        private void TextBox1_Enter(object sender, EventArgs e)
+        private void TextBox1_Enter(object? sender, EventArgs e)
         {
-            // Khi người dùng click vào textbox
             if (Input_Search.Text == "Nhập tên của bạn...")
             {
                 Input_Search.Text = "";
-                Input_Search.ForeColor = Color.Black; // Chuyển về màu chữ bình thường
+                Input_Search.ForeColor = Color.Black;
             }
         }
 
-        private void TextBox1_Leave(object sender, EventArgs e)
+        private void TextBox1_Leave(object? sender, EventArgs e)
         {
-            // Khi người dùng rời textbox
             if (string.IsNullOrWhiteSpace(Input_Search.Text))
             {
                 Input_Search.Text = "Nhập tên của bạn...";
@@ -202,80 +202,78 @@ namespace SGU_C__User
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                        using (var package = new ExcelPackage(new FileInfo(openFileDialog.FileName)))
+                        using var package = new ExcelPackage(new FileInfo(openFileDialog.FileName));
+                        var worksheet = package.Workbook.Worksheets[0]; // Lấy sheet đầu tiên
+                        int rowCount = worksheet.Dimension.Rows;
+                        int successCount = 0;
+                        int errorCount = 0;
+                        StringBuilder errorMessages = new StringBuilder();
+
+                        // Bắt đầu từ dòng 2 (bỏ qua header)
+                        for (int row = 2; row <= rowCount; row++)
                         {
-                            var worksheet = package.Workbook.Worksheets[0]; // Lấy sheet đầu tiên
-                            int rowCount = worksheet.Dimension.Rows;
-                            int successCount = 0;
-                            int errorCount = 0;
-                            StringBuilder errorMessages = new StringBuilder();
-
-                            // Bắt đầu từ dòng 2 (bỏ qua header)
-                            for (int row = 2; row <= rowCount; row++)
+                            try
                             {
-                                try
+                                string tenThietBi = worksheet.Cells[row, 1].Text.Trim();
+                                string loaiThietBi = worksheet.Cells[row, 2].Text.Trim();
+                                string trangThai = worksheet.Cells[row, 3].Text.Trim();
+                                string giaMuonText = worksheet.Cells[row, 4].Text.Trim();
+
+                                // Kiểm tra dữ liệu
+                                if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) ||
+                                    string.IsNullOrEmpty(trangThai) || string.IsNullOrEmpty(giaMuonText))
                                 {
-                                    string tenThietBi = worksheet.Cells[row, 1].Text.Trim();
-                                    string loaiThietBi = worksheet.Cells[row, 2].Text.Trim();
-                                    string trangThai = worksheet.Cells[row, 3].Text.Trim();
-                                    string giaMuonText = worksheet.Cells[row, 4].Text.Trim();
-
-                                    // Kiểm tra dữ liệu
-                                    if (string.IsNullOrEmpty(tenThietBi) || string.IsNullOrEmpty(loaiThietBi) ||
-                                        string.IsNullOrEmpty(trangThai) || string.IsNullOrEmpty(giaMuonText))
-                                    {
-                                        errorMessages.AppendLine($"Dòng {row}: Thiếu thông tin bắt buộc");
-                                        errorCount++;
-                                        continue;
-                                    }
-
-                                    if (!int.TryParse(giaMuonText, out int giaMuon) || giaMuon < 0)
-                                    {
-                                        errorMessages.AppendLine($"Dòng {row}: Giá mượn không hợp lệ");
-                                        errorCount++;
-                                        continue;
-                                    }
-
-                                    if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(trangThai))
-                                    {
-                                        errorMessages.AppendLine($"Dòng {row}: Trạng thái không hợp lệ (phải là: Có sẵn, Đang sử dụng, Bảo trì)");
-                                        errorCount++;
-                                        continue;
-                                    }
-
-                                    // Tạo đối tượng ThietBiDTO
-                                    ThietBiDTO thietBi = new ThietBiDTO
-                                    {
-                                        TenThietBi = tenThietBi,
-                                        LoaiThietBi = loaiThietBi,
-                                        TrangThai = trangThai,
-                                        GiaMuon = giaMuon
-                                    };
-
-                                    // Thêm vào database
-                                    thietBiBUS.AddThietBi(thietBi);
-                                    successCount++;
-                                }
-                                catch (Exception ex)
-                                {
-                                    errorMessages.AppendLine($"Dòng {row}: {ex.Message}");
+                                    errorMessages.AppendLine($"Dòng {row}: Thiếu thông tin bắt buộc");
                                     errorCount++;
+                                    continue;
                                 }
-                            }
 
-                            // Hiển thị kết quả
-                            string message = $"Import hoàn tất!\nThành công: {successCount}\nThất bại: {errorCount}";
-                            if (errorCount > 0)
+                                if (!int.TryParse(giaMuonText, out int giaMuon) || giaMuon < 0)
+                                {
+                                    errorMessages.AppendLine($"Dòng {row}: Giá mượn không hợp lệ");
+                                    errorCount++;
+                                    continue;
+                                }
+
+                                if (!new List<string> { "Có sẵn", "Đang sử dụng", "Bảo trì" }.Contains(trangThai))
+                                {
+                                    errorMessages.AppendLine($"Dòng {row}: Trạng thái không hợp lệ (phải là: Có sẵn, Đang sử dụng, Bảo trì)");
+                                    errorCount++;
+                                    continue;
+                                }
+
+                                // Tạo đối tượng ThietBiDTO
+                                ThietBiDTO thietBi = new ThietBiDTO
+                                {
+                                    TenThietBi = tenThietBi,
+                                    LoaiThietBi = loaiThietBi,
+                                    TrangThai = trangThai,
+                                    GiaMuon = giaMuon
+                                };
+
+                                // Thêm vào database
+                                thietBiBUS.AddThietBi(thietBi);
+                                successCount++;
+                            }
+                            catch (Exception ex)
                             {
-                                message += "\n\nChi tiết lỗi:\n" + errorMessages.ToString();
+                                errorMessages.AppendLine($"Dòng {row}: {ex.Message}");
+                                errorCount++;
                             }
-
-                            MessageBox.Show(message, "Kết quả import", MessageBoxButtons.OK,
-                                errorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
-
-                            // Tải lại dữ liệu
-                            LoadDataToGridView();
                         }
+
+                        // Hiển thị kết quả
+                        string message = $"Import hoàn tất!\nThành công: {successCount}\nThất bại: {errorCount}";
+                        if (errorCount > 0)
+                        {
+                            message += "\n\nChi tiết lỗi:\n" + errorMessages.ToString();
+                        }
+
+                        MessageBox.Show(message, "Kết quả import", MessageBoxButtons.OK,
+                            errorCount > 0 ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+
+                        // Tải lại dữ liệu
+                        LoadDataToGridView();
                     }
                 }
             }
@@ -291,6 +289,146 @@ namespace SGU_C__User
             Login login = new Login();
             login.Show();
             this.Close();
+        }
+
+        private void BtnMuonThietBi_Click(object sender, EventArgs e)
+        {
+            // 1. Nhập mã người dùng
+            string input = Microsoft.VisualBasic.Interaction.InputBox("Nhập mã người dùng:", "Mượn thiết bị", "");
+            if (string.IsNullOrWhiteSpace(input)) return;
+            if (!int.TryParse(input, out int maNguoiDung))
+            {
+                MessageBox.Show("Mã người dùng không hợp lệ!");
+                return;
+            }
+
+            // 2. Lấy danh sách thiết bị đã đặt
+            var danhSach = thietBiBUS.GetThietBiDaDatByNguoiDung(maNguoiDung);
+            if (danhSach == null || danhSach.Count == 0)
+            {
+                MessageBox.Show("Không có thiết bị nào đã đặt!");
+                return;
+            }
+
+            // 3. Tạo dialog chọn thiết bị
+            using (Form dialog = new Form())
+            {
+                dialog.Text = "Chọn thiết bị để mượn";
+                dialog.Size = new Size(600, 450);
+                dialog.StartPosition = FormStartPosition.CenterScreen;
+                dialog.FormBorderStyle = FormBorderStyle.FixedDialog;
+                dialog.MaximizeBox = false;
+                dialog.MinimizeBox = false;
+
+                // TableLayoutPanel
+                var table = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    RowCount = 2,
+                    ColumnCount = 1,
+                };
+                table.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // DataGridView
+                table.RowStyles.Add(new RowStyle(SizeType.Absolute, 60)); // Button panel
+
+                // DataGridView
+                DataGridView dgv = new DataGridView
+                {
+                    DataSource = danhSach,
+                    Dock = DockStyle.Fill,
+                    AllowUserToAddRows = false,
+                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                };
+                // Thêm cột checkbox nếu chưa có
+                if (dgv.Columns["Chon"] == null)
+                {
+                    DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+                    chk.HeaderText = "Chọn";
+                    chk.Name = "Chon";
+                    dgv.Columns.Insert(0, chk);
+                }
+
+                // Panel chứa các nút
+                var buttonPanel = new Panel { Dock = DockStyle.Fill, Height = 60 };
+                Button btnChonTatCa = new Button { Text = "Chọn tất cả", Location = new Point(20, 15), Width = 100 };
+                Button btnXacNhanMuon = new Button { Text = "Xác nhận", Location = new Point(350, 15), Width = 100, DialogResult = DialogResult.OK };
+                Button btnHuyMuon = new Button { Text = "Hủy", Location = new Point(470, 15), Width = 80, DialogResult = DialogResult.Cancel };
+
+                btnChonTatCa.Click += (s, ev) =>
+                {
+                    foreach (DataGridViewRow row in dgv.Rows)
+                        row.Cells["Chon"].Value = true;
+                };
+
+                buttonPanel.Controls.Add(btnChonTatCa);
+                buttonPanel.Controls.Add(btnXacNhanMuon);
+                buttonPanel.Controls.Add(btnHuyMuon);
+
+                table.Controls.Add(dgv, 0, 0);
+                table.Controls.Add(buttonPanel, 0, 1);
+
+                dialog.Controls.Add(table);
+
+                dialog.AcceptButton = btnXacNhanMuon;
+                dialog.CancelButton = btnHuyMuon;
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    List<int> thietBiChon = new List<int>();
+                    foreach (DataGridViewRow row in dgv.Rows)
+                    {
+                        if (Convert.ToBoolean(row.Cells["Chon"].Value) == true)
+                        {
+                            int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                            thietBiChon.Add(maThietBi);
+                        }
+                    }
+                    if (thietBiChon.Count == 0)
+                    {
+                        MessageBox.Show("Bạn chưa chọn thiết bị nào!");
+                        return;
+                    }
+                    // Cập nhật trạng thái thiết bị
+                    foreach (var maThietBi in thietBiChon)
+                    {
+                        thietBiBUS.UpdateTrangThai(maThietBi, "Đang sử dụng");
+                    }
+                    MessageBox.Show("Đã chuyển trạng thái các thiết bị thành 'Đang mượn'!");
+                    LoadDataToGridView();
+                }
+            }
+        }
+
+        private void BtnTraThietBi_Click(object? sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows[0];
+                int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                string? trangThai = row.Cells["TrangThai"].Value?.ToString();
+
+                if (trangThai == "Đang sử dụng")
+                {
+                    try
+                    {
+                        thietBiBUS.UpdateTrangThai(maThietBi, "Có sẵn", DateTime.Now);
+                        LoadDataToGridView();
+                        MessageBox.Show("Trả thiết bị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi khi trả thiết bị: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Thiết bị này không thể trả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn một thiết bị!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }
