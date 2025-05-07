@@ -91,7 +91,7 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Email không hợp lệ!");
             }
-            if (nguoiDungDAO.IsEmailExist(nguoiDung.Email))
+            if (nguoiDungDAO.IsEmailExistForOther(nguoiDung.Email, nguoiDung.MaNguoiDung))
             {
                 throw new Exception("Email đã tồn tại!");
             }
@@ -173,6 +173,20 @@ namespace SGU_C__User.BUS
                 }
 
                 return nguoiDung;
+            }
+        }
+
+        public (bool Success, string Message) DeleteAccountsByBirthYear(int birthYear)
+        {
+            try
+            {
+                var task = nguoiDungDAO.DeleteAccountsByBirthYear(birthYear);
+                task.Wait();
+                return task.Result;
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi khi xóa tài khoản theo năm sinh: " + ex.Message);
             }
         }
     }

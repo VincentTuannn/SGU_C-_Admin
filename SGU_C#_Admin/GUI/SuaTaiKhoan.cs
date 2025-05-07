@@ -16,7 +16,7 @@ namespace SGU_C__User.GUI
     {
         private NguoiDungBUS nguoiDungBUS;
         private int maNguoiDung;
-        public SuaTaiKhoan(int maNguoiDung, int maQuyen, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string gioiTinh, string soDienThoai, string trangThai)
+        public SuaTaiKhoan(int maNguoiDung, int maQuyen, string email, string matKhau, string hoVaTen, DateTime ngaySinh, string diaChi, string soDienThoai, string gioiTinh, string trangThai)
         {
             InitializeComponent();
             nguoiDungBUS = new NguoiDungBUS();
@@ -86,6 +86,7 @@ namespace SGU_C__User.GUI
                 // Tạo đối tượng NguoiDungDTO
                 NguoiDungDTO taiKhoan = new NguoiDungDTO
                 {
+                    MaNguoiDung = this.maNguoiDung,
                     MaQuyen = maQuyen,
                     Email = email,
                     MatKhau = matKhau,
@@ -102,9 +103,7 @@ namespace SGU_C__User.GUI
                 MessageBox.Show("Cập nhật tài khoản thành công!", "Thành công",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Mở lại form quản lý tài khoản
-                QLTaiKhoan mainForm = new QLTaiKhoan();
-                mainForm.Show();
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
@@ -123,8 +122,6 @@ namespace SGU_C__User.GUI
 
         private void Btn_Cancel_Click(object sender, EventArgs e)
         {
-            QLTaiKhoan mainForm = new QLTaiKhoan();
-            mainForm.Show();
             this.Close();
         }
 

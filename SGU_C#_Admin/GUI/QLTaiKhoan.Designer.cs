@@ -40,6 +40,8 @@
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
+            comboBoxNamSinh = new System.Windows.Forms.ComboBox();
+            btnDeleteByYear = new System.Windows.Forms.Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -54,6 +56,8 @@
             panel2.Controls.Add(dataGridView1);
             panel2.Controls.Add(Input_Search);
             panel2.Controls.Add(label2);
+            panel2.Controls.Add(comboBoxNamSinh);
+            panel2.Controls.Add(btnDeleteByYear);
             panel2.Location = new Point(60, 117);
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 359);
@@ -179,6 +183,23 @@
             panel1.Size = new Size(1161, 62);
             panel1.TabIndex = 6;
             // 
+            // comboBoxNamSinh
+            // 
+            comboBoxNamSinh.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            comboBoxNamSinh.FormattingEnabled = true;
+            comboBoxNamSinh.Location = new System.Drawing.Point(20, 420);
+            comboBoxNamSinh.Name = "comboBoxNamSinh";
+            comboBoxNamSinh.Size = new System.Drawing.Size(120, 24);
+            // 
+            // btnDeleteByYear
+            // 
+            btnDeleteByYear.Location = new System.Drawing.Point(150, 420);
+            btnDeleteByYear.Name = "btnDeleteByYear";
+            btnDeleteByYear.Size = new System.Drawing.Size(120, 24);
+            btnDeleteByYear.Text = "Xóa theo năm sinh";
+            btnDeleteByYear.UseVisualStyleBackColor = true;
+            btnDeleteByYear.Click += BtnDeleteByYear_Click;
+            // 
             // QLTaiKhoan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -213,5 +234,7 @@
         private Button btn_delete;
         private Button btn_fix;
         private Button Btn_Add;
+        private System.Windows.Forms.ComboBox comboBoxNamSinh;
+        private System.Windows.Forms.Button btnDeleteByYear;
     }
 }

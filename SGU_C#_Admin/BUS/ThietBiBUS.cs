@@ -84,7 +84,7 @@ namespace SGU_C__User.BUS
             {
                 throw new Exception("Tên thiết bị không được để trống!");
             }
-            if (thietBiDAO.IsDeviceExist(thietBi.TenThietBi))
+            if (thietBiDAO.IsDeviceExistForOther(thietBi.TenThietBi, thietBi.MaThietBi))
             {
                 throw new Exception("Thiết bị đã tồn tại!");
             }
@@ -119,6 +119,20 @@ namespace SGU_C__User.BUS
             catch (Exception ex)
             {
                 throw new Exception("Lỗi khi lấy số lượng thiết bị: " + ex.Message);
+            }
+        }
+
+        public (bool Success, string Message) DeleteDevicesByType(string loaiThietBi)
+        {
+            try
+            {
+                var task = thietBiDAO.DeleteDevicesByType(loaiThietBi);
+                task.Wait();
+                return task.Result;
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi khi xóa thiết bị theo loại: " + ex.Message);
             }
         }
 
