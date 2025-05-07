@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
+            button_Lock = new Button();
             importExcel = new Button();
             btn_delete = new Button();
             btn_fix = new Button();
@@ -42,7 +43,7 @@
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
-            button_Lock = new Button();
+            buttonDeleteByYear = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(buttonDeleteByYear);
             panel2.Controls.Add(button_Lock);
             panel2.Controls.Add(importExcel);
             panel2.Controls.Add(btn_delete);
@@ -64,6 +66,17 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1094, 359);
             panel2.TabIndex = 7;
+            // 
+            // button_Lock
+            // 
+            button_Lock.Cursor = Cursors.Hand;
+            button_Lock.Location = new Point(988, 272);
+            button_Lock.Name = "button_Lock";
+            button_Lock.Size = new Size(86, 35);
+            button_Lock.TabIndex = 13;
+            button_Lock.Text = "Khóa";
+            button_Lock.UseVisualStyleBackColor = true;
+            button_Lock.Click += button_Lock_Click;
             // 
             // importExcel
             // 
@@ -204,16 +217,16 @@
             panel1.Size = new Size(1161, 62);
             panel1.TabIndex = 6;
             // 
-            // button_Lock
+            // buttonDeleteByYear
             // 
-            button_Lock.Cursor = Cursors.Hand;
-            button_Lock.Location = new Point(988, 272);
-            button_Lock.Name = "button_Lock";
-            button_Lock.Size = new Size(86, 35);
-            button_Lock.TabIndex = 13;
-            button_Lock.Text = "Khóa";
-            button_Lock.UseVisualStyleBackColor = true;
-            button_Lock.Click += button_Lock_Click;
+            buttonDeleteByYear.BackColor = Color.Red;
+            buttonDeleteByYear.ForeColor = Color.White;
+            buttonDeleteByYear.Location = new Point(668, 61);
+            buttonDeleteByYear.Name = "buttonDeleteByYear";
+            buttonDeleteByYear.Size = new Size(116, 29);
+            buttonDeleteByYear.TabIndex = 14;
+            buttonDeleteByYear.Text = "Xóa theo năm";
+            buttonDeleteByYear.UseVisualStyleBackColor = false;
             // 
             // QLTaiKhoan
             // 
@@ -252,5 +265,6 @@
         private System.Windows.Forms.ComboBox comboBoxNamSinh;
         private System.Windows.Forms.Button btnDeleteByYear;
         private Button button_Lock;
+        private Button buttonDeleteByYear;
     }
 }

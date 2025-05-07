@@ -16,11 +16,7 @@ namespace SGU_C__User.GUI
 {
     public partial class QLTaiKhoan : Form
     {
-        private NguoiDungBUS nguoiDungBUS = new NguoiDungBUS();
-        // Thêm biến ComboBox và Button cho xóa theo năm sinh
-        // private ComboBox comboBoxNamSinh;
-        // private Button btnDeleteByYear;
-
+        private NguoiDungBUS nguoiDungBUS = new NguoiDungBUS();  
         public QLTaiKhoan()
         {
             InitializeComponent();
@@ -31,28 +27,12 @@ namespace SGU_C__User.GUI
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect; //Chọn 1 thiết bị
             dataGridView1.MultiSelect = false; //Đảm bảo chỉ cho phép chọn 1 dòng
 
-            // Khởi tạo ComboBox và Button cho xóa theo năm sinh
-            // comboBoxNamSinh = new ComboBox();
-            // comboBoxNamSinh.DropDownStyle = ComboBoxStyle.DropDownList;
-            // comboBoxNamSinh.Location = new Point(20, 420);
-            // comboBoxNamSinh.Width = 120;
-            // Thêm các năm sinh phổ biến, có thể lấy động từ DB nếu muốn
-            // for (int year = DateTime.Now.Year - 60; year <= DateTime.Now.Year; year++)
-            //     comboBoxNamSinh.Items.Add(year);
-            // this.Controls.Add(comboBoxNamSinh);
-
-            // btnDeleteByYear = new Button();
-            // btnDeleteByYear.Text = "Xóa theo năm sinh";
-            // btnDeleteByYear.Location = new Point(150, 420);
-            // btnDeleteByYear.Click += BtnDeleteByYear_Click;
-            // this.Controls.Add(btnDeleteByYear);
+           
         }
 
         private void QLTaiKhoan_Load(object sender, EventArgs e)
         {
-            // comboBoxNamSinh.Items.Clear();
-            // for (int year = DateTime.Now.Year - 60; year <= DateTime.Now.Year; year++)
-            //     comboBoxNamSinh.Items.Add(year);
+            
         }
 
         private void Input_Search_TextChanged(object sender, EventArgs e)
