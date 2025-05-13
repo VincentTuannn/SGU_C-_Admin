@@ -169,66 +169,74 @@ namespace SGU_C__User
         #endregion
 
         #region Event Handlers
+        private void OpenForm(Form form)
+        {
+            try
+            {
+                form.FormClosed += (s, args) => this.Show();
+                form.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                LogError("Error opening form", ex);
+                ShowErrorMessage("Lỗi", "Không thể mở form: " + ex.Message);
+            }
+        }
+
         private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
             OpenForm(new QLThietBi());
-            this.Hide();
         }
 
         private void Btn_QLViPham_Click(object sender, EventArgs e)
         {
             OpenForm(new QLViPham());
-            this.Hide();
         }
 
         private void Btn_QLPhongBan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLPhong());
-            this.Hide();
         }
 
         private void Btn_QLTaiKhoan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLTaiKhoan());
-            this.Hide();
         }
 
         private void Btn_QLMuonPhong_Click(object sender, EventArgs e)
         {
             OpenForm(new QLMuonPhong());
-            this.Hide();
         }
 
         private void Btn_QLMuonThietBi_Click(object sender, EventArgs e)
         {
             OpenForm(new QLMuonThietBi());
-            this.Hide();
         }
 
         private void Btn_QLThanhToan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLThanhToan());
-            this.Hide();
         }
 
         private void Btn_QLCheckIn_Click(object sender, EventArgs e)
         {
             OpenForm(new QLCheckIn());
-            this.Hide();
         }
 
         private void Btn_ThongKe_Click(object sender, EventArgs e)
         {
             OpenForm(new ThongKe());
-            this.Hide();
         }
 
         private void Btn_Logout_Click(object sender, EventArgs e)
         {
             if (ConfirmLogout())
             {
-                OpenForm(new Login());
-                //this.Close();
+                var loginForm = new Login();
+                loginForm.FormClosed += (s, args) => this.Close();
+                loginForm.Show();
+                this.Hide();
             }
         }
 
@@ -244,22 +252,6 @@ namespace SGU_C__User
         #endregion
 
         #region Helper Methods
-        private void OpenForm(Form form)
-        {
-            try
-            {
-                form.Owner = this;
-                form.FormClosed += (s, args) => this.Show();
-                form.Show();
-                this.Hide();
-            }
-            catch (Exception ex)
-            {
-                LogError($"Error opening form {form.GetType().Name}", ex);
-                ShowErrorMessage("Lỗi", "Không thể mở form. Vui lòng thử lại.");
-            }
-        }
-
         private void UpdateButtonAppearance(Button button, Color backColor, Color foreColor)
         {
             button.BackColor = backColor;
