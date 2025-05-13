@@ -44,7 +44,7 @@ namespace SGU_C__User
         #region Initialization Methods
         private void InitializeServices()
         {
-            // Removed assignments to readonly fields here
+            
         }
 
         private void InitializeUI()
@@ -103,7 +103,7 @@ namespace SGU_C__User
 
         private void StartAutoRefresh()
         {
-            refreshTimer.Interval = 30000; // Refresh every 30 seconds
+            refreshTimer.Interval = 30000; // Làm mới mỗi 30s
             refreshTimer.Tick += (s, e) => UpdateDashboardCounts();
             refreshTimer.Start();
         }
@@ -169,6 +169,21 @@ namespace SGU_C__User
         #endregion
 
         #region Event Handlers
+        private void OpenForm(Form form)
+        {
+            try
+            {
+                form.FormClosed += (s, args) => this.Show();
+                form.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                LogError("Error opening form", ex);
+                ShowErrorMessage("Lỗi", "Không thể mở form: " + ex.Message);
+            }
+        }
+
         private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
             OpenForm(new QLThietBi());
@@ -218,7 +233,10 @@ namespace SGU_C__User
         {
             if (ConfirmLogout())
             {
-                Application.Exit();
+                var loginForm = new Login();
+                loginForm.FormClosed += (s, args) => this.Close();
+                loginForm.Show();
+                this.Hide();
             }
         }
 
@@ -234,22 +252,6 @@ namespace SGU_C__User
         #endregion
 
         #region Helper Methods
-        private void OpenForm(Form form)
-        {
-            try
-            {
-                form.Owner = this;
-                form.FormClosed += (s, args) => this.Show();
-                form.Show();
-                this.Hide();
-            }
-            catch (Exception ex)
-            {
-                LogError($"Error opening form {form.GetType().Name}", ex);
-                ShowErrorMessage("Lỗi", "Không thể mở form. Vui lòng thử lại.");
-            }
-        }
-
         private void UpdateButtonAppearance(Button button, Color backColor, Color foreColor)
         {
             button.BackColor = backColor;
@@ -268,7 +270,6 @@ namespace SGU_C__User
         private void LogError(string message, Exception ex)
         {
             Debug.WriteLine($"{message}: {ex.Message}");
-            // TODO: Implement proper logging
         }
 
         private void ShowErrorMessage(string title, string message)
@@ -303,11 +304,10 @@ namespace SGU_C__User
         }
         #endregion
 
-        // Add this method to handle the Load event
+        
         private void TrangChu_Admin_Load(object sender, EventArgs e)
         {
-            // Optionally, you can call initialization logic here if needed
-            // For now, do nothing or add any logic you want to run on form load
+           
         }
     }
 }
