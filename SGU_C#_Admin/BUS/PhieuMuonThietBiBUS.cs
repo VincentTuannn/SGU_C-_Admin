@@ -85,31 +85,13 @@ namespace SGU_C__User.BUS
             phieuMuonThietBiDAO.UpdatePhieuMuonThietBi(phieuMuonThietBi);
         }
 
-        public void UpdateTrangThaiPhieuMuonThietBi(int maPhieuMuonThietBi, string trangThai)
+        public void UpdateTrangThaiVaThoiGian(int maPhieuMuonThietBi, string trangThai)
         {
-            try
-            {
-                // Kiểm tra trạng thái hợp lệ
-                if (!new List<string> { "Đã đặt", "Đang mượn", "Đã trả", "Quá hạn" }.Contains(trangThai))
-                {
-                    throw new Exception("Trạng thái không hợp lệ!");
-                }
-
-                // Lấy thông tin phiếu mượn hiện tại
-                var phieuMuon = GetAllPhieuMuonThietBiByMaPhieuMuonThietBi(maPhieuMuonThietBi).FirstOrDefault();
-                if (phieuMuon == null)
-                {
-                    throw new Exception("Không tìm thấy phiếu mượn thiết bị!");
-                }
-
-                // Cập nhật trạng thái
-                phieuMuon.TrangThai = trangThai;
-                phieuMuonThietBiDAO.UpdatePhieuMuonThietBi(phieuMuon);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Lỗi khi cập nhật trạng thái phiếu mượn thiết bị: " + ex.Message);
-            }
+            DateTime now = DateTime.Now;
+            if (trangThai == "Đang mượn" || trangThai == "Đã trả")
+                phieuMuonThietBiDAO.UpdateTrangThaiVaThoiGian(maPhieuMuonThietBi, trangThai, now);
+            else
+                phieuMuonThietBiDAO.UpdateTrangThaiVaThoiGian(maPhieuMuonThietBi, trangThai, null);
         }
 
         public void DeletePhieuMuonThietBi(int maPhieuMuonThietBi)

@@ -195,7 +195,7 @@ namespace SGU_C__User.GUI
                     {
                         try
                         {
-                            phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieuMuonThietBi, "Đang mượn");
+                            phieuMuonThietBiBUS.UpdateTrangThaiVaThoiGian(maPhieuMuonThietBi, "Đang mượn");
                         }
                         catch (Exception ex)
                         {

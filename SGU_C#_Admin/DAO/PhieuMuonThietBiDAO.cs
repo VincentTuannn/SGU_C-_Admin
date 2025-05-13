@@ -150,5 +150,33 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public void UpdateTrangThaiVaThoiGian(int maPhieuMuonThietBi, string trangThai, DateTime? thoiGian = null)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE phieumuonthietbi SET TrangThai = @TrangThai";
+                if (trangThai == "Đang mượn" && thoiGian.HasValue)
+                {
+                    query += ", ThoiGianMuon = @ThoiGian";
+                }
+                else if (trangThai == "Đã trả" && thoiGian.HasValue)
+                {
+                    query += ", ThoiGianTra = @ThoiGian";
+                }
+                query += " WHERE MaPhieuMuonThietBi = @MaPhieuMuonThietBi";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TrangThai", trangThai);
+                cmd.Parameters.AddWithValue("@MaPhieuMuonThietBi", maPhieuMuonThietBi);
+                if (thoiGian.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@ThoiGian", thoiGian.Value);
+                }
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 }

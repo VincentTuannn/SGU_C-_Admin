@@ -19,6 +19,31 @@
         <button class="action-button" @onclick="OpenBorrowDevice">Mượn thiết bị</button>
     </div>
 
+    <!-- Thêm form nhập thời gian -->
+    <div class="booking-form mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Thời gian mượn:</label>
+                    <input type="datetime-local" class="form-control" @bind="thoiGianMuon" @bind:event="oninput" @onchange="ValidateBookingTime" />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Thời gian trả:</label>
+                    <input type="datetime-local" class="form-control" @bind="thoiGianTra" @bind:event="oninput" @onchange="ValidateBookingTime" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(bookingError))
+    {
+        <div class="alert alert-danger mt-3">
+            @bookingError
+        </div>
+    }
+
     <div class="section">
         <h2>Thiết bị mượn</h2>
         @if (borrowedDevices == null || borrowedDevices.Count == 0)
@@ -336,7 +361,9 @@
     private List<ViPhamModel>? violations;
     private int? userId;
     private bool firstRender = true;
-
+    private string? bookingError;
+    private DateTime thoiGianMuon;
+    private DateTime thoiGianTra;
 
     protected override async Task OnInitializedAsync()
     {
@@ -458,5 +485,58 @@
         violationCurrentPage = Math.Max(1, Math.Min(page, GetTotalViolationPages()));
     }
 
+    private void ValidateBookingTime()
+    {
+        bookingError = null;
+
+        // Kiểm tra ràng buộc thời gian
+        if (thoiGianMuon <= DateTime.Now)
+        {
+            bookingError = "Thời gian bắt đầu mượn phải lớn hơn thời điểm hiện tại!";
+            StateHasChanged();
+            return;
+        }
+        if (thoiGianTra <= thoiGianMuon)
+        {
+            bookingError = "Thời gian trả phải sau thời gian mượn!";
+            StateHasChanged();
+            return;
+        }
+    }
+
+    private async Task HandleBooking()
+    {
+        try
+        {
+            // Kiểm tra ràng buộc trước khi đặt
+            ValidateBookingTime();
+            if (!string.IsNullOrEmpty(bookingError))
+            {
+                return;
+            }
+
+            // Nếu không có lỗi, tiếp tục xử lý đặt thiết bị
+            var phieuMuon = new PhieuMuonThietBiModel
+            {
+                ThoiGianMuon = thoiGianMuon,
+                ThoiGianTra = thoiGianTra,
+                MaNguoiDung = userId.Value,
+                TrangThai = "Đã đặt chỗ"
+            };
+
+            // Gọi API đặt thiết bị
+            var result = await DeviceService.SaveDeviceBooking(phieuMuon);
+            if (result)
+            {
+                await LoadUserData();
+                NavigationManager.NavigateTo("/booking");
+            }
+        }
+        catch (Exception ex)
+        {
+            bookingError = "Có lỗi xảy ra khi đặt thiết bị: " + ex.Message;
+            StateHasChanged();
+        }
+    }
 }
 

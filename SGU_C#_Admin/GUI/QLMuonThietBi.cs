@@ -308,12 +308,12 @@ namespace SGU_C__User.GUI
                                 {
                                     if (trangThai == "Đã đặt chỗ")
                                     {
-                                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đang mượn");
+                                        phieuMuonThietBiBUS.UpdateTrangThaiVaThoiGian(maPhieu, "Đang mượn");
                                         success++;
                                     }
                                     else if (trangThai == "Đang mượn")
                                     {
-                                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đã trả");
+                                        phieuMuonThietBiBUS.UpdateTrangThaiVaThoiGian(maPhieu, "Đã trả");
                                         int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
                                         thietBiBUS.UpdateTrangThaiThietBi(maThietBi, "Có sẵn");
                                         success++;
