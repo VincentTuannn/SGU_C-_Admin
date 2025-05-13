@@ -44,7 +44,7 @@ namespace SGU_C__User
         #region Initialization Methods
         private void InitializeServices()
         {
-            // Removed assignments to readonly fields here
+            
         }
 
         private void InitializeUI()
@@ -172,53 +172,63 @@ namespace SGU_C__User
         private void Btn_QLThietBi_Click(object sender, EventArgs e)
         {
             OpenForm(new QLThietBi());
+            this.Hide();
         }
 
         private void Btn_QLViPham_Click(object sender, EventArgs e)
         {
             OpenForm(new QLViPham());
+            this.Hide();
         }
 
         private void Btn_QLPhongBan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLPhong());
+            this.Hide();
         }
 
         private void Btn_QLTaiKhoan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLTaiKhoan());
+            this.Hide();
         }
 
         private void Btn_QLMuonPhong_Click(object sender, EventArgs e)
         {
             OpenForm(new QLMuonPhong());
+            this.Hide();
         }
 
         private void Btn_QLMuonThietBi_Click(object sender, EventArgs e)
         {
             OpenForm(new QLMuonThietBi());
+            this.Hide();
         }
 
         private void Btn_QLThanhToan_Click(object sender, EventArgs e)
         {
             OpenForm(new QLThanhToan());
+            this.Hide();
         }
 
         private void Btn_QLCheckIn_Click(object sender, EventArgs e)
         {
             OpenForm(new QLCheckIn());
+            this.Hide();
         }
 
         private void Btn_ThongKe_Click(object sender, EventArgs e)
         {
             OpenForm(new ThongKe());
+            this.Hide();
         }
 
         private void Btn_Logout_Click(object sender, EventArgs e)
         {
             if (ConfirmLogout())
             {
-                Application.Exit();
+                OpenForm(new Login());
+                //this.Close();
             }
         }
 
@@ -303,11 +313,10 @@ namespace SGU_C__User
         }
         #endregion
 
-        // Add this method to handle the Load event
+        
         private void TrangChu_Admin_Load(object sender, EventArgs e)
         {
-            // Optionally, you can call initialization logic here if needed
-            // For now, do nothing or add any logic you want to run on form load
+           
         }
     }
 }
