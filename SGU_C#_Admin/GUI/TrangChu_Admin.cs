@@ -103,7 +103,7 @@ namespace SGU_C__User
 
         private void StartAutoRefresh()
         {
-            refreshTimer.Interval = 30000; // Refresh every 30 seconds
+            refreshTimer.Interval = 30000; // Làm mới mỗi 30s
             refreshTimer.Tick += (s, e) => UpdateDashboardCounts();
             refreshTimer.Start();
         }
@@ -278,7 +278,6 @@ namespace SGU_C__User
         private void LogError(string message, Exception ex)
         {
             Debug.WriteLine($"{message}: {ex.Message}");
-            // TODO: Implement proper logging
         }
 
         private void ShowErrorMessage(string title, string message)

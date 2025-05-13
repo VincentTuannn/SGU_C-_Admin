@@ -72,7 +72,7 @@ namespace SGU_C__User.GUI
                 series.Points.AddXY("Người dùng không hoạt động", soLuongUserLocked);
 
                 // Đặt tiêu đề cho chart
-                chart.Titles.Add("Thống kê số lượng mượn phòng và thiết bị");
+                chart.Titles.Add("Thống kê số lượng");
 
                 // Tùy chỉnh hiển thị (tùy chọn)
                 series.IsValueShownAsLabel = true; // Hiển thị giá trị trên cột
