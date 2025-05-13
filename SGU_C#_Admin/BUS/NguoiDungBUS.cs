@@ -203,5 +203,29 @@ namespace SGU_C__User.BUS
                 return (false, "Lỗi khi xóa tài khoản theo năm sinh: " + ex.Message);
             }
         }
+
+        public int CountUserLocked()
+        {
+            try
+            {
+                return nguoiDungDAO.CountUserLocked();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số lượng người dùng bị khóa: " + ex.Message);
+            }
+        }
+
+        public int CountUserUnlocked()
+        {
+            try
+            {
+                return nguoiDungDAO.CountUserUnlocked();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số lượng người dùng đang hoạt động: " + ex.Message);
+            }
+        }
     }
 }

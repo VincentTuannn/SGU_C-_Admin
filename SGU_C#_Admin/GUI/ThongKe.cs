@@ -18,6 +18,7 @@ namespace SGU_C__User.GUI
         private ThietBiBUS thietBiBus = new ThietBiBUS();
         private PhongBUS PhongBUS = new PhongBUS();
         private CheckInBUS checkInBUS = new CheckInBUS();
+        private NguoiDungBUS nguoiDungBUS = new NguoiDungBUS();
         public ThongKe()
         {
             InitializeComponent();
@@ -60,11 +61,15 @@ namespace SGU_C__User.GUI
                 int soPhongMuon = PhongBUS.CountPhongMuon();
                 int soThietBiMuon = thietBiBus.CountSoLuong();
                 int soCheckIn = checkInBUS.GetCheckInCountsByDate();
+                int soLuongUserLocked = nguoiDungBUS.CountUserLocked();
+                int soLuongUserUnlocked = nguoiDungBUS.CountUserUnlocked();
 
                 // Thêm dữ liệu vào Series
                 series.Points.AddXY("Phòng mượn", soPhongMuon);
                 series.Points.AddXY("Thiết bị mượn", soThietBiMuon);
                 series.Points.AddXY("Số lượng thành viên vào khu vực học tập", soCheckIn);
+                series.Points.AddXY("Người dùng đang hoạt động", soLuongUserUnlocked);
+                series.Points.AddXY("Người dùng không hoạt động", soLuongUserLocked);
 
                 // Đặt tiêu đề cho chart
                 chart.Titles.Add("Thống kê số lượng mượn phòng và thiết bị");
@@ -72,8 +77,10 @@ namespace SGU_C__User.GUI
                 // Tùy chỉnh hiển thị (tùy chọn)
                 series.IsValueShownAsLabel = true; // Hiển thị giá trị trên cột
                 series.Points[0].Color = System.Drawing.Color.Blue; // Màu cho "Phòng mượn"
-                series.Points[1].Color = System.Drawing.Color.Green; // Màu cho "Thiết bị mượn"
-                series.Points[2].Color = System.Drawing.Color.Red; // Màu cho "Số lượng thành viên vào khu học tập"
+                series.Points[1].Color = System.Drawing.Color.Yellow; // Màu cho "Thiết bị mượn"
+                series.Points[2].Color = System.Drawing.Color.Purple; // Màu cho "Số lượng thành viên vào khu học tập"
+                series.Points[3].Color = System.Drawing.Color.Green; // Màu cho "Người dùng đang hoạt động"
+                series.Points[4].Color = System.Drawing.Color.Red; // Màu cho "Người dùng không hoạt động"
                 chart.ChartAreas[0].AxisX.Title = "Danh mục thống kê";
                 chart.ChartAreas[0].AxisY.Title = "Số lượng";
             }

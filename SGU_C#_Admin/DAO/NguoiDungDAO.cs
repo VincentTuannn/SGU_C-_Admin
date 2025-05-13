@@ -279,6 +279,32 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public int CountUserLocked()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE TrangThai = N'Không hoạt động'";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count;
+            }
+        }
+
+        public int CountUserUnlocked()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM nguoidung WHERE TrangThai = N'Hoạt động'";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+                int count = (int)cmd.ExecuteScalar();
+                conn.Close();
+                return count;
+            }
+        }
+
         public async Task<(bool Success, string Message)> DeleteAccountsByBirthYear(int birthYear)
         {
             try
