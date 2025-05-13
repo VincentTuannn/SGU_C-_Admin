@@ -148,5 +148,10 @@ namespace SGU_C__User.BUS
                 .Where(p => p.TrangThai == "Đã đặt").ToList();
         }
 
+        public void UpdateTrangThaiThietBi(int maThietBi, string trangThai)
+        {
+            thietBiDAO.UpdateTrangThai(maThietBi, trangThai, null);
+        }
+
     }
 }

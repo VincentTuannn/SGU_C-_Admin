@@ -14,27 +14,19 @@ namespace SGU_C__User.GUI
     public partial class QLMuonThietBi : Form
     {
         private PhieuMuonThietBiBUS phieuMuonThietBiBUS = new PhieuMuonThietBiBUS();
+        private ThietBiBUS thietBiBUS = new ThietBiBUS();
         private Button btnMuonThietBi;
-        private Button btnTraThietBi;
         public QLMuonThietBi()
         {
             InitializeComponent();
             LoadDataToGridView();
-            // Thêm nút Mượn thiết bị
+            // Thêm nút Mượn/trả thiết bị
             btnMuonThietBi = new Button();
-            btnMuonThietBi.Text = "Mượn thiết bị";
-            btnMuonThietBi.Size = new Size(120, 30);
-            btnMuonThietBi.Location = new Point(650, 20);
-            btnMuonThietBi.Click += BtnMuonThietBi_Click;
+            btnMuonThietBi.Text = "Mượn/trả thiết bị";
+            btnMuonThietBi.Size = new Size(150, 30);
+            btnMuonThietBi.Location = new Point(700, 20);
+            btnMuonThietBi.Click += BtnMuonTraThietBi_Click;
             panel2.Controls.Add(btnMuonThietBi);
-
-            // Thêm nút Trả thiết bị
-            btnTraThietBi = new Button();
-            btnTraThietBi.Text = "Trả thiết bị";
-            btnTraThietBi.Size = new Size(120, 30);
-            btnTraThietBi.Location = new Point(780, 20);
-            btnTraThietBi.Click += BtnTraThietBi_Click;
-            panel2.Controls.Add(btnTraThietBi);
         }
 
         private void QLMuonThietBi_Load(object sender, EventArgs e)
@@ -144,7 +136,7 @@ namespace SGU_C__User.GUI
             this.Close();
         }
 
-        private void BtnMuonThietBi_Click(object sender, EventArgs e)
+        private void BtnMuonTraThietBi_Click(object sender, EventArgs e)
         {
             // Tạo form nhập mã người dùng
             using (Form inputForm = new Form())
@@ -197,58 +189,24 @@ namespace SGU_C__User.GUI
                         return;
                     }
 
-                    // Lấy danh sách thiết bị đã mượn của người dùng
+                    // Lấy danh sách phiếu mượn thiết bị của người dùng
                     var danhSach = phieuMuonThietBiBUS.GetAllPhieuMuonThietBiByMaNguoiDung(maNguoiDung);
                     if (danhSach == null || danhSach.Count == 0)
                     {
-                        MessageBox.Show("Không tìm thấy thiết bị nào đã mượn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Không tìm thấy phiếu mượn thiết bị nào!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
-                    // Tạo form hiển thị danh sách thiết bị
+                    // Tạo form hiển thị danh sách phiếu
                     using (Form listForm = new Form())
                     {
-                        listForm.Text = "Danh sách thiết bị đã mượn";
+                        listForm.Text = "Danh sách phiếu mượn thiết bị";
                         listForm.Size = new Size(900, 600);
                         listForm.StartPosition = FormStartPosition.CenterScreen;
                         listForm.FormBorderStyle = FormBorderStyle.FixedDialog;
                         listForm.MaximizeBox = false;
                         listForm.MinimizeBox = false;
 
-                        // TableLayoutPanel để layout các control
-                        TableLayoutPanel table = new TableLayoutPanel
-                        {
-                            Dock = DockStyle.Fill,
-                            RowCount = 3,
-                            ColumnCount = 1,
-                            AutoSize = true
-                        };
-                        table.RowStyles.Add(new RowStyle(SizeType.Absolute, 45)); // filter
-                        table.RowStyles.Add(new RowStyle(SizeType.Percent, 100)); // datagrid
-                        table.RowStyles.Add(new RowStyle(SizeType.Absolute, 50)); // button
-
-                        // Panel filter
-                        Panel filterPanel = new Panel { Dock = DockStyle.Fill, Height = 45 };
-                        Label lblLoc = new Label
-                        {
-                            Text = "Lọc theo trạng thái:",
-                            Location = new Point(10, 12),
-                            AutoSize = true,
-                            Font = new Font("Arial", 10, FontStyle.Bold)
-                        };
-                        ComboBox cbTrangThai = new ComboBox
-                        {
-                            DropDownStyle = ComboBoxStyle.DropDownList,
-                            Location = new Point(140, 8),
-                            Width = 200,
-                            Font = new Font("Arial", 10)
-                        };
-                        cbTrangThai.Items.AddRange(new object[] { "Tất cả", "Đang mượn", "Đã xác nhận", "Đã trả" });
-                        cbTrangThai.SelectedIndex = 0;
-                        filterPanel.Controls.Add(lblLoc);
-                        filterPanel.Controls.Add(cbTrangThai);
-
-                        // DataGridView
                         DataGridView dgv = new DataGridView
                         {
                             DataSource = danhSach,
@@ -259,6 +217,7 @@ namespace SGU_C__User.GUI
                             RowHeadersVisible = false,
                             BackgroundColor = Color.White
                         };
+
                         // Thêm cột checkbox để chọn phiếu
                         DataGridViewCheckBoxColumn checkBoxColumn = new DataGridViewCheckBoxColumn();
                         checkBoxColumn.HeaderText = "Chọn";
@@ -314,42 +273,20 @@ namespace SGU_C__User.GUI
                                 }
                             }
                         }
+
+                        // GỌI NGAY SAU KHI GÁN DATASOURCE
                         ColorRows();
 
-                        // Nút xác nhận mượn
+                        // Nút xác nhận mượn/trả
                         Button btnXacNhan2 = new Button
                         {
-                            Text = "Xác nhận mượn",
-                            Dock = DockStyle.Fill,
+                            Text = "Mượn/trả thiết bị",
+                            Dock = DockStyle.Bottom,
                             Height = 40,
                             Font = new Font("Arial", 11, FontStyle.Bold),
                             BackColor = Color.LightSkyBlue
                         };
 
-                        // Thêm các control vào table
-                        table.Controls.Add(filterPanel, 0, 0);
-                        table.Controls.Add(dgv, 0, 1);
-                        table.Controls.Add(btnXacNhan2, 0, 2);
-                        listForm.Controls.Add(table);
-
-                        // Sự kiện lọc trạng thái
-                        cbTrangThai.SelectedIndexChanged += (s, ev) =>
-                        {
-                            string selected = cbTrangThai.SelectedItem.ToString();
-                            List<object> filtered;
-                            if (selected == "Tất cả")
-                                filtered = danhSach.Cast<object>().ToList();
-                            else
-                                filtered = danhSach.Where(x => x.GetType().GetProperty("TrangThai")?.GetValue(x)?.ToString() == selected).Cast<object>().ToList();
-                            dgv.DataSource = null;
-                            dgv.DataSource = filtered;
-                            // Đảm bảo cột checkbox luôn có
-                            if (dgv.Columns["Chon"] == null)
-                                dgv.Columns.Insert(0, new DataGridViewCheckBoxColumn { HeaderText = "Chọn", Name = "Chon" });
-                            ColorRows();
-                        };
-
-                        // Sự kiện xác nhận mượn
                         btnXacNhan2.Click += (s, ev) =>
                         {
                             var selectedRows = dgv.Rows.Cast<DataGridViewRow>()
@@ -358,7 +295,7 @@ namespace SGU_C__User.GUI
 
                             if (selectedRows.Count == 0)
                             {
-                                MessageBox.Show("Vui lòng chọn ít nhất một phiếu để xác nhận!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                MessageBox.Show("Vui lòng chọn ít nhất một phiếu để xác nhận/trả!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 return;
                             }
 
@@ -367,63 +304,82 @@ namespace SGU_C__User.GUI
                             {
                                 int maPhieu = Convert.ToInt32(row.Cells["MaPhieuMuonThietBi"].Value);
                                 string trangThai = row.Cells["TrangThai"].Value?.ToString() ?? "";
-                                if (trangThai == "Đã đặt chỗ")
+                                try
                                 {
-                                    try
+                                    if (trangThai == "Đã đặt chỗ")
                                     {
                                         phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đang mượn");
                                         success++;
                                     }
-                                    catch
+                                    else if (trangThai == "Đang mượn")
+                                    {
+                                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đã trả");
+                                        int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
+                                        thietBiBUS.UpdateTrangThaiThietBi(maThietBi, "Có sẵn");
+                                        success++;
+                                    }
+                                    else
                                     {
                                         fail++;
                                     }
                                 }
+                                catch
+                                {
+                                    fail++;
+                                }
                             }
                             if (success > 0)
-                                MessageBox.Show($"Đã xác nhận thành công {success} phiếu!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show($"Đã xử lý thành công {success} phiếu!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             if (fail > 0)
-                                MessageBox.Show($"Có {fail} phiếu xác nhận thất bại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show($"Có {fail} phiếu xử lý thất bại hoặc không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                            listForm.Close();
-                            LoadDataToGridView(); // Refresh lại danh sách chính
+                            // Load lại dữ liệu cho DataGridView mà KHÔNG đóng form
+                            var danhSachMoi = phieuMuonThietBiBUS.GetAllPhieuMuonThietBiByMaNguoiDung(maNguoiDung);
+                            dgv.DataSource = null;
+                            dgv.DataSource = danhSachMoi;
+
+                            // Đảm bảo cột checkbox luôn có
+                            if (dgv.Columns["Chon"] == null)
+                                dgv.Columns.Insert(0, new DataGridViewCheckBoxColumn { HeaderText = "Chọn", Name = "Chon" });
+
+                            // Đổi HeaderText nếu cột tồn tại
+                            foreach (DataGridViewColumn col in dgv.Columns)
+                            {
+                                switch (col.Name)
+                                {
+                                    case "MaPhieuMuonThietBi":
+                                        col.HeaderText = "Mã phiếu mượn";
+                                        break;
+                                    case "MaThietBi":
+                                        col.HeaderText = "Mã thiết bị";
+                                        break;
+                                    case "MaNguoiDung":
+                                        col.HeaderText = "Mã người dùng";
+                                        break;
+                                    case "ThoiGianMuon":
+                                        col.HeaderText = "Thời gian mượn";
+                                        break;
+                                    case "ThoiGianTra":
+                                        col.HeaderText = "Thời gian trả";
+                                        break;
+                                    case "TrangThai":
+                                        col.HeaderText = "Trạng thái";
+                                        break;
+                                    case "TongTien":
+                                        col.HeaderText = "Tổng tiền";
+                                        break;
+                                }
+                            }
+
+                            // Tô màu lại các dòng theo trạng thái
+                            ColorRows();
                         };
 
+                        listForm.Controls.Add(dgv);
+                        listForm.Controls.Add(btnXacNhan2);
                         listForm.ShowDialog();
                     }
                 }
-            }
-        }
-
-        private void BtnTraThietBi_Click(object? sender, EventArgs e)
-        {
-            if (dataGridView1.SelectedRows.Count > 0)
-            {
-                DataGridViewRow row = dataGridView1.SelectedRows[0];
-                int maPhieuMuonThietBi = Convert.ToInt32(row.Cells["MaPhieuMuonThietBi"].Value);
-                string? trangThai = row.Cells["TrangThai"].Value?.ToString();
-
-                if (trangThai == "Đã xác nhận")
-                {
-                    try
-                    {
-                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieuMuonThietBi, "Đã trả");
-                        LoadDataToGridView();
-                        MessageBox.Show("Trả thiết bị thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi trả thiết bị: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Chỉ có thể trả thiết bị đã được xác nhận mượn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng chọn một thiết bị!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
     }
