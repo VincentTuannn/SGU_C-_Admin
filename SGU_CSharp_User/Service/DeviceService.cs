@@ -17,16 +17,16 @@ namespace SGU_CSharp_User.Service
         {
             try
             {
-                var borrowedDevices = _context.PhieuMuonThietBiModels
+                var reservedDevices = await _context.PhieuMuonThietBiModels
                     .Where(p => p.MaNguoiDung == userId)
-                    .Where(p => p.TrangThai.Equals("Đang mượn"))
+                    .Where(p => p.TrangThai == "Đã đặt chỗ")
                     .Include(p => p.ThietBi)  // Include related device information
                     .Include(p => p.NguoiDung) // Include user information if needed
                     .OrderByDescending(p => p.ThoiGianMuon) // Sort by borrow time, newest first
-                    .ToList();
+                    .ToListAsync();
 
                 // Make sure all devices have their names set
-                foreach (var device in borrowedDevices)
+                foreach (var device in reservedDevices)
                 {
                     // If ThietBi is not null, use its name
                     if (device.ThietBi != null)
@@ -35,7 +35,7 @@ namespace SGU_CSharp_User.Service
                     }
                 }
 
-                return borrowedDevices;
+                return reservedDevices;
             }
             catch (Exception ex)
             {
@@ -115,7 +115,7 @@ namespace SGU_CSharp_User.Service
                 bookingModel.TongTien = hourlyRate;
 
                 // Set default values for the booking
-                bookingModel.TrangThai = "Đang mượn";
+                bookingModel.TrangThai = "Đã đặt chỗ";
 
                 // Save the booking
                 await _context.PhieuMuonThietBiModels.AddAsync(bookingModel);
@@ -163,7 +163,36 @@ namespace SGU_CSharp_User.Service
             }
         }
 
+        public async Task<bool> ConfirmBooking(int bookingId)
+        {
+            try
+            {
+                var booking = await _context.PhieuMuonThietBiModels
+                    .FirstOrDefaultAsync(p => p.MaPhieuMuonThietBi == bookingId && p.TrangThai == "Đã đặt chỗ");
 
+                if (booking == null)
+                    return false;
+
+                booking.TrangThai = "Đang mượn";
+                _context.PhieuMuonThietBiModels.Update(booking);
+
+                // Cập nhật trạng thái thiết bị nếu cần
+                var device = await _context.ThietBiModels.FirstOrDefaultAsync(d => d.MaThietBi == booking.MaThietBi);
+                if (device != null)
+                {
+                    device.TrangThai = "Đang sử dụng";
+                    _context.ThietBiModels.Update(device);
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in ConfirmBooking: {ex.Message}");
+                return false;
+            }
+        }
 
     }
 

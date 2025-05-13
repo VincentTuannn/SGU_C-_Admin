@@ -302,10 +302,10 @@ namespace SGU_C__User.GUI
                                 string trangThai = row.Cells["TrangThai"].Value?.ToString() ?? "";
                                 switch (trangThai)
                                 {
-                                    case "Đang mượn":
+                                    case "Đã đặt chỗ":
                                         row.DefaultCellStyle.BackColor = Color.LightYellow;
                                         break;
-                                    case "Đã xác nhận":
+                                    case "Đang mượn":
                                         row.DefaultCellStyle.BackColor = Color.LightGreen;
                                         break;
                                     case "Đã trả":
@@ -367,11 +367,11 @@ namespace SGU_C__User.GUI
                             {
                                 int maPhieu = Convert.ToInt32(row.Cells["MaPhieuMuonThietBi"].Value);
                                 string trangThai = row.Cells["TrangThai"].Value?.ToString() ?? "";
-                                if (trangThai == "Đang mượn")
+                                if (trangThai == "Đã đặt chỗ")
                                 {
                                     try
                                     {
-                                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đã xác nhận");
+                                        phieuMuonThietBiBUS.UpdateTrangThaiPhieuMuonThietBi(maPhieu, "Đang mượn");
                                         success++;
                                     }
                                     catch
