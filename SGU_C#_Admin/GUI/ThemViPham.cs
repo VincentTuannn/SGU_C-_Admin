@@ -12,25 +12,21 @@ using System.Windows.Forms;
 
 namespace SGU_C__User.GUI
 {
-    public partial class SuaViPham : Form
+    public partial class ThemViPham : Form
     {
-        private ViPhamBUS viPhamBUS;
+        private ViPhamBUS viPhamBUS = new ViPhamBUS();
         private int maViPham;
         private int maNguoiDung;
-        private int maThietBi;
-        private int maPhong;
-        public SuaViPham(int maViPham, int maNguoiDung, string loaiViPham, string noiDungViPham)
+        public ThemViPham()
         {
             InitializeComponent();
-            viPhamBUS = new ViPhamBUS();
             this.maViPham = maViPham;
             this.maNguoiDung = maNguoiDung;
-           
-            comboBox_Type.SelectedItem = loaiViPham;
-            textBox_Content.Text = noiDungViPham;
+            //comboBox_Type.SelectedItem = loaiViPham;
+            //textBox_Content.Text = noiDungViPham;
         }
 
-        private void SuaViPham_Load(object sender, EventArgs e)
+        private void ThemViPham_Load(object sender, EventArgs e)
         {
             comboBox_Type.Items.Add("Trả trễ");
             comboBox_Type.Items.Add("Làm hỏng");
@@ -38,10 +34,24 @@ namespace SGU_C__User.GUI
             comboBox_Type.Items.Add("Khác");
         }
 
+        private void Btn_Logout_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            login.Show();
+            this.Close();
+        }
+
         private void Btn_Accept_Click(object sender, EventArgs e)
         {
             try
             {
+                if (!int.TryParse(textBox_UserID.Text.Trim(), out int maNguoiDung))
+                {
+                    MessageBox.Show("Mã người dùng không hợp lệ!", "Cảnh báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 string loaiViPham = comboBox_Type.SelectedItem?.ToString();
                 string noiDungViPham = textBox_Content.Text.Trim();
 
@@ -56,14 +66,14 @@ namespace SGU_C__User.GUI
                 // Tạo đối tượng ViPhamDTO
                 ViPhamDTO viPham = new ViPhamDTO
                 {
-                    MaViPham = maViPham,
+                    MaViPham = this.maViPham,
                     MaNguoiDung = maNguoiDung,
                     LoaiViPham = loaiViPham,
                     NoiDungViPham = noiDungViPham
                 };
 
                 // Gọi BUS để cập nhật vi phạm
-                viPhamBUS.UpdateViPham(viPham);
+                viPhamBUS.AddViPham(viPham);
                 MessageBox.Show("Cập nhật vi phạm thành công!", "Thành công",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -80,15 +90,8 @@ namespace SGU_C__User.GUI
 
         private void Btn_Cancel_Click(object sender, EventArgs e)
         {
-            QLViPham mainForm = new QLViPham();
-            mainForm.Show();
-            this.Close();
-        }
-
-        private void Btn_Logout_Click(object sender, EventArgs e)
-        {
-            Login login = new Login();
-            login.Show();
+            QLViPham qLViPham = new QLViPham();
+            qLViPham.Show();
             this.Close();
         }
     }

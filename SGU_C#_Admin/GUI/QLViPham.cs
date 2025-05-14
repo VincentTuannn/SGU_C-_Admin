@@ -26,10 +26,8 @@ namespace SGU_C__User
 
         private void Btn_Back_Click(object sender, EventArgs e)
         {
-            if (this.Owner != null)
-            {
-                this.Owner.Show();
-            }
+            TrangChu_Admin trangChu_Admin = new TrangChu_Admin();
+            trangChu_Admin.Show();
             this.Close();
         }
 
@@ -50,8 +48,6 @@ namespace SGU_C__User
                 // Tùy chỉnh tiêu đề cột
                 dataGridView1.Columns["MaViPham"].HeaderText = "Mã vi phạm";
                 dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
-                dataGridView1.Columns["MaThietBi"].HeaderText = "Mã thiết bị";
-                dataGridView1.Columns["MaPhong"].HeaderText = "Mã phòng";
                 dataGridView1.Columns["LoaiViPham"].HeaderText = "Loại vi phạm";
                 dataGridView1.Columns["NoiDungViPham"].HeaderText = "Nội dung vi phạm";
             }
@@ -79,8 +75,6 @@ namespace SGU_C__User
                     dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 10);
                     dataGridView1.Columns["MaViPham"].HeaderText = "Mã vi phạm";
                     dataGridView1.Columns["MaNguoiDung"].HeaderText = "Mã người dùng";
-                    dataGridView1.Columns["MaThietBi"].HeaderText = "Mã thiết bị";
-                    dataGridView1.Columns["MaPhong"].HeaderText = "Mã phòng";
                     dataGridView1.Columns["LoaiViPham"].HeaderText = "Loại vi phạm";
                     dataGridView1.Columns["NoiDungViPham"].HeaderText = "Nội dung vi phạm";
                 }
@@ -98,13 +92,11 @@ namespace SGU_C__User
                 DataGridViewRow row = dataGridView1.SelectedRows[0];
                 int maViPham = Convert.ToInt32(row.Cells["MaViPham"].Value);
                 int maNguoiDung = Convert.ToInt32(row.Cells["MaNguoiDung"].Value);
-                int maThietBi = Convert.ToInt32(row.Cells["MaThietBi"].Value);
-                int maPhong = Convert.ToInt32(row.Cells["MaPhong"].Value);
                 string loaiViPham = row.Cells["LoaiViPham"].Value.ToString();
                 string noiDungViPham = row.Cells["NoiDungViPham"].Value.ToString();
 
                 // Mở form sửa vi phạm với dữ liệu đã chọn
-                SuaViPham formSua = new SuaViPham(maViPham, maNguoiDung, maThietBi, maPhong, loaiViPham, noiDungViPham);
+                SuaViPham formSua = new SuaViPham(maViPham, maNguoiDung, loaiViPham, noiDungViPham);
                 this.Hide();
                 if (formSua.ShowDialog() == DialogResult.OK)
                 {
@@ -154,6 +146,13 @@ namespace SGU_C__User
             Login login = new Login();
             login.Show();
             this.Close();
+        }
+
+        private void button_Add_Click(object sender, EventArgs e)
+        {
+            ThemViPham themViPham = new ThemViPham();
+            themViPham.Show();
+            this.Hide();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SGU_C__User.GUI
 {
-    partial class SuaViPham
+    partial class ThemViPham
     {
         /// <summary>
         /// Required designer variable.
@@ -38,6 +38,8 @@
             Btn_Accept = new Button();
             textBox_Content = new TextBox();
             label2 = new Label();
+            textBox_UserID = new TextBox();
+            label3 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -46,10 +48,10 @@
             panel1.BackColor = Color.Blue;
             panel1.Controls.Add(Btn_Logout);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(1, 0);
+            panel1.Location = new Point(0, 3);
             panel1.Name = "panel1";
             panel1.Size = new Size(1022, 62);
-            panel1.TabIndex = 27;
+            panel1.TabIndex = 39;
             // 
             // Btn_Logout
             // 
@@ -78,36 +80,36 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(127, 93);
+            label6.Location = new Point(126, 96);
             label6.Name = "label6";
-            label6.Size = new Size(522, 54);
-            label6.TabIndex = 38;
-            label6.Text = "SỬA THÔNG TIN VI PHẠM";
+            label6.Size = new Size(320, 54);
+            label6.TabIndex = 46;
+            label6.Text = "THÊM VI PHẠM";
             // 
             // comboBox_Type
             // 
             comboBox_Type.FormattingEnabled = true;
-            comboBox_Type.Location = new Point(124, 220);
+            comboBox_Type.Location = new Point(135, 318);
             comboBox_Type.Name = "comboBox_Type";
             comboBox_Type.Size = new Size(192, 28);
-            comboBox_Type.TabIndex = 37;
+            comboBox_Type.TabIndex = 45;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(127, 184);
+            label5.Location = new Point(138, 282);
             label5.Name = "label5";
             label5.Size = new Size(94, 20);
-            label5.TabIndex = 36;
+            label5.TabIndex = 44;
             label5.Text = "Loại vi phạm";
             // 
             // Btn_Cancel
             // 
             Btn_Cancel.Cursor = Cursors.Hand;
-            Btn_Cancel.Location = new Point(272, 376);
+            Btn_Cancel.Location = new Point(280, 509);
             Btn_Cancel.Name = "Btn_Cancel";
             Btn_Cancel.Size = new Size(100, 29);
-            Btn_Cancel.TabIndex = 31;
+            Btn_Cancel.TabIndex = 43;
             Btn_Cancel.Text = "Hủy";
             Btn_Cancel.UseVisualStyleBackColor = true;
             Btn_Cancel.Click += Btn_Cancel_Click;
@@ -115,35 +117,53 @@
             // Btn_Accept
             // 
             Btn_Accept.Cursor = Cursors.Hand;
-            Btn_Accept.Location = new Point(127, 376);
+            Btn_Accept.Location = new Point(135, 509);
             Btn_Accept.Name = "Btn_Accept";
             Btn_Accept.Size = new Size(100, 29);
-            Btn_Accept.TabIndex = 30;
+            Btn_Accept.TabIndex = 42;
             Btn_Accept.Text = "Xác nhận";
             Btn_Accept.UseVisualStyleBackColor = true;
             Btn_Accept.Click += Btn_Accept_Click;
             // 
             // textBox_Content
             // 
-            textBox_Content.Location = new Point(124, 329);
+            textBox_Content.Location = new Point(135, 427);
             textBox_Content.Name = "textBox_Content";
             textBox_Content.Size = new Size(482, 27);
-            textBox_Content.TabIndex = 29;
+            textBox_Content.TabIndex = 41;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(124, 296);
+            label2.Location = new Point(135, 394);
             label2.Name = "label2";
             label2.Size = new Size(128, 20);
-            label2.TabIndex = 28;
+            label2.TabIndex = 40;
             label2.Text = "Nội dung vi phạm";
             // 
-            // SuaViPham
+            // textBox_UserID
+            // 
+            textBox_UserID.Location = new Point(129, 217);
+            textBox_UserID.Name = "textBox_UserID";
+            textBox_UserID.Size = new Size(192, 27);
+            textBox_UserID.TabIndex = 48;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(135, 172);
+            label3.Name = "label3";
+            label3.Size = new Size(111, 20);
+            label3.TabIndex = 47;
+            label3.Text = "Mã người dùng";
+            // 
+            // ThemViPham
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1025, 467);
+            ClientSize = new Size(1024, 556);
+            Controls.Add(textBox_UserID);
+            Controls.Add(label3);
             Controls.Add(panel1);
             Controls.Add(label6);
             Controls.Add(comboBox_Type);
@@ -152,10 +172,10 @@
             Controls.Add(Btn_Accept);
             Controls.Add(textBox_Content);
             Controls.Add(label2);
-            Name = "SuaViPham";
+            Name = "ThemViPham";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Sửa thông tin vi phạm";
-            Load += SuaViPham_Load;
+            Text = "Thêm vi phạm";
+            Load += ThemViPham_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -174,5 +194,7 @@
         private Button Btn_Accept;
         private TextBox textBox_Content;
         private Label label2;
+        private TextBox textBox_UserID;
+        private Label label3;
     }
 }

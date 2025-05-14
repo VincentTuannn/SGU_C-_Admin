@@ -55,9 +55,9 @@ namespace SGU_C__User.BUS
         public bool AddViPham(ViPhamDTO viPham)
         {
             // Kiểm tra dữ liệu trước khi thêm
-            if (viPham.MaNguoiDung <= 0 || viPham.MaThietBi <= 0 || viPham.MaPhong <= 0)
+            if (viPham.MaNguoiDung <= 0)
             {
-                throw new ArgumentException("Mã người dùng, thiết bị và phòng phải lớn hơn 0.");
+                throw new ArgumentException("Mã người dùng phải lớn hơn 0.");
             }
             if (string.IsNullOrEmpty(viPham.LoaiViPham) || !IsValidLoaiViPham(viPham.LoaiViPham))
             {
@@ -74,10 +74,7 @@ namespace SGU_C__User.BUS
             {
                 throw new ArgumentException("Mã vi phạm phải lớn hơn 0!");
             }
-            if (viPham.MaNguoiDung <= 0 || viPham.MaThietBi <= 0 || viPham.MaPhong <= 0)
-            {
-                throw new ArgumentException("Mã người dùng, thiết bị và phòng phải lớn hơn 0!");
-            }
+           
             if (string.IsNullOrEmpty(viPham.LoaiViPham) || !IsValidLoaiViPham(viPham.LoaiViPham))
             {
                 throw new ArgumentException("Loại vi phạm không hợp lệ!");

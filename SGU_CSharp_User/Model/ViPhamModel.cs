@@ -13,12 +13,6 @@ namespace SGU_CSharp_User.Model
         [Required(ErrorMessage = "Mã người dùng là bắt buộc")]
         public int MaNguoiDung { get; set; }
 
-        [Required(ErrorMessage = "Mã thiết bị là bắt buộc")]
-        public int MaThietBi { get; set; }
-
-        [Required(ErrorMessage = "Mã phòng là bắt buộc")]
-        public int MaPhong { get; set; }
-
         [Required(ErrorMessage = "Loại vi phạm là bắt buộc")]
         [RegularExpression("Trả trễ|Làm hỏng|Làm mất|Khác",
             ErrorMessage = "Loại vi phạm phải là 'Trả trễ', 'Làm hỏng', 'Làm mất' hoặc 'Khác'")]
@@ -30,11 +24,5 @@ namespace SGU_CSharp_User.Model
 
         [ForeignKey("MaNguoiDung")]
         public virtual NguoiDungModel? NguoiDung { get; set; }
-
-        [ForeignKey("MaThietBi")]
-        public virtual ThietBiModel? ThietBi { get; set; }
-
-        [ForeignKey("MaPhong")]
-        public virtual PhongModel? Phong { get; set; }
     }
 }
