@@ -328,7 +328,7 @@ namespace SGU_C__User.GUI
                 string hoVaTen = row.Cells["HoVaTen"].Value.ToString();
 
                 // Xác nhận trước khi xóa
-                DialogResult result = MessageBox.Show($"Bạn có chắc muốn khóa người dùng '{hoVaTen}' không?",
+                DialogResult result = MessageBox.Show($"Bạn có chắc muốn chuyển trạng thái người dùng '{hoVaTen}' không?",
                     "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
@@ -337,7 +337,7 @@ namespace SGU_C__User.GUI
                     {
                         nguoiDungBUS.LockNguoiDung(maNguoiDung);
                         LoadDataToGridView(); // Tải lại dữ liệu sau khi xóa
-                        MessageBox.Show("Khóa người dùng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Chuyển trạng thái người dùng thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {

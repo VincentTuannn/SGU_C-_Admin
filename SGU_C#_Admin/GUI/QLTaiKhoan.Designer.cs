@@ -43,7 +43,6 @@
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
-            buttonDeleteByYear = new Button();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
@@ -51,7 +50,6 @@
             // 
             // panel2
             // 
-            panel2.Controls.Add(buttonDeleteByYear);
             panel2.Controls.Add(button_Lock);
             panel2.Controls.Add(importExcel);
             panel2.Controls.Add(btn_delete);
@@ -217,17 +215,6 @@
             panel1.Size = new Size(1161, 62);
             panel1.TabIndex = 6;
             // 
-            // buttonDeleteByYear
-            // 
-            buttonDeleteByYear.BackColor = Color.Red;
-            buttonDeleteByYear.ForeColor = Color.White;
-            buttonDeleteByYear.Location = new Point(668, 61);
-            buttonDeleteByYear.Name = "buttonDeleteByYear";
-            buttonDeleteByYear.Size = new Size(116, 29);
-            buttonDeleteByYear.TabIndex = 14;
-            buttonDeleteByYear.Text = "Xóa theo năm";
-            buttonDeleteByYear.UseVisualStyleBackColor = false;
-            // 
             // QLTaiKhoan
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -265,6 +252,5 @@
         private System.Windows.Forms.ComboBox comboBoxNamSinh;
         private System.Windows.Forms.Button btnDeleteByYear;
         private Button button_Lock;
-        private Button buttonDeleteByYear;
     }
 }

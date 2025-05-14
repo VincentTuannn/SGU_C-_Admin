@@ -34,23 +34,24 @@
             label1 = new Label();
             Btn_Back = new Button();
             panel1 = new Panel();
-            panel2.SuspendLayout();
+            dateTimePicker1 = new DateTimePicker();
+            label3 = new Label();
+            button_filter = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
             // 
-            panel2.Controls.Add(label2);
-            panel2.Location = new Point(58, 115);
+            panel2.Location = new Point(58, 232);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1094, 467);
+            panel2.Size = new Size(1094, 384);
             panel2.TabIndex = 13;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(30, 24);
+            label2.Location = new Point(49, 103);
             label2.Name = "label2";
             label2.Size = new Size(197, 54);
             label2.TabIndex = 0;
@@ -100,11 +101,40 @@
             panel1.Size = new Size(1161, 62);
             panel1.TabIndex = 12;
             // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(129, 178);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(250, 27);
+            dateTimePicker1.TabIndex = 15;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(58, 178);
+            label3.Name = "label3";
+            label3.Size = new Size(44, 20);
+            label3.TabIndex = 16;
+            label3.Text = "Ngày";
+            // 
+            // button_filter
+            // 
+            button_filter.Location = new Point(420, 179);
+            button_filter.Name = "button_filter";
+            button_filter.Size = new Size(94, 29);
+            button_filter.TabIndex = 17;
+            button_filter.Text = "Lọc";
+            button_filter.UseVisualStyleBackColor = true;
+            // 
             // ThongKe
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1161, 594);
+            ClientSize = new Size(1161, 639);
+            Controls.Add(button_filter);
+            Controls.Add(label3);
+            Controls.Add(dateTimePicker1);
+            Controls.Add(label2);
             Controls.Add(panel2);
             Controls.Add(Btn_Back);
             Controls.Add(panel1);
@@ -112,11 +142,10 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Thống kê";
             Load += ThongKe_Load;
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -128,5 +157,8 @@
         private Button Btn_Back;
         private Panel panel1;
         private System.Windows.Forms.DataVisualization.Charting.Chart Chart;
+        private DateTimePicker dateTimePicker1;
+        private Label label3;
+        private Button button_filter;
     }
 }

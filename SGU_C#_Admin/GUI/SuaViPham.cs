@@ -17,8 +17,7 @@ namespace SGU_C__User.GUI
         private ViPhamBUS viPhamBUS;
         private int maViPham;
         private int maNguoiDung;
-        private int maThietBi;
-        private int maPhong;
+
         public SuaViPham(int maViPham, int maNguoiDung, string loaiViPham, string noiDungViPham)
         {
             InitializeComponent();

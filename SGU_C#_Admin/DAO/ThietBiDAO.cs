@@ -142,12 +142,12 @@ namespace SGU_C__User.DAO
                     try
                     {
                         // Xóa các bản ghi liên quan trong bảng vpham trước
-                        string deleteVPhamQuery = "DELETE FROM vipham WHERE MaThietBi = @MaThietBi";
-                        using (SqlCommand cmdVPham = new SqlCommand(deleteVPhamQuery, conn, transaction))
-                        {
-                            cmdVPham.Parameters.AddWithValue("@MaThietBi", maThietBi);
-                            cmdVPham.ExecuteNonQuery();
-                        }
+                        // string deleteVPhamQuery = "DELETE FROM vipham WHERE MaThietBi = @MaThietBi";
+                        // using (SqlCommand cmdVPham = new SqlCommand(deleteVPhamQuery, conn, transaction))
+                        // {
+                        //     cmdVPham.Parameters.AddWithValue("@MaThietBi", maThietBi);
+                        //     cmdVPham.ExecuteNonQuery();
+                        // }
 
                         // Xóa các bản ghi liên quan trong bảng phieumuonthietbi
                         string deletePhieuMuonQuery = "DELETE FROM phieumuonthietbi WHERE MaThietBi = @MaThietBi";

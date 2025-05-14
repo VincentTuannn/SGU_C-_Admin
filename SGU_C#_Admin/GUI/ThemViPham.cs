@@ -17,13 +17,12 @@ namespace SGU_C__User.GUI
         private ViPhamBUS viPhamBUS = new ViPhamBUS();
         private int maViPham;
         private int maNguoiDung;
+
         public ThemViPham()
         {
             InitializeComponent();
             this.maViPham = maViPham;
             this.maNguoiDung = maNguoiDung;
-            //comboBox_Type.SelectedItem = loaiViPham;
-            //textBox_Content.Text = noiDungViPham;
         }
 
         private void ThemViPham_Load(object sender, EventArgs e)

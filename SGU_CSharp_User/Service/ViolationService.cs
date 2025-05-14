@@ -19,11 +19,9 @@ namespace SGU_CSharp_User.Service
             {
                 var violations = await _context.ViPhamModels
                     .Where(v => v.MaNguoiDung == userId)
-                    .Include(v => v.ThietBi)  
-                    .Include(v => v.Phong)  
-                    .Include(v => v.NguoiDung) 
-                    .OrderByDescending(v => v.MaViPham) 
-                    .AsNoTracking() 
+                    .Include(v => v.NguoiDung)
+                    .OrderByDescending(v => v.MaViPham)
+                    .AsNoTracking()
                     .ToListAsync();
 
                 return violations;
