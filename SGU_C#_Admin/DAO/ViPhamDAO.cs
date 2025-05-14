@@ -28,8 +28,6 @@ namespace SGU_C__User.DAO
                         viPham.Add(new ViPhamDTO(
                             Convert.ToInt32(reader["MaViPham"]),
                             Convert.ToInt32(reader["MaNguoiDung"]),
-                            Convert.ToInt32(reader["MaThietBi"]),
-                            Convert.ToInt32(reader["MaPhong"]),
                             reader["LoaiViPham"].ToString(),
                             reader["NoiDungViPham"] != DBNull.Value ? reader["NoiDungViPham"].ToString() : string.Empty
                         ));
@@ -49,7 +47,7 @@ namespace SGU_C__User.DAO
             List<ViPhamDTO> danhSach = new List<ViPhamDTO>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT MaViPham, MaNguoiDung, MaThietBi, MaPhong, LoaiViPham, NoiDungViPham FROM vipham WHERE MaViPham = @MaViPham";
+                string query = "SELECT MaViPham, MaNguoiDung, LoaiViPham, NoiDungViPham FROM vipham WHERE MaViPham = @MaViPham";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@MaViPham", maViPham);
                 conn.Open();
@@ -60,8 +58,6 @@ namespace SGU_C__User.DAO
                     {
                         MaViPham = Convert.ToInt32(reader["MaViPham"]),
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
-                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
-                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
                         LoaiViPham = reader["LoaiViPham"].ToString(),
                         NoiDungViPham = reader["NoiDungViPham"].ToString()
                     };
@@ -77,7 +73,7 @@ namespace SGU_C__User.DAO
             List<ViPhamDTO> danhSach = new List<ViPhamDTO>();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT MaViPham, MaNguoiDung, MaThietBi, MaPhong, LoaiViPham, NoiDungViPham FROM vipham WHERE NoiDungViPham LIKE @NoiDungViPham";
+                string query = "SELECT MaViPham, MaNguoiDung, LoaiViPham, NoiDungViPham FROM vipham WHERE NoiDungViPham LIKE @NoiDungViPham";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@NoiDungViPham", "%" + noiDungViPham + "%");
                 conn.Open();
@@ -88,8 +84,6 @@ namespace SGU_C__User.DAO
                     {
                         MaViPham = Convert.ToInt32(reader["MaViPham"]),
                         MaNguoiDung = Convert.ToInt32(reader["MaNguoiDung"]),
-                        MaThietBi = Convert.ToInt32(reader["MaThietBi"]),
-                        MaPhong = Convert.ToInt32(reader["MaPhong"]),
                         LoaiViPham = reader["LoaiViPham"].ToString(),
                         NoiDungViPham = reader["NoiDungViPham"].ToString()
                     };
@@ -107,12 +101,10 @@ namespace SGU_C__User.DAO
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "INSERT INTO vipham (MaNguoiDung, MaThietBi, MaPhong, LoaiViPham, NoiDungViPham) " +
-                                  "VALUES (@MaNguoiDung, @MaThietBi, @MaPhong, @LoaiViPham, @NoiDungViPham)";
+                    string query = "INSERT INTO vipham (MaNguoiDung, LoaiViPham, NoiDungViPham) " +
+                                  "VALUES (@MaNguoiDung, @LoaiViPham, @NoiDungViPham)";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@MaNguoiDung", viPham.MaNguoiDung);
-                    cmd.Parameters.AddWithValue("@MaThietBi", viPham.MaThietBi);
-                    cmd.Parameters.AddWithValue("@MaPhong", viPham.MaPhong);
                     cmd.Parameters.AddWithValue("@LoaiViPham", viPham.LoaiViPham);
                     cmd.Parameters.AddWithValue("@NoiDungViPham", viPham.NoiDungViPham ?? (object)DBNull.Value);
 
@@ -135,14 +127,10 @@ namespace SGU_C__User.DAO
             {
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = "UPDATE vipham SET MaNguoiDung = @MaNguoiDung, MaThietBi = @MaThietBi, " +
-                                  "MaPhong = @MaPhong, LoaiViPham = @LoaiViPham, NoiDungViPham = @NoiDungViPham " +
-                                  "WHERE MaViPham = @MaViPham";
+                    string query = "UPDATE vipham SET MaNguoiDung = @MaNguoiDung, LoaiViPham = @LoaiViPham, NoiDungViPham = @NoiDungViPham WHERE MaViPham = @MaViPham";
                     SqlCommand cmd = new SqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@MaViPham", viPham.MaViPham);
                     cmd.Parameters.AddWithValue("@MaNguoiDung", viPham.MaNguoiDung);
-                    cmd.Parameters.AddWithValue("@MaThietBi", viPham.MaThietBi);
-                    cmd.Parameters.AddWithValue("@MaPhong", viPham.MaPhong);
                     cmd.Parameters.AddWithValue("@LoaiViPham", viPham.LoaiViPham);
                     cmd.Parameters.AddWithValue("@NoiDungViPham", viPham.NoiDungViPham ?? (object)DBNull.Value);
 

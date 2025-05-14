@@ -153,13 +153,9 @@ CREATE TABLE thongbao (
 CREATE TABLE vipham (
     MaViPham INT IDENTITY(1,1) PRIMARY KEY,
     MaNguoiDung INT NOT NULL,
-    MaThietBi INT NOT NULL,
-    MaPhong INT NOT NULL,
     LoaiViPham NVARCHAR(50) NOT NULL CHECK (LoaiViPham IN (N'Trả trễ', N'Làm hỏng', N'Làm mất', N'Khác')),
     NoiDungViPham NVARCHAR(500) NOT NULL,
-    FOREIGN KEY (MaNguoiDung) REFERENCES nguoidung(MaNguoiDung),
-    FOREIGN KEY (MaThietBi) REFERENCES thietbi(MaThietBi),
-    FOREIGN KEY (MaPhong) REFERENCES phong(MaPhong)
+    FOREIGN KEY (MaNguoiDung) REFERENCES nguoidung(MaNguoiDung)
 );
 
 -- Chèn dữ liệu vào bảng quyen
@@ -477,38 +473,38 @@ VALUES
     (30, N'Sự kiện 10', N'Nội dung sự kiện 10...', N'Sự Kiện', '2025-04-19 16:00:00');
 
 -- Chèn dữ liệu vào bảng vipham
-INSERT INTO [dbo].[vipham] ([MaNguoiDung], [MaThietBi], [MaPhong], [LoaiViPham], [NoiDungViPham])
+INSERT INTO [dbo].[vipham] ([MaNguoiDung], [LoaiViPham], [NoiDungViPham])
 VALUES
-    (1, 1, 1, N'Trả trễ', N'Trả thiết bị trễ 2 ngày.'),
-    (2, 2, 2, N'Làm hỏng', N'Làm hỏng màn hình máy chiếu.'),
-    (3, 3, 3, N'Làm mất', N'Làm mất micro không dây.'),
-    (4, 4, 4, N'Khác', N'Sử dụng phòng không đúng quy định.'),
-    (5, 5, 5, N'Trả trễ', N'Trả phòng trễ 1 ngày.'),
-    (6, 6, 6, N'Làm hỏng', N'Làm hỏng bảng trắng thông minh.'),
-    (7, 7, 7, N'Trả trễ', N'Trả tai nghe trễ 3 ngày.'),
-    (8, 8, 8, N'Làm mất', N'Làm mất dây cáp máy scan.'),
-    (9, 9, 9, N'Khác', N'Sử dụng thiết bị không đúng mục đích.'),
-    (10, 10, 10, N'Trả trễ', N'Trả laptop trễ 2 ngày.'),
-    (11, 11, 11, N'Làm hỏng', N'Làm hỏng máy in.'),
-    (12, 12, 12, N'Làm mất', N'Làm mất loa Bluetooth.'),
-    (13, 13, 13, N'Khác', N'Sử dụng phòng họp sai quy định.'),
-    (14, 14, 14, N'Trả trễ', N'Trả bảng tương tác trễ 1 ngày.'),
-    (15, 15, 15, N'Làm hỏng', N'Làm hỏng tai nghe.'),
-    (16, 16, 16, N'Làm mất', N'Làm mất máy scan.'),
-    (17, 17, 17, N'Trả trễ', N'Trả máy chiếu trễ 2 ngày.'),
-    (18, 18, 18, N'Khác', N'Sử dụng thiết bị không được phép.'),
-    (19, 19, 19, N'Làm hỏng', N'Làm hỏng máy in.'),
-    (20, 20, 20, N'Trả trễ', N'Trả loa trễ 1 ngày.'),
-    (21, 21, 21, N'Làm mất', N'Làm mất máy ảnh.'),
-    (22, 22, 22, N'Khác', N'Sử dụng phòng không đúng giờ.'),
-    (23, 23, 23, N'Trả trễ', N'Trả tai nghe trễ 2 ngày.'),
-    (24, 24, 24, N'Làm hỏng', N'Làm hỏng máy scan.'),
-    (25, 25, 25, N'Làm mất', N'Làm mất máy chiếu.'),
-    (26, 26, 26, N'Trả trễ', N'Trả laptop trễ 1 ngày.'),
-    (27, 27, 27, N'Khác', N'Sử dụng phòng không đúng quy định.'),
-    (28, 28, 28, N'Làm hỏng', N'Làm hỏng máy in.'),
-    (29, 29, 29, N'Trả trễ', N'Trả loa trễ 2 ngày.'),
-    (30, 30, 30, N'Làm mất', N'Làm mất bảng tương tác.');
+    (1, N'Trả trễ', N'Trả thiết bị trễ 2 ngày.'),
+    (2, N'Làm hỏng', N'Làm hỏng màn hình máy chiếu.'),
+    (3, N'Làm mất', N'Làm mất micro không dây.'),
+    (4, N'Khác', N'Sử dụng phòng không đúng quy định.'),
+    (5, N'Trả trễ', N'Trả phòng trễ 1 ngày.'),
+    (6, N'Làm hỏng', N'Làm hỏng bảng trắng thông minh.'),
+    (7, N'Trả trễ', N'Trả tai nghe trễ 3 ngày.'),
+    (8, N'Làm mất', N'Làm mất dây cáp máy scan.'),
+    (9, N'Khác', N'Sử dụng thiết bị không đúng mục đích.'),
+    (10, N'Trả trễ', N'Trả laptop trễ 2 ngày.'),
+    (11, N'Làm hỏng', N'Làm hỏng máy in.'),
+    (12, N'Làm mất', N'Làm mất loa Bluetooth.'),
+    (13, N'Khác', N'Sử dụng phòng họp sai quy định.'),
+    (14, N'Trả trễ', N'Trả bảng tương tác trễ 1 ngày.'),
+    (15, N'Làm hỏng', N'Làm hỏng tai nghe.'),
+    (16, N'Làm mất', N'Làm mất máy scan.'),
+    (17, N'Trả trễ', N'Trả máy chiếu trễ 2 ngày.'),
+    (18, N'Khác', N'Sử dụng thiết bị không được phép.'),
+    (19, N'Làm hỏng', N'Làm hỏng máy in.'),
+    (20, N'Trả trễ', N'Trả loa trễ 1 ngày.'),
+    (21, N'Làm mất', N'Làm mất máy ảnh.'),
+    (22, N'Khác', N'Sử dụng phòng không đúng giờ.'),
+    (23, N'Trả trễ', N'Trả tai nghe trễ 2 ngày.'),
+    (24, N'Làm hỏng', N'Làm hỏng máy scan.'),
+    (25, N'Làm mất', N'Làm mất máy chiếu.'),
+    (26, N'Trả trễ', N'Trả laptop trễ 1 ngày.'),
+    (27, N'Khác', N'Sử dụng phòng không đúng quy định.'),
+    (28, N'Làm hỏng', N'Làm hỏng máy in.'),
+    (29, N'Trả trễ', N'Trả loa trễ 2 ngày.'),
+    (30, N'Làm mất', N'Làm mất bảng tương tác.');
 
 -- Thêm ràng buộc khóa ngoại sau khi chèn dữ liệu
 ALTER TABLE [dbo].[nguoidung]
@@ -535,6 +531,4 @@ ALTER TABLE [dbo].[thongbao]
 ADD CONSTRAINT [FK_thongbao_nguoidung] FOREIGN KEY ([MaNguoiDung]) REFERENCES [dbo].[nguoidung] ([MaNguoiDung]);
 
 ALTER TABLE [dbo].[vipham]
-ADD CONSTRAINT [FK_vipham_nguoidung] FOREIGN KEY ([MaNguoiDung]) REFERENCES [dbo].[nguoidung] ([MaNguoiDung]),
-    CONSTRAINT [FK_vipham_thietbi] FOREIGN KEY ([MaThietBi]) REFERENCES [dbo].[thietbi] ([MaThietBi]),
-    CONSTRAINT [FK_vipham_phong] FOREIGN KEY ([MaPhong]) REFERENCES [dbo].[phong] ([MaPhong]);
+ADD CONSTRAINT [FK_vipham_nguoidung] FOREIGN KEY ([MaNguoiDung]) REFERENCES [dbo].[nguoidung] ([MaNguoiDung]);

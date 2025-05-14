@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel2 = new Panel();
+            button_Add = new Button();
             btn_delete = new Button();
             btn_fix = new Button();
             dataGridView1 = new DataGridView();
@@ -45,6 +46,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(button_Add);
             panel2.Controls.Add(btn_delete);
             panel2.Controls.Add(btn_fix);
             panel2.Controls.Add(dataGridView1);
@@ -55,9 +57,19 @@
             panel2.Size = new Size(1094, 359);
             panel2.TabIndex = 4;
             // 
+            // button_Add
+            // 
+            button_Add.Location = new Point(653, 53);
+            button_Add.Name = "button_Add";
+            button_Add.Size = new Size(142, 32);
+            button_Add.TabIndex = 8;
+            button_Add.Text = "Thêm vi phạm";
+            button_Add.UseVisualStyleBackColor = true;
+            button_Add.Click += button_Add_Click;
+            // 
             // btn_delete
             // 
-            btn_delete.Location = new Point(983, 248);
+            btn_delete.Location = new Point(841, 248);
             btn_delete.Name = "btn_delete";
             btn_delete.Size = new Size(83, 32);
             btn_delete.TabIndex = 7;
@@ -67,7 +79,7 @@
             // 
             // btn_fix
             // 
-            btn_fix.Location = new Point(983, 135);
+            btn_fix.Location = new Point(841, 135);
             btn_fix.Name = "btn_fix";
             btn_fix.Size = new Size(83, 32);
             btn_fix.TabIndex = 6;
@@ -78,10 +90,10 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(134, 114);
+            dataGridView1.Location = new Point(247, 115);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(803, 193);
+            dataGridView1.Size = new Size(548, 193);
             dataGridView1.TabIndex = 2;
             // 
             // Input_Search
@@ -179,5 +191,6 @@
         private DataGridView dataGridView1;
         private Button btn_delete;
         private Button btn_fix;
+        private Button button_Add;
     }
 }
