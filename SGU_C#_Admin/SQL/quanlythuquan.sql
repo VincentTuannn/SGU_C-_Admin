@@ -114,7 +114,7 @@ CREATE TABLE phieumuonthietbi (
     MaPhieuMuonThietBi INT IDENTITY(1,1) PRIMARY KEY,
     MaNguoiDung INT NOT NULL,
     MaThietBi INT NOT NULL,
-    TrangThai NVARCHAR(20) NOT NULL CHECK (TrangThai IN (N'Đang mượn', N'Đã trả')),
+    TrangThai NVARCHAR(20) NOT NULL CHECK (TrangThai IN (N'Đang mượn', N'Đã trả', N'Đã đặt chỗ')),
     ThoiGianMuon DATETIME NOT NULL,
     ThoiGianTra DATETIME NOT NULL,
     TongTien DECIMAL(18,0) NOT NULL,
