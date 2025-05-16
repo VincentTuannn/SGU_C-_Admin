@@ -89,5 +89,10 @@ namespace SGU_C__User.BUS
         {
             phieuMuonPhongDAO.DeletePhieuMuonPhong(maPhieuMuonPhong);
         }
+
+        public void UpdateTrangThaiVaThoiGian(int maPhieuMuonPhong, string trangThai)
+        {
+            phieuMuonPhongDAO.UpdateTrangThaiVaThoiGian(maPhieuMuonPhong, trangThai);
+        }
     }
 }

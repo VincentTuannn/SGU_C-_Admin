@@ -150,5 +150,23 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public void UpdateTrangThaiVaThoiGian(int maPhieuMuonPhong, string trangThai)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "UPDATE phieumuonphong SET TrangThai = @TrangThai, " +
+                               (trangThai == "Đang mượn" ? "ThoiGianMuon = @ThoiGian, " : "ThoiGianTra = @ThoiGian, ") +
+                               "WHERE MaPhieuMuonPhong = @MaPhieuMuonPhong";
+                query = query.Replace(", WHERE", " WHERE"); // Xóa dấu phẩy cuối nếu có
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@TrangThai", trangThai);
+                cmd.Parameters.AddWithValue("@ThoiGian", DateTime.Now);
+                cmd.Parameters.AddWithValue("@MaPhieuMuonPhong", maPhieuMuonPhong);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
     }
 }
