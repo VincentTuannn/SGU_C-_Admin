@@ -37,6 +37,7 @@
             dateTimePicker1 = new DateTimePicker();
             label3 = new Label();
             button_filter = new Button();
+            button_reset = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -125,12 +126,24 @@
             button_filter.TabIndex = 17;
             button_filter.Text = "Lọc";
             button_filter.UseVisualStyleBackColor = true;
+            button_filter.Click += button_filter_Click;
+            // 
+            // button_reset
+            // 
+            button_reset.Location = new Point(534, 179);
+            button_reset.Name = "button_reset";
+            button_reset.Size = new Size(94, 29);
+            button_reset.TabIndex = 18;
+            button_reset.Text = "Reset";
+            button_reset.UseVisualStyleBackColor = true;
+            button_reset.Click += button_reset_Click;
             // 
             // ThongKe
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1161, 639);
+            Controls.Add(button_reset);
             Controls.Add(button_filter);
             Controls.Add(label3);
             Controls.Add(dateTimePicker1);
@@ -160,5 +173,6 @@
         private DateTimePicker dateTimePicker1;
         private Label label3;
         private Button button_filter;
+        private Button button_reset;
     }
 }

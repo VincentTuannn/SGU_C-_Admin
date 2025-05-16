@@ -235,8 +235,6 @@
                     <tr>
                         <th>Mã vi phạm</th>
                         <th>Nội dung</th>
-                        <th>Thiết bị</th>
-                        <th>Phòng</th>
                         <th>Loại vi phạm</th>
                     </tr>
                 </thead>
@@ -246,9 +244,7 @@
                         <tr>
                             <td>VP@(violation.MaViPham.ToString("D3"))</td>
                             <td>@violation.NoiDungViPham</td>
-                            <td>@(violation.ThietBi?.TenThietBi ?? "Không liên quan")</td>
-                            <td>@(violation.Phong?.TenPhong ?? "Không liên quan")</td>
-                            <td>@(violation.LoaiViPham)</td>
+                            <td>@violation.LoaiViPham</td>
                         </tr>
                     }
                 </tbody>
@@ -383,7 +379,6 @@
     private List<PhieuMuonPhongModel>? returnedRooms;
     private List<ViPhamModel>? violations;
     private int? userId;
-    private bool firstRender = true;
 
     // Pagination parameters
     private int devicePageSize = 5;
@@ -397,13 +392,12 @@
     {
         if (firstRender)
         {
-            this.firstRender = false;
             await CheckLoginStatus();
             if (userId.HasValue)
             {
                 await LoadHistoryData();
             }
-            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+            StateHasChanged();
         }
     }
 

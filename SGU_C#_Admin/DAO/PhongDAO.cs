@@ -179,6 +179,23 @@ namespace SGU_C__User.DAO
             }
         }
 
+        public int CountPhongMuonByDate(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM PhieuMuonPhong 
+                               WHERE CONVERT(date, ThoiGianMuon) = @NgayMuon";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayMuon", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số phòng mượn theo ngày: " + ex.Message);
+            }
+        }
 
     }
 }

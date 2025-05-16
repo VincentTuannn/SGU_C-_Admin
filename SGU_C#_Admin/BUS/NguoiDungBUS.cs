@@ -227,5 +227,15 @@ namespace SGU_C__User.BUS
                 throw new Exception("Lỗi khi đếm số lượng người dùng đang hoạt động: " + ex.Message);
             }
         }
+
+        public int CountUserLockedByDate(DateTime date)
+        {
+            return nguoiDungDAO.CountUserLockedByDate(date);
+        }
+
+        public int CountUserUnlockedByDate(DateTime date)
+        {
+            return nguoiDungDAO.CountUserUnlockedByDate(date);
+        }
     }
 }

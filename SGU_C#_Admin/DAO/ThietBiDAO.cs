@@ -301,5 +301,23 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public int CountSoLuongByDate(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM PhieuMuonThietBi 
+                               WHERE CONVERT(date, ThoiGianMuon) = @NgayMuon";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayMuon", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số thiết bị mượn theo ngày: " + ex.Message);
+            }
+        }
     }
 }

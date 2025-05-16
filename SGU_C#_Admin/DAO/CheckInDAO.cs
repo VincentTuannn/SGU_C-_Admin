@@ -165,5 +165,41 @@ namespace SGU_C__User.DAO
                 conn.Close();
             }
         }
+
+        public int GetCheckInCountsByDate(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM CheckIn 
+                               WHERE CONVERT(date, ThoiGianVao) = @NgayCheckIn";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayCheckIn", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số check-in theo ngày: " + ex.Message);
+            }
+        }
+
+        public int GetCheckInCountsByDates(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM CheckIn 
+                               WHERE CONVERT(date, ThoiGianVao) = @NgayCheckIn";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayCheckIn", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số check-in theo ngày: " + ex.Message);
+            }
+        }
     }
 }

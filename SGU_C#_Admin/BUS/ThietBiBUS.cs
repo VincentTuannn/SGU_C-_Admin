@@ -153,5 +153,10 @@ namespace SGU_C__User.BUS
             thietBiDAO.UpdateTrangThai(maThietBi, trangThai, null);
         }
 
+        public int CountSoLuongByDate(DateTime date)
+        {
+            return thietBiDAO.CountSoLuongByDate(date);
+        }
+
     }
 }

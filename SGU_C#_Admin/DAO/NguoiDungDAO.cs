@@ -364,5 +364,43 @@ namespace SGU_C__User.DAO
                 return (false, "Đã xảy ra lỗi khi xóa tài khoản: " + ex.Message);
             }
         }
+
+        public int CountUserLockedByDate(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM NguoiDung 
+                               WHERE TrangThai = 0 
+                               AND CONVERT(date, NgayCapNhat) = @NgayCapNhat";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayCapNhat", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số người dùng bị khóa theo ngày: " + ex.Message);
+            }
+        }
+
+        public int CountUserUnlockedByDate(DateTime date)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM NguoiDung 
+                               WHERE TrangThai = 1 
+                               AND CONVERT(date, NgayCapNhat) = @NgayCapNhat";
+                SqlParameter[] parameters = new SqlParameter[]
+                {
+                    new SqlParameter("@NgayCapNhat", date.Date)
+                };
+                return (int)DataProvider.Instance.ExecuteScalar(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi đếm số người dùng đang hoạt động theo ngày: " + ex.Message);
+            }
+        }
     }
 }

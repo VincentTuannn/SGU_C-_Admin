@@ -70,7 +70,7 @@
                     @foreach (var device in GetPaginatedDevices())
                     {
                         <tr>
-                            <td>@device.ThietBi?.TenThietBi</td>
+                            
                             <td>@device.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@device.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@device.TrangThai</td>
@@ -174,7 +174,7 @@
                     @foreach (var room in GetPaginatedRooms())
                     {
                         <tr>
-                            <td>@room.Phong?.TenPhong</td>
+                            
                             <td>@room.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@room.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@room.TrangThai</td>
@@ -267,20 +267,18 @@
         <table class="violation-table">
             <thead>
                 <tr>
+                    <th>Mã vi phạm</th>
                     <th>Loại vi phạm</th>
                     <th>Nội dung</th>
-                    <th>Thiết bị</th>
-                    <th>Phòng</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var violation in GetPaginatedViolations())
                 {
                     <tr>
+                        <td>VP@(violation.MaViPham.ToString("D3"))</td>
                         <td>@violation.LoaiViPham</td>
                         <td>@violation.NoiDungViPham</td>
-                        <td>@violation.ThietBi?.TenThietBi</td>
-                        <td>@violation.Phong?.TenPhong</td>
                     </tr>
                 }
             </tbody>
@@ -360,26 +358,25 @@
     private List<PhieuMuonPhongModel>? bookedRooms;
     private List<ViPhamModel>? violations;
     private int? userId;
-    private bool firstRender = true;
     private string? bookingError;
     private DateTime thoiGianMuon;
     private DateTime thoiGianTra;
 
     protected override async Task OnInitializedAsync()
     {
-
+        await base.OnInitializedAsync();
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            this.firstRender = false;
             await CheckLoginStatus();
             if (userId.HasValue)
             {
                 await LoadUserData();
             }
-            StateHasChanged(); 
+            StateHasChanged();
         }
     }
 
@@ -415,9 +412,12 @@
     {
         try
         {
-            borrowedDevices = await DeviceService.GetUserBorrowedDevices(userId.Value);
-            bookedRooms = await RoomService.GetUserBookedRooms(userId.Value);
-            violations = await ViolationService.GetUserViolations(userId.Value);
+            if (userId.HasValue)
+            {
+                borrowedDevices = await DeviceService.GetUserBorrowedDevices(userId.Value);
+                bookedRooms = await RoomService.GetUserBookedRooms(userId.Value);
+                violations = await ViolationService.GetUserViolations(userId.Value);
+            }
         }
         catch (Exception ex)
         {

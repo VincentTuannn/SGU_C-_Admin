@@ -103,5 +103,10 @@ namespace SGU_C__User.BUS
             }
         }
 
+        public int CountPhongMuonByDate(DateTime date)
+        {
+            return phongDAO.CountPhongMuonByDate(date);
+        }
+
     }
 }

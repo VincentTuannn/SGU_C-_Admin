@@ -89,5 +89,17 @@ namespace SGU_C__User.BUS
             var all = GetAllCheckIn();
             return all.Where(c => c.ThoiGianVao.Date == date.Date).ToList();
         }
+
+        public int GetCheckInCountsByDates(DateTime date)
+        {
+            try
+            {
+                return checkInDAO.GetCheckInCountsByDates(date);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Lỗi khi lấy số lượng check-in theo ngày: " + ex.Message);
+            }
+        }
     }
 }
