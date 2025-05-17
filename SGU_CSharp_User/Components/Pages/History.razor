@@ -397,7 +397,7 @@
             {
                 await LoadHistoryData();
             }
-            StateHasChanged();
+            StateHasChanged(); 
         }
     }
 
@@ -461,13 +461,8 @@
     {
         try
         {
-            // Load returned devices (with status "Đã trả")
             returnedDevices = await DeviceService.GetUserReturnedDevices(userId.Value);
-
-            // Load returned rooms (with status "Đã trả")
             returnedRooms = await RoomService.GetUserReturnedRooms(userId.Value);
-
-            // Load all user violations
             violations = await ViolationService.GetUserViolations(userId.Value);
         }
         catch (Exception ex)
@@ -476,7 +471,6 @@
         }
     }
 
-    // Get paginated data
     private IEnumerable<PhieuMuonThietBiModel> GetPaginatedDevices()
     {
         if (returnedDevices == null) return new List<PhieuMuonThietBiModel>();
@@ -501,12 +495,10 @@
             .Take(violationPageSize);
     }
 
-    // Calculate total pages
     private int GetTotalDevicePages() => returnedDevices == null ? 0 : (int)Math.Ceiling(returnedDevices.Count / (double)devicePageSize);
     private int GetTotalRoomPages() => returnedRooms == null ? 0 : (int)Math.Ceiling(returnedRooms.Count / (double)roomPageSize);
     private int GetTotalViolationPages() => violations == null ? 0 : (int)Math.Ceiling(violations.Count / (double)violationPageSize);
 
-    // Page navigation
     private void ChangeDevicePage(int page)
     {
         deviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalDevicePages()));
@@ -522,7 +514,6 @@
         violationCurrentPage = Math.Max(1, Math.Min(page, GetTotalViolationPages()));
     }
 
-    // Status class helpers
     private string GetStatusClass(string status) => status switch
     {
         "Đã trả" => "status-success",

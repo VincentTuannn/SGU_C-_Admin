@@ -75,10 +75,10 @@
                 </div>
 
                 <div class="form-options">
-                    <div class="remember-me">
-                        <InputCheckbox id="rememberMe" class="custom-checkbox" @bind-Value="loginModel.RememberMe" />
-                        <label for="rememberMe">Ghi nhớ đăng nhập</label>
-                    </div>
+                    @* <div class="remember-me"> *@
+                    @*     <InputCheckbox id="rememberMe" class="custom-checkbox" @bind-Value="loginModel.RememberMe" /> *@
+                    @*     <label for="rememberMe">Ghi nhớ đăng nhập</label> *@
+                    @* </div> *@
                     <a href="/forgot-password" class="forgot-link">Quên mật khẩu?</a>
                 </div>
 
@@ -138,6 +138,7 @@
     {
         try
         {
+			// Kiểm tra xem có dữ liệu người dùng trong localStorage không
             var userData = await JSRuntime.InvokeAsync<string>("localStorage.getItem", "userData");
             return !string.IsNullOrEmpty(userData);
         }
@@ -193,10 +194,10 @@
                 await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userData", userJson);
 
                 // Nếu người dùng chọn "Ghi nhớ đăng nhập", lưu thêm flag
-                if (loginModel.RememberMe)
-                {
-                    await JSRuntime.InvokeVoidAsync("localStorage.setItem", "rememberMe", "true");
-                }
+                // if (loginModel.RememberMe)
+                // {
+                //     await JSRuntime.InvokeVoidAsync("localStorage.setItem", "rememberMe", "true");
+                // }
 
                 // Chuyển hướng đến trang chủ
                 NavigationManager.NavigateTo("/",true);

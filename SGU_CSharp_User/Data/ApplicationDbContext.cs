@@ -24,17 +24,14 @@ namespace SGU_CSharp_User.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure decimal precision for PhieuMuonThietBi
             modelBuilder.Entity<PhieuMuonThietBiModel>()
                 .Property(p => p.TongTien)
                 .HasColumnType("decimal(18,0)");
 
-            // Configure decimal precision for ThietBi
             modelBuilder.Entity<ThietBiModel>()
                 .Property(t => t.GiaMuon)
                 .HasColumnType("decimal(18,0)");
 
-            // Configure decimal precision for other related models
             modelBuilder.Entity<PhieuTraModel>()
                 .Property(p => p.TongTienPhaiTra)
                 .HasColumnType("decimal(18,0)");
