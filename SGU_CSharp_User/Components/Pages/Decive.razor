@@ -29,14 +29,14 @@
             <div class="search-combobox">
                 <div class="search-combobox-input-container">
                     <input id="deviceSearchInput"
-                           type="text"
-                           class="form-control"
-                           placeholder="Nhập để tìm thiết bị..."
-                           autocomplete="off"
-                           @bind="searchInput"
-                           @bind:event="oninput"
-                           @onfocus="HandleInputFocus"
-                           @onkeyup="HandleKeyUp" />
+                    type="text"
+                    class="form-control"
+                    placeholder="Nhập để tìm thiết bị..."
+                    autocomplete="off"
+                    @bind="searchInput"
+                    @bind:event="oninput"
+                    @onfocus="HandleInputFocus"
+                    @onkeyup="HandleKeyUp" />
                     <button class="search-combobox-toggle" type="button" @onclick="ToggleDropdown">
                         <i class="bi bi-caret-down-fill"></i>
                     </button>
@@ -56,7 +56,7 @@
                             @foreach (var device in filteredDevices)
                             {
                                 <div class="search-combobox-item @(device.MaThietBi == BookingModel.MaThietBi ? "selected" : "")"
-                                     @onclick="() => SelectDevice(device)">
+                                @onclick="() => SelectDevice(device)">
                                     <span class="device-name">@device.TenThietBi</span>
                                     <span class="device-price">@device.GiaMuon.ToString("#,##0") đ</span>
                                 </div>
@@ -68,7 +68,6 @@
             <ValidationMessage For="@(() => BookingModel.MaThietBi)" class="text-danger" />
         </div>
 
-        <!-- Device select -->
         <div class="selected-device-info">
             @if (SelectedDevice != null)
             {
@@ -91,7 +90,9 @@
 
         <div class="form-group">
             <label for="borrowDate">Ngày mượn:</label>
-            <InputDate id="borrowDate" @bind-Value="dateTime" class="form-control" />
+            <InputDate id="borrowDate" @bind-Value="dateTime"
+            @bind-Value:after="ValidateDateTime"
+            class="form-control" />
             <ValidationMessage For="@(() => BookingModel.ThoiGianMuon)" class="text-danger" />
         </div>
 
@@ -99,6 +100,7 @@
             <div>
                 <label for="startTime">Giờ bắt đầu:</label>
                 <TimePickerComponent @bind-Value="StartTime"
+                @bind-Value:after="ValidateDateTime"
                 MinTime="new TimeSpan(7, 0, 0)"
                 MaxTime="new TimeSpan(22, 0, 0)" />
                 <ValidationMessage For="@(() => StartTime)" class="text-danger" />
@@ -106,6 +108,7 @@
             <div>
                 <label for="endTime">Giờ kết thúc:</label>
                 <TimePickerComponent @bind-Value="EndTime"
+                @bind-Value:after="ValidateDateTime"
                 MinTime="new TimeSpan(7, 0, 0)"
                 MaxTime="new TimeSpan(22, 0, 0)" />
                 <ValidationMessage For="@(() => EndTime)" class="text-danger" />
@@ -117,7 +120,6 @@
         </div>
     </EditForm>
 
-    <!-- Confirmation Message -->
     @if (isSubmitted)
     {
         <div class="modal-backdrop show"></div>
@@ -154,7 +156,6 @@
         </div>
     }
 
-    <!-- Confirmation Dialog -->
     @if (showConfirmation)
     {
         <div class="modal-backdrop show"></div>
@@ -196,21 +197,21 @@
 </div>
 <script>
     window.setupClickOutside = function (dotNetHelper) {
-        document.addEventListener('click', function (e) {
-            const dropdowns = document.querySelectorAll('.search-combobox');
-            let clickedOutside = true;
+    document.addEventListener('click', function (e) {
+    const dropdowns = document.querySelectorAll('.search-combobox');
+    let clickedOutside = true;
 
-            // Kiểm tra xem có click vào dropdown nào không
-            dropdowns.forEach(dropdown => {
-                if (dropdown.contains(e.target)) {
-                    clickedOutside = false;
-                }
-            });
+    // Kiểm tra xem có click vào dropdown?
+    dropdowns.forEach(dropdown => {
+    if (dropdown.contains(e.target)) {
+    clickedOutside = false;
+    }
+    });
 
-            if (clickedOutside) {
-                dotNetHelper.invokeMethodAsync('CloseSearchDropdown');
-            }
-        });
+    if (clickedOutside) {
+    dotNetHelper.invokeMethodAsync('CloseSearchDropdown');
+    }
+    });
     };
 </script>
 
@@ -225,12 +226,9 @@
     private bool isLoggedIn = false;
     private NguoiDungModel user = new NguoiDungModel();
     private bool firstRender = true;
-    // Search combobox variables
     private bool isDropdownOpen = false;
     private string searchInput = "";
     private List<ThietBiModel> filteredDevices = new();
-
-    // Date and Time handling
     private DateTime dateTime = DateTime.Now;
     private TimeSpan StartTime { get; set; } = new TimeSpan(8, 0, 0); // 8:00 AM
     private TimeSpan EndTime { get; set; } = new TimeSpan(17, 0, 0); // 5:00 PM
@@ -259,25 +257,20 @@
             {
                 isLoggedIn = true;
 
-                // Deserialize user data from JSON
                 var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
 
-                // Check if user data is valid
                 if (userInfo == null)
                 {
                     NavigationManager.NavigateTo("/login", true);
                     return;
                 }
 
-                // Populate profile model from user data
                 user.MaNguoiDung = userInfo.MaNguoiDung;
                 user.Email = userInfo.Email;
                 user.HoVaTen = userInfo.HoVaTen;
                 user.SoDienThoai = userInfo.SoDienThoai ?? string.Empty;
                 user.DiaChi = userInfo.DiaChi ?? string.Empty;
                 user.GioiTinh = userInfo.GioiTinh;
-
-                // Parse date from string representation in localStorage
                 if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
                 {
                     user.NgaySinh = ngaySinh;
@@ -285,14 +278,12 @@
             }
             else
             {
-                // No user data found, redirect to login
                 isLoggedIn = false;
                 NavigationManager.NavigateTo("/login", true);
             }
         }
         catch (Exception ex)
         {
-            // Error handling
             errorMessage = $"Lỗi: {ex.Message}";
             Console.WriteLine($"Error loading user profile: {ex.Message}");
             NavigationManager.NavigateTo("/login", true);
@@ -301,7 +292,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        AvailableDevices = await DeviceService.GetAvailableDevices();
+
+        AvailableDevices = await DeviceService.getAll();
         BookingModel.TrangThai = "Đang mượn";
         filteredDevices = AvailableDevices?.ToList() ?? new();
 
@@ -320,12 +312,61 @@
                 errorMessage = "Vui lòng chọn thiết bị trước khi mượn.";
                 return;
             }
+            var now = DateTime.Now;
+            var bookingDate = dateTime.Date;
+
+            // Kiểm tra ngày đặt không được là ngày trong quá khứ
+            if (bookingDate.Date < now.Date)
+            {
+                errorMessage = "Ngày mượn không thể là ngày trong quá khứ.";
+                return;
+            }
+
+            // Kiểm tra thời gian bắt đầu phải sớm hơn thời gian kết thúc
+            if (StartTime >= EndTime)
+            {
+                errorMessage = "Thời gian kết thúc phải sau thời gian bắt đầu.";
+                return;
+            }
+
+            // Kiểm tra thời gian làm việc (7:00 - 22:00)
+            var minTime = new TimeSpan(7, 0, 0);
+            var maxTime = new TimeSpan(22, 0, 0);
+
+            if (StartTime < minTime || EndTime > maxTime)
+            {
+                errorMessage = "Thời gian mượn phải trong khoảng từ 7:00 đến 22:00.";
+                return;
+            }
+
+            // Kiểm tra nếu đặt trong ngày hiện tại
+            if (bookingDate.Date == now.Date)
+            {
+                if (StartTime <= now.TimeOfDay)
+                {
+                    errorMessage = "Thời gian bắt đầu phải sau thời gian hiện tại.";
+                    return;
+                }
+            }
+
 
             SelectedDevice = AvailableDevices?.FirstOrDefault(d => d.MaThietBi == BookingModel.MaThietBi);
 
             BookingModel.ThoiGianMuon = dateTime.Date + StartTime;
             BookingModel.ThoiGianTra = dateTime.Date + EndTime;
             BookingModel.MaNguoiDung = user.MaNguoiDung;
+
+            // Kiểm tra khoảng thời gian giữa các phiếu mượn
+            bool isValidTime = await IsValidBookingTime(BookingModel.MaThietBi,
+                                                    BookingModel.ThoiGianMuon,
+                                                    BookingModel.ThoiGianTra);
+
+            if (!isValidTime)
+            {
+                return; 
+            }
+
+
 
             if (SelectedDevice != null)
             {
@@ -335,20 +376,117 @@
             }
             else
             {
-                // If devices are not loaded from the database, create a temporary device for the confirmation
                 SelectedDevice = new ThietBiModel
                     {
                         MaThietBi = BookingModel.MaThietBi,
-                        TenThietBi = BookingModel.ThietBi.TenThietBi // Use the selected value as the name
+                        TenThietBi = BookingModel.ThietBi.TenThietBi 
                     };
                 showConfirmation = true;
             }
         }
         catch (Exception ex)
         {
-            // Handle any errors
             errorMessage = $"Lỗi: {ex.Message}";
             Console.WriteLine($"Error in PrepareBooking: {ex.Message}");
+        }
+    }
+    private void ValidateDateTime()
+    {
+        try
+        {
+            var now = DateTime.Now;
+            var bookingDate = dateTime.Date;
+            errorMessage = null;
+
+            // Kiểm tra ngày đặt không được là ngày trong quá khứ
+            if (bookingDate.Date < now.Date)
+            {
+                errorMessage = "Ngày đặt không thể là ngày trong quá khứ.";
+                return;
+            }
+
+            // Kiểm tra thời gian bắt đầu phải sớm hơn thời gian kết thúc
+            if (StartTime >= EndTime)
+            {
+                errorMessage = "Thời gian kết thúc phải sau thời gian bắt đầu.";
+                return;
+            }
+
+            // Kiểm tra thời gian làm việc (7:00 - 22:00)
+            var minTime = new TimeSpan(7, 0, 0);
+            var maxTime = new TimeSpan(22, 0, 0);
+
+            if (StartTime < minTime || EndTime > maxTime)
+            {
+                errorMessage = "Thời gian đặt phòng phải trong khoảng từ 7:00 đến 22:00.";
+                return;
+            }
+
+            // Kiểm tra nếu đặt trong ngày hiện tại
+            if (bookingDate.Date == now.Date && StartTime <= now.TimeOfDay)
+            {
+                errorMessage = "Thời gian bắt đầu phải sau thời gian hiện tại.";
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error in ValidateDateTime: {ex.Message}");
+        }
+    }
+    public static string FormatToAmPm(DateTime time)
+    {
+        return time.ToString("hh:mm tt", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    private async Task<bool> IsValidBookingTime(int deviceId, DateTime startTime, DateTime endTime)
+    {
+        try
+        {
+
+            // Khoảng thời gian tối thiểu giữa các lần đặt 
+            int minimum = 1;
+            // Lấy danh sách các phiếu mượn hiện có của thiết bị
+            var existingBookings = await DeviceService.GetDeviceBookings(deviceId);
+            TimeSpan minimumGap = TimeSpan.FromHours(minimum);
+
+            foreach (var booking in existingBookings)
+            {
+
+                //Phiếu đặt mới nằm sau phiếu hiện có
+                if (startTime >= booking.ThoiGianTra &&
+                    (startTime - booking.ThoiGianTra) < minimumGap)
+                {
+                    errorMessage = $"Phải đặt sau thời gian trả phiếu hiện có ít nhất {minimum} tiếng (sau {FormatToAmPm(booking.ThoiGianTra.AddHours(minimum))})";
+                    return false;
+                }
+
+                //Phiếu đặt mới nằm trước phiếu hiện có
+                if (endTime <= booking.ThoiGianMuon &&
+                    (booking.ThoiGianMuon - endTime) < minimumGap)
+                {
+                    errorMessage = $"Phải trả trước thời gian đặt phiếu tiếp theo ít nhất {minimum} tiếng (trước {FormatToAmPm(booking.ThoiGianMuon.AddHours(-minimum))})";
+                    return false;
+                }
+
+                //Phiếu đặt mới trùng với phiếu hiện có
+                if ((startTime >= booking.ThoiGianMuon && startTime < booking.ThoiGianTra) ||
+                    (endTime > booking.ThoiGianMuon && endTime <= booking.ThoiGianTra) ||
+                    (startTime <= booking.ThoiGianMuon && endTime >= booking.ThoiGianTra))
+                {
+                    errorMessage = $"Phòng đã được đặt trong khoảng thời gian từ {FormatToAmPm(booking.ThoiGianMuon)} đến {FormatToAmPm(booking.ThoiGianTra)}";
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Lỗi: {ex.Message}";
+            Console.WriteLine($"Error in IsValidBookingTime: {ex.Message}");
+            return false;
         }
     }
 
@@ -405,7 +543,6 @@
     {
         if (firstRender)
         {
-            // Update input text if a device is already selected
             if (SelectedDevice != null)
             {
                 searchInput = SelectedDevice.TenThietBi;

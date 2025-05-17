@@ -9,12 +9,11 @@
 @rendermode InteractiveServer
 <PageTitle>Thông tin cá nhân</PageTitle>
 
-<h2>Hồ sơ cá nhân</h2>
+<h2>Thông tin cá nhân</h2>
 
 <div class="profile-container">
     <EditForm Model="@profileModel" OnValidSubmit="@UpdateProfile" FormName="UpdateProfile">
         <DataAnnotationsValidator />
-        <ValidationSummary />
 
         <div class="form-group">
             <label>Họ và tên:</label>
@@ -102,7 +101,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Don't make JS interop calls here - it will cause errors during prerendering
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -111,7 +109,7 @@
         {
             this.firstRender = false;
             await CheckLoginStatus();
-            StateHasChanged(); // Notify Blazor to refresh the UI with the loaded data
+            StateHasChanged(); 
         }
     }
 
@@ -126,26 +124,20 @@
             if (!string.IsNullOrEmpty(userData))
             {
                 isLoggedIn = true;
-
-                // Deserialize user data from JSON
                 var userInfo = System.Text.Json.JsonSerializer.Deserialize<NguoiDungModel>(userData);
 
-                // Check if user data is valid
                 if (userInfo == null)
                 {
                     NavigationManager.NavigateTo("/login", true);
                     return;
                 }
 
-                // Populate profile model from user data
                 profileModel.MaNguoiDung = userInfo.MaNguoiDung;
                 profileModel.Email = userInfo.Email;
                 profileModel.HoVaTen = userInfo.HoVaTen;
                 profileModel.SoDienThoai = userInfo.SoDienThoai ?? string.Empty;
                 profileModel.DiaChi = userInfo.DiaChi ?? string.Empty;
                 profileModel.GioiTinh = userInfo.GioiTinh;
-
-                // Parse date from string representation in localStorage
                 if (DateTime.TryParse(userInfo.NgaySinh.ToString(), out DateTime ngaySinh))
                 {
                     profileModel.NgaySinh = ngaySinh;
@@ -153,14 +145,12 @@
             }
             else
             {
-                // No user data found, redirect to login
                 isLoggedIn = false;
                 NavigationManager.NavigateTo("/login", true);
             }
         }
         catch (Exception ex)
         {
-            // Error handling
             errorMessage = $"Lỗi: {ex.Message}";
             Console.WriteLine($"Error loading user profile: {ex.Message}");
             NavigationManager.NavigateTo("/login", true);
@@ -176,7 +166,8 @@
             errorMessage = string.Empty;
 
             await Task.Delay(1000);
-            // Validate the new password and confirmation password
+
+
 
             if (!string.IsNullOrEmpty(profileModel.NewPassword) && !string.IsNullOrEmpty(profileModel.ConfirmPassword))
             {
@@ -185,7 +176,6 @@
                     errorMessage = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
                     return;
                 }
-                // Update password
                 var updateResult = await NguoiDungService.UpdatePassword(profileModel.MaNguoiDung, profileModel.NewPassword,profileModel.CurrentPassword);
 
                 if (!updateResult.Success)
@@ -204,6 +194,7 @@
                     profileModel.ConfirmPassword = null;
                 }
             }
+           
 
 
             Console.WriteLine("Hồ sơ đã được cập nhật thành công!");

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SGU_CSharp_User.Model
 {
-    [Table("nguoidung")] // Map to your SQL table name
+    [Table("nguoidung")] 
     public class NguoiDungModel
     {
         [Key]

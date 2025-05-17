@@ -55,6 +55,7 @@
                 </tbody>
             </table>
 
+            //Hiển thị phân trang
             <div class="pagination-container">
                 <div class="pagination-info">
                     Hiển thị @((deviceCurrentPage - 1) * devicePageSize + 1) - @(Math.Min(deviceCurrentPage * devicePageSize, borrowedDevices.Count)) trên @borrowedDevices.Count mục
@@ -159,6 +160,7 @@
                 </tbody>
             </table>
 
+            //Hiển thị phân trang
             <div class="pagination-container">
                 <div class="pagination-info">
                     Hiển thị @((roomCurrentPage - 1) * roomPageSize + 1) - @(Math.Min(roomCurrentPage * roomPageSize, bookedRooms.Count)) trên @bookedRooms.Count mục
@@ -260,7 +262,7 @@
                 }
             </tbody>
         </table>
-
+        //Hiển thị phân trang
         <div class="pagination-container">
             <div class="pagination-info">
                 Hiển thị @((violationCurrentPage - 1) * violationPageSize + 1) - @(Math.Min(violationCurrentPage * violationPageSize, violations.Count)) trên @violations.Count mục
@@ -355,7 +357,7 @@
             StateHasChanged(); 
         }
     }
-
+   
     private async Task CheckLoginStatus()
     {
         try

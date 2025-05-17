@@ -14,6 +14,8 @@ namespace SGU_CSharp_User.Service
             _context = context;
         }
 
+        
+
         public async Task<List<PhieuMuonPhongModel>> GetUserBookedRooms(int userId)
         {
             try
@@ -36,13 +38,29 @@ namespace SGU_CSharp_User.Service
                 return new List<PhieuMuonPhongModel>();
             }
         }
+        public async Task<List<PhieuMuonPhongModel>> GetRoomBookings(int roomId)
+        {
+            try
+            {
+                var bookings = await _context.PhieuMuonPhongModels
+                    .Where(p => p.MaPhong == roomId)
+                    .OrderBy(p => p.ThoiGianMuon)
+                    .ToListAsync();
 
+                return bookings;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetDeviceBookings: {ex.Message}");
+                return new List<PhieuMuonPhongModel>();
+            }
+        }
         public async Task<List<PhongModel>> GetEmptyRoom()
         {
             try
             {
                 var rooms = await _context.PhongModels
-                    .Where(p => p.TrangThai.Equals("Trống"))
+                    .Where(p => !p.TrangThai.Equals("Bảo trì"))
                     .ToListAsync();
 
                 return rooms;
@@ -78,9 +96,6 @@ namespace SGU_CSharp_User.Service
                 if (room == null)
                     throw new InvalidOperationException($"Room with ID {bookingModel.MaPhong} does not exist");
 
-                if (room.TrangThai != "Trống")
-                    throw new InvalidOperationException($"Room with ID {bookingModel.MaPhong} is not available");
-
                 var conflictingBookings = await _context.PhieuMuonPhongModels
                     .Where(p => p.MaPhong == bookingModel.MaPhong)
                     .Where(p => p.TrangThai == "Đang mượn")
@@ -99,9 +114,6 @@ namespace SGU_CSharp_User.Service
                 await _context.PhieuMuonPhongModels.AddAsync(bookingModel);
                 await _context.SaveChangesAsync();
 
-                room.TrangThai = "Đang mượn";
-                _context.PhongModels.Update(room);
-                await _context.SaveChangesAsync();
 
                 await transaction.CommitAsync();
 

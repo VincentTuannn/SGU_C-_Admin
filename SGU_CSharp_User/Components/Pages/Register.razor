@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <EditForm Model="registerModel" OnValidSubmit="HandleRegistration" id="registrationForm" name="registrationForm">
                         <DataAnnotationsValidator />
-                        <ValidationSummary class="text-danger mb-3" />
+                        @* <ValidationSummary class="text-danger mb-3" /> *@
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -38,14 +38,31 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email:</label>
-                            <InputText id="email" @bind-Value="registerModel.Email" class="form-control" />
+                            <InputText id="email" @bind-Value="registerModel.Email" 
+                            class="form-control"
+                            @onblur="ValidateEmailOnBlur" />
                             <ValidationMessage For="@(() => registerModel.Email)" class="text-danger" />
+                            @if (!string.IsNullOrEmpty(emailError))
+                            {
+                                <div class="d-block text-danger">
+                                    @emailError
+                                </div>
+                            }
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="phone" class="form-label">Số điện thoại:</label>
-                                <InputText id="phone" @bind-Value="registerModel.PhoneNumber" class="form-control" />
+                                <InputText id="phone" @bind-Value="registerModel.PhoneNumber" 
+                                class="form-control" 
+                                @onblur="ValidatePhoneOnBlur"
+                                />
                                 <ValidationMessage For="@(() => registerModel.PhoneNumber)" class="text-danger" />
+                                @if (!string.IsNullOrEmpty(phoneError))
+                                {
+                                    <div class="d-block text-danger">
+                                        @phoneError
+                                    </div>
+                                }
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="gender" class="form-label">Giới tính:</label>
@@ -53,7 +70,6 @@
                                     <option value="">Chọn giới tính</option>
                                     <option value="Nam">Nam</option>
                                     <option value="Nữ">Nữ</option>
-                                    <option value="Khác">Khác</option>
                                 </InputSelect>
                                 <ValidationMessage For="@(() => registerModel.Gender)" class="text-danger" />
                             </div>
@@ -138,6 +154,52 @@
         showPassword = !showPassword;
     }
 
+    private string emailError = string.Empty;
+
+    private async Task ValidateEmailOnBlur()
+    {
+        var regex = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+        if (!regex.IsMatch(registerModel.Email))
+        {
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(registerModel.Email))
+        {
+
+            // Kiểm tra email đã tồn tại
+            if (NguoiDungService.getUserByEmail(registerModel.Email))
+            {
+                emailError = "Email này đã được sử dụng. Vui lòng chọn email khác.";
+                return;
+            }
+            emailError = string.Empty;
+        }
+
+    }
+    private string phoneError = string.Empty;
+
+    private async Task ValidatePhoneOnBlur()
+    {
+        if (!string.IsNullOrEmpty(registerModel.PhoneNumber))
+        {
+            var regex = new System.Text.RegularExpressions.Regex(@"^(0|\+84)[0-9]{9,10}$");
+            if (!regex.IsMatch(registerModel.PhoneNumber))
+            {
+                return;
+            }
+            // Kiểm tra sđt đã tồn tại
+            if (NguoiDungService.getUserByPhone(registerModel.PhoneNumber))
+            {
+                phoneError = "Số điện thoại này đã được sử dụng. Vui lòng chọn Số điện thoại khác.";
+                return;
+            }
+            phoneError = string.Empty;
+        }
+
+    }
+
+
     private async Task HandleRegistration()
     {
         isLoading = true;
@@ -145,16 +207,25 @@
 
         try
         {
-            // Check if the email is already in use
-            var existingUser = NguoiDungService.login(registerModel.Email, "");
-            if (existingUser != null)
+            // if (NguoiDungService.getUserByEmail(registerModel.Email))
+            // {
+            //     errorMessage = "Email này đã được sử dụng. Vui lòng chọn email khác.";
+            //     isLoading = false;
+            //     return;
+            // }
+            if (!string.IsNullOrEmpty(phoneError))
             {
                 errorMessage = "Email này đã được sử dụng. Vui lòng chọn email khác.";
                 isLoading = false;
                 return;
             }
+            if (!string.IsNullOrEmpty(emailError))
+            {
+                errorMessage = "Số điện thoại này đã được sử dụng. Vui lòng chọn số điện thoại khác.";
+                isLoading = false;
+                return;
+            }
 
-            // Create a new user object
             var newUser = new NguoiDungModel
                 {
                     Email = registerModel.Email,
@@ -177,7 +248,6 @@
 
                 if (user != null)
                 {
-                    // Prepare user data for localStorage (similar to login process)
                     var userData = new
                     {
                         user.MaNguoiDung,
@@ -191,16 +261,13 @@
                         NgaySinh = user.NgaySinh.ToString("yyyy-MM-dd")
                     };
 
-                    // Convert to JSON and store in localStorage
                     var userJson = System.Text.Json.JsonSerializer.Serialize(userData);
                     await JSRuntime.InvokeVoidAsync("localStorage.setItem", "userData", userJson);
 
-                    // Redirect to home page
                     NavigationManager.NavigateTo("/", true);
                 }
                 else
                 {
-                    // If auto-login fails, redirect to login page with a success message
                     NavigationManager.NavigateTo("/login?registered=true", true);
                 }
             }
@@ -224,14 +291,18 @@
     {
         [Required(ErrorMessage = "Họ là bắt buộc")]
         [StringLength(50, ErrorMessage = "Họ không được vượt quá {1} ký tự")]
+        [RegularExpression(@"^[A-Za-zÀ-ỹ\s]+$", ErrorMessage = "Họ không được chứa số hoặc ký tự đặc biệt")]
         public string FirstName { get; set; } = string.Empty;
+
 
         [Required(ErrorMessage = "Tên là bắt buộc")]
         [StringLength(50, ErrorMessage = "Tên không được vượt quá {1} ký tự")]
+        [RegularExpression(@"^[A-Za-zÀ-ỹ\s]+$", ErrorMessage = "Họ không được chứa số hoặc ký tự đặc biệt")]
         public string LastName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Email là bắt buộc")]
-        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+            ErrorMessage = "Email không hợp lệ")]
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Giới tính là bắt buộc")]
