@@ -137,7 +137,7 @@ namespace SGU_CSharp_User.Service
                 decimal hourlyRate = device.GiaMuon;
                 bookingModel.TongTien = hourlyRate;
 
-                bookingModel.TrangThai = "Đang mượn";
+                bookingModel.TrangThai = "Đã đặt chỗ";
 
                 await _context.PhieuMuonThietBiModels.AddAsync(bookingModel);
                 await _context.SaveChangesAsync();
