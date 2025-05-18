@@ -49,26 +49,27 @@ namespace SGU_CSharp_User.Service
             }
         }
 
-        public async  Task<List<PhieuMuonThietBiModel>> GetUserBorrowedDevices(int userId)
+        public async Task<List<PhieuMuonThietBiModel>> GetUserBorrowedDevices(int userId)
         {
             try
             {
-                var reservedDevices = await _context.PhieuMuonThietBiModels
+                var borrowedDevices = await _context.PhieuMuonThietBiModels
                     .Where(p => p.MaNguoiDung == userId)
                     .Where(p => p.TrangThai.Equals("Đang mượn"))
                     .Include(p => p.ThietBi)  
                     .Include(p => p.NguoiDung) 
                     .OrderByDescending(p => p.ThoiGianMuon) 
-                    .ToList();
+                    .ToListAsync();
 
                 foreach (var device in borrowedDevices)
                 {
                     if (device.ThietBi != null)
                     {
+                        // Add any additional processing here if needed
                     }
                 }
 
-                return reservedDevices;
+                return borrowedDevices;
             }
             catch (Exception ex)
             {
@@ -203,6 +204,27 @@ namespace SGU_CSharp_User.Service
             {
                 Console.WriteLine($"Error in ConfirmBooking: {ex.Message}");
                 return false;
+            }
+        }
+
+        public async Task<List<PhieuMuonThietBiModel>> GetUserReservedDevices(int userId)
+        {
+            try
+            {
+                var reservedDevices = await _context.PhieuMuonThietBiModels
+                    .Where(p => p.MaNguoiDung == userId)
+                    .Where(p => p.TrangThai.Equals("Đã đặt chỗ"))
+                    .Include(p => p.ThietBi)  
+                    .Include(p => p.NguoiDung) 
+                    .OrderByDescending(p => p.ThoiGianMuon) 
+                    .ToListAsync();
+
+                return reservedDevices;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in GetUserReservedDevices: {ex.Message}");
+                return new List<PhieuMuonThietBiModel>();
             }
         }
 

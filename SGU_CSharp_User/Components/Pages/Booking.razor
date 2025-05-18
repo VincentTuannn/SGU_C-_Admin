@@ -45,13 +45,13 @@
     }
 
     <div class="section">
-        <h2>Thiết bị mượn</h2>
-        @if (borrowedDevices == null || borrowedDevices.Count == 0)
+        <h2>Thiết bị đã đặt chỗ</h2>
+        @if (reservedDevices == null || reservedDevices.Count == 0)
         {
             <div class="empty-state">
                 <i class="bi bi-laptop"></i>
-                <p>Bạn chưa mượn thiết bị nào</p>
-                <button class="btn btn-primary" @onclick="OpenBorrowDevice">Mượn thiết bị ngay</button>
+                <p>Bạn chưa đặt thiết bị nào</p>
+                <button class="btn btn-primary" @onclick="OpenBorrowDevice">Đặt thiết bị ngay</button>
             </div>
         }
         else
@@ -70,7 +70,7 @@
                     @foreach (var device in GetPaginatedDevices())
                     {
                         <tr>
-                            
+                            <td>@device.ThietBi?.TenThietBi</td>
                             <td>@device.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@device.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@device.TrangThai</td>
@@ -83,7 +83,7 @@
             //Hiển thị phân trang
             <div class="pagination-container">
                 <div class="pagination-info">
-                    Hiển thị @((deviceCurrentPage - 1) * devicePageSize + 1) - @(Math.Min(deviceCurrentPage * devicePageSize, borrowedDevices.Count)) trên @borrowedDevices.Count mục
+                    Hiển thị @((deviceCurrentPage - 1) * devicePageSize + 1) - @(Math.Min(deviceCurrentPage * devicePageSize, reservedDevices.Count)) trên @reservedDevices.Count mục
                 </div>
                 <div class="pagination">
                     <button class="btn btn-sm @(deviceCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
@@ -175,7 +175,7 @@
                     @foreach (var room in GetPaginatedRooms())
                     {
                         <tr>
-                            
+                            <td>@room.Phong?.TenPhong</td>
                             <td>@room.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@room.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
                             <td>@room.TrangThai</td>
@@ -356,7 +356,7 @@
 </div>
 
 @code {
-    private List<PhieuMuonThietBiModel>? borrowedDevices;
+    private List<PhieuMuonThietBiModel>? reservedDevices;
     private List<PhieuMuonPhongModel>? bookedRooms;
     private List<ViPhamModel>? violations;
     private int? userId;
@@ -416,7 +416,7 @@
         {
             if (userId.HasValue)
             {
-                borrowedDevices = await DeviceService.GetUserBorrowedDevices(userId.Value);
+                reservedDevices = await DeviceService.GetUserReservedDevices(userId.Value);
                 bookedRooms = await RoomService.GetUserBookedRooms(userId.Value);
                 violations = await ViolationService.GetUserViolations(userId.Value);
             }
@@ -446,8 +446,8 @@
 
     private IEnumerable<PhieuMuonThietBiModel> GetPaginatedDevices()
     {
-        if (borrowedDevices == null) return new List<PhieuMuonThietBiModel>();
-        return borrowedDevices
+        if (reservedDevices == null) return new List<PhieuMuonThietBiModel>();
+        return reservedDevices
             .Skip((deviceCurrentPage - 1) * devicePageSize)
             .Take(devicePageSize);
     }
@@ -468,7 +468,7 @@
             .Take(violationPageSize);
     }
 
-    private int GetTotalDevicePages() => borrowedDevices == null ? 0 : (int)Math.Ceiling(borrowedDevices.Count / (double)devicePageSize);
+    private int GetTotalDevicePages() => reservedDevices == null ? 0 : (int)Math.Ceiling(reservedDevices.Count / (double)devicePageSize);
     private int GetTotalRoomPages() => bookedRooms == null ? 0 : (int)Math.Ceiling(bookedRooms.Count / (double)roomPageSize);
     private int GetTotalViolationPages() => violations == null ? 0 : (int)Math.Ceiling(violations.Count / (double)violationPageSize);
 

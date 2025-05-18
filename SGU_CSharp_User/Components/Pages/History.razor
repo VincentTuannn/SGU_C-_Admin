@@ -15,6 +15,108 @@
     <h1>Lịch sử hoạt động</h1>
 
     <div class="section">
+        <h2>Thiết bị đang mượn</h2>
+        @if (borrowedDevices == null || borrowedDevices.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="bi bi-laptop"></i>
+                <p>Bạn không có thiết bị nào đang mượn</p>
+            </div>
+        }
+        else
+        {
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Thiết bị</th>
+                        <th>Ngày mượn</th>
+                        <th>Ngày trả</th>
+                        <th>Trạng thái</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var device in GetPaginatedBorrowedDevices())
+                    {
+                        <tr>
+                            <td>@device.ThietBi?.TenThietBi</td>
+                            <td>@device.ThoiGianMuon.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td>@device.ThoiGianTra.ToString("HH:mm - dd/MM/yyyy")</td>
+                            <td class="@GetStatusClass(device.TrangThai)">@device.TrangThai</td>
+                            <td>@device.TongTien.ToString("N0") đ</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="pagination-container">
+                <div class="pagination-info">
+                    Hiển thị @((borrowedDeviceCurrentPage - 1) * borrowedDevicePageSize + 1) - @(Math.Min(borrowedDeviceCurrentPage * borrowedDevicePageSize, borrowedDevices.Count)) trên @borrowedDevices.Count mục
+                </div>
+                <div class="pagination">
+                    <button class="btn btn-sm @(borrowedDeviceCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
+                            disabled="@(borrowedDeviceCurrentPage == 1)"
+                            @onclick="() => ChangeBorrowedDevicePage(borrowedDeviceCurrentPage - 1)">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    @{
+                        var totalBorrowedDevicePages = GetTotalBorrowedDevicePages();
+                        var startPage = Math.Max(1, borrowedDeviceCurrentPage - 2);
+                        var endPage = Math.Min(totalBorrowedDevicePages, startPage + 4);
+                        startPage = Math.Max(1, endPage - 4);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeBorrowedDevicePage(1)">1</button>
+                        if (startPage > 2)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                    }
+
+                    @for (int i = startPage; i <= endPage; i++)
+                    {
+                        var pageNumber = i;
+                        <button class="btn btn-sm @(borrowedDeviceCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
+                                @onclick="() => ChangeBorrowedDevicePage(pageNumber)">
+                            @pageNumber
+                        </button>
+                    }
+
+                    @if (endPage < totalBorrowedDevicePages)
+                    {
+                        if (endPage < totalBorrowedDevicePages - 1)
+                        {
+                            <span class="pagination-ellipsis">...</span>
+                        }
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeBorrowedDevicePage(totalBorrowedDevicePages)">
+                            @totalBorrowedDevicePages
+                        </button>
+                    }
+
+                    <button class="btn btn-sm @(borrowedDeviceCurrentPage == totalBorrowedDevicePages ? "btn-secondary" : "btn-primary")"
+                            disabled="@(borrowedDeviceCurrentPage == totalBorrowedDevicePages)"
+                            @onclick="() => ChangeBorrowedDevicePage(borrowedDeviceCurrentPage + 1)">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="page-size-selector">
+                    <span>Hiển thị</span>
+                    <select @bind="borrowedDevicePageSize" class="form-select form-select-sm">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span>mục / trang</span>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="section">
         <h2>Lịch sử mượn thiết bị</h2>
         @if (returnedDevices == null || returnedDevices.Count == 0)
         {
@@ -36,7 +138,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var device in GetPaginatedDevices())
+                    @foreach (var device in GetPaginatedReturnedDevices())
                     {
                         <tr>
                             <td>@device.ThietBi?.TenThietBi</td>
@@ -51,25 +153,25 @@
 
             <div class="pagination-container">
                 <div class="pagination-info">
-                    Hiển thị @((deviceCurrentPage - 1) * devicePageSize + 1) - @(Math.Min(deviceCurrentPage * devicePageSize, returnedDevices.Count)) trên @returnedDevices.Count mục
+                    Hiển thị @((returnedDeviceCurrentPage - 1) * returnedDevicePageSize + 1) - @(Math.Min(returnedDeviceCurrentPage * returnedDevicePageSize, returnedDevices.Count)) trên @returnedDevices.Count mục
                 </div>
                 <div class="pagination">
-                    <button class="btn btn-sm @(deviceCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
-                            disabled="@(deviceCurrentPage == 1)"
-                            @onclick="() => ChangeDevicePage(deviceCurrentPage - 1)">
+                    <button class="btn btn-sm @(returnedDeviceCurrentPage == 1 ? "btn-secondary" : "btn-primary")"
+                            disabled="@(returnedDeviceCurrentPage == 1)"
+                            @onclick="() => ChangeReturnedDevicePage(returnedDeviceCurrentPage - 1)">
                         <i class="bi bi-chevron-left"></i>
                     </button>
 
                     @{
-                        var totalDevicePages = GetTotalDevicePages();
-                        var startPage = Math.Max(1, deviceCurrentPage - 2);
-                        var endPage = Math.Min(totalDevicePages, startPage + 4);
+                        var totalReturnedDevicePages = GetTotalReturnedDevicePages();
+                        var startPage = Math.Max(1, returnedDeviceCurrentPage - 2);
+                        var endPage = Math.Min(totalReturnedDevicePages, startPage + 4);
                         startPage = Math.Max(1, endPage - 4);
                     }
 
                     @if (startPage > 1)
                     {
-                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeDevicePage(1)">1</button>
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeReturnedDevicePage(1)">1</button>
                         if (startPage > 2)
                         {
                             <span class="pagination-ellipsis">...</span>
@@ -79,32 +181,32 @@
                     @for (int i = startPage; i <= endPage; i++)
                     {
                         var pageNumber = i;
-                        <button class="btn btn-sm @(deviceCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
-                                @onclick="() => ChangeDevicePage(pageNumber)">
+                        <button class="btn btn-sm @(returnedDeviceCurrentPage == pageNumber ? "btn-primary" : "btn-outline-primary")"
+                                @onclick="() => ChangeReturnedDevicePage(pageNumber)">
                             @pageNumber
                         </button>
                     }
 
-                    @if (endPage < totalDevicePages)
+                    @if (endPage < totalReturnedDevicePages)
                     {
-                        if (endPage < totalDevicePages - 1)
+                        if (endPage < totalReturnedDevicePages - 1)
                         {
                             <span class="pagination-ellipsis">...</span>
                         }
-                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeDevicePage(totalDevicePages)">
-                            @totalDevicePages
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => ChangeReturnedDevicePage(totalReturnedDevicePages)">
+                            @totalReturnedDevicePages
                         </button>
                     }
 
-                    <button class="btn btn-sm @(deviceCurrentPage == totalDevicePages ? "btn-secondary" : "btn-primary")"
-                            disabled="@(deviceCurrentPage == totalDevicePages)"
-                            @onclick="() => ChangeDevicePage(deviceCurrentPage + 1)">
+                    <button class="btn btn-sm @(returnedDeviceCurrentPage == totalReturnedDevicePages ? "btn-secondary" : "btn-primary")"
+                            disabled="@(returnedDeviceCurrentPage == totalReturnedDevicePages)"
+                            @onclick="() => ChangeReturnedDevicePage(returnedDeviceCurrentPage + 1)">
                         <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
                 <div class="page-size-selector">
                     <span>Hiển thị</span>
-                    <select @bind="devicePageSize" class="form-select form-select-sm">
+                    <select @bind="returnedDevicePageSize" class="form-select form-select-sm">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -375,16 +477,19 @@
 </div>
 
 @code {
+    private List<PhieuMuonThietBiModel>? borrowedDevices;
     private List<PhieuMuonThietBiModel>? returnedDevices;
     private List<PhieuMuonPhongModel>? returnedRooms;
     private List<ViPhamModel>? violations;
     private int? userId;
 
     // Pagination parameters
-    private int devicePageSize = 5;
-    private int deviceCurrentPage = 1;
+    private int borrowedDevicePageSize = 10;
+    private int borrowedDeviceCurrentPage = 1;
     private int roomPageSize = 5;
     private int roomCurrentPage = 1;
+    private int returnedDevicePageSize = 10;
+    private int returnedDeviceCurrentPage = 1;
     private int violationPageSize = 5;
     private int violationCurrentPage = 1;
 
@@ -461,6 +566,7 @@
     {
         try
         {
+            borrowedDevices = await DeviceService.GetUserBorrowedDevices(userId.Value);
             returnedDevices = await DeviceService.GetUserReturnedDevices(userId.Value);
             returnedRooms = await RoomService.GetUserReturnedRooms(userId.Value);
             violations = await ViolationService.GetUserViolations(userId.Value);
@@ -471,12 +577,20 @@
         }
     }
 
-    private IEnumerable<PhieuMuonThietBiModel> GetPaginatedDevices()
+    private IEnumerable<PhieuMuonThietBiModel> GetPaginatedBorrowedDevices()
+    {
+        if (borrowedDevices == null) return new List<PhieuMuonThietBiModel>();
+        return borrowedDevices
+            .Skip((borrowedDeviceCurrentPage - 1) * borrowedDevicePageSize)
+            .Take(borrowedDevicePageSize);
+    }
+
+    private IEnumerable<PhieuMuonThietBiModel> GetPaginatedReturnedDevices()
     {
         if (returnedDevices == null) return new List<PhieuMuonThietBiModel>();
         return returnedDevices
-            .Skip((deviceCurrentPage - 1) * devicePageSize)
-            .Take(devicePageSize);
+            .Skip((returnedDeviceCurrentPage - 1) * returnedDevicePageSize)
+            .Take(returnedDevicePageSize);
     }
 
     private IEnumerable<PhieuMuonPhongModel> GetPaginatedRooms()
@@ -495,13 +609,19 @@
             .Take(violationPageSize);
     }
 
-    private int GetTotalDevicePages() => returnedDevices == null ? 0 : (int)Math.Ceiling(returnedDevices.Count / (double)devicePageSize);
+    private int GetTotalBorrowedDevicePages() => borrowedDevices == null ? 0 : (int)Math.Ceiling(borrowedDevices.Count / (double)borrowedDevicePageSize);
+    private int GetTotalReturnedDevicePages() => returnedDevices == null ? 0 : (int)Math.Ceiling(returnedDevices.Count / (double)returnedDevicePageSize);
     private int GetTotalRoomPages() => returnedRooms == null ? 0 : (int)Math.Ceiling(returnedRooms.Count / (double)roomPageSize);
     private int GetTotalViolationPages() => violations == null ? 0 : (int)Math.Ceiling(violations.Count / (double)violationPageSize);
 
-    private void ChangeDevicePage(int page)
+    private void ChangeBorrowedDevicePage(int page)
     {
-        deviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalDevicePages()));
+        borrowedDeviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalBorrowedDevicePages()));
+    }
+
+    private void ChangeReturnedDevicePage(int page)
+    {
+        returnedDeviceCurrentPage = Math.Max(1, Math.Min(page, GetTotalReturnedDevicePages()));
     }
 
     private void ChangeRoomPage(int page)
